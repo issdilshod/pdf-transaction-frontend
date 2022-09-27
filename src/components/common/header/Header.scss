@@ -1,0 +1,31 @@
+.header-block{
+    background-color: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.3);
+    z-index: 25;
+    position: relative;
+
+    .left-menu-toggle{
+        padding: 20px 15px;
+
+        span{
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        span:hover{
+            color: #190ec5;
+        }
+    }
+
+    .rigth-menu-control{
+
+        .setting-control{
+            padding: 20px 15px;
+            font-weight: 500;
+            position: relative;
+            cursor: pointer;
+        }
+
+    }
+
+}

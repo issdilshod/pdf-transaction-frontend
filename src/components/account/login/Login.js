@@ -55,7 +55,9 @@ const Login = () => {
                 handleLoginFormChange, handleLoginFormSubmit
             }
         }>
-            <LoginPage />
+            <div className='container-fluid'>
+                <LoginPage />
+            </div>
         </Context.Provider>
     );
 }

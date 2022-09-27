@@ -1,0 +1,29 @@
+.right-menu{
+    background-color: #fff;
+    height: 100vh;
+    box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.3);
+    width: 66px;
+    z-index: 20;
+    overflow: hidden;
+    transition: .4s;
+
+    .right-menu-items{
+        min-width: 320px;
+
+        .right-menu-item{
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: .4s;
+            font-weight: 500;
+
+            i{
+                width: 46px;
+                padding-left: 5px;
+            }
+        }
+    }
+}
+
+.right-menu-show{
+    width: 320px;
+}
