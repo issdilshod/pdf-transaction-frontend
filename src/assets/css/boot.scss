@@ -1,0 +1,62 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    color: #201a7a;
+    /* hover color #190ec5 */
+}
+
+body{
+    min-width: 320px;
+}
+
+#root{
+    position: relative;
+    min-height: 100vh !important;
+    background-color: #f3f3f3;
+    overflow: hidden;
+}
+
+/* Forms */
+.form-group{
+    margin-bottom: 8px;
+
+    label{
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+    input[type]{
+        font-weight: 500;
+        color:#201a7a;
+    }
+    input[type]:focus{
+        color:#190ec5;
+    }
+}
+
+/* Buttons */
+.c-btn{
+    border: 0px;
+    border-radius: 20px;
+    padding: 10px;
+    font-weight: 500;
+    transition: .4s;
+}
+
+.c-btn-primary{
+    background-color: #201a7a;
+    color: #fff;
+}
+
+.c-btn-primary:hover{
+    box-shadow: 0px 0px 5px 1px #201a7a5e;
+}
+
+.c-btn-danger{
+    background-color: #7a1a1a;
+    color: #fff;
+}
+
+.c-btn-danger:hover{
+    box-shadow: 0px 0px 5px 1px #7a1a1a5e;
+}
