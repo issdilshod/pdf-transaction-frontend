@@ -16,9 +16,6 @@ const Login = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const [errorShow, setErrorShow] = useState(false);
 
-    const init = () => {
-    }
-
     const handleLoginFormChange = (e) => {
         const { value, name } = e.target;
         setLoginForm({ ...loginForm, [name]: value  });

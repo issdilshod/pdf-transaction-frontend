@@ -2,12 +2,16 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: #201a7a;
-    /* hover color #190ec5 */
 }
 
 body{
     min-width: 320px;
+    color: #201a7a;
+    /* hover color #190ec5 */
+}
+
+a{
+    color: #201a7a;
 }
 
 #root{
@@ -41,6 +45,11 @@ body{
     padding: 10px;
     font-weight: 500;
     transition: .4s;
+
+    i{
+        position: relative;
+        top: -2px;
+    }
 }
 
 .c-btn-primary{
@@ -61,6 +70,15 @@ body{
     box-shadow: 0px 0px 5px 1px #7a1a1a5e;
 }
 
+.c-btn-success{
+    background-color: #1a7a2f;
+    color: #fff;
+}
+
+.c-btn-success:hover{
+    box-shadow: 0px 0px 5px 1px #1a7a2f5e;
+}
+
 /* Main collection */
 .menu-content{
     height: 100vh;
@@ -71,11 +89,86 @@ body{
     width: 100%;
 }
 
-/* Margins auto */
+/* Margins */
 .mr-auto{
     margin-right: auto;
 }
 
 .ml-auto{
     margin-left: auto;
+}
+
+.mr-2{
+    margin-right: .5rem;
+}
+
+.ml-2{
+    margin-left: .5rem;
+}
+
+.mr-4{
+    margin-right: 1rem;
+}
+
+.ml-4{
+    margin-left: 1rem;
+}
+
+/* Pages */
+.page-block{
+    margin: 20px 0px;
+
+    .page-head{
+
+        .page-title{
+            font-weight: 700;
+            font-size: 1.4em;
+        }
+    }
+
+    .page-content{
+
+        .c-table{
+            width: 100%;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.3);
+            font-weight: 500;
+
+            tr th{
+                border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+                padding: 20px;
+                background-color: #201a7a;
+                color: #fff;
+            }
+
+            tr th:first-child{
+                border-radius: 20px 0px 0px 0px;
+            }
+
+            tr th:last-child{
+                border-radius: 0px 20px 0px 0px;
+            }
+
+            tr td{
+                padding: 20px;
+            }
+
+            tr:nth-child(odd){
+                td{
+                    background-color: #f9f9f9;
+                }
+            }
+
+            tr:last-of-type{
+                td:first-child{
+                    border-radius: 0px 0px 0px 20px;
+                }
+
+                td:last-child{
+                    border-radius: 0px 0px 20px 0px;
+                }
+            }
+        }
+    }
 }
