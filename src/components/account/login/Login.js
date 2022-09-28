@@ -30,7 +30,7 @@ const Login = () => {
                 switch (res.status){
                     case 200:
                     case 201:
-                        lStorage.setItem(process.env.REACT_APP_AUTH_KEY, res.data);
+                        lStorage.setItem('auth_token', res.data);
                         nav('/dashboard');
                         break;
                     case 404:
