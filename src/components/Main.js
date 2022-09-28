@@ -14,6 +14,7 @@ import TransactionType from './transactions/transaction-type/TransactionType';
 import PdfOffset from './transactions/pdfoffsets/PdfOffset';
 import Company from './partners/company/Company';
 import Customer from './partners/customer/Customer';
+import Organization from './partners/organization/Organization';
 
 const Main = () => {
     return (
@@ -32,6 +33,7 @@ const Main = () => {
                     <Route path="/pdf-offsets" element={<PdfOffset />} />
                     <Route path="/companies" element={<Company />} />
                     <Route path="/customers" element={<Customer />} />
+                    <Route path="/organizations" element={<Organization />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
