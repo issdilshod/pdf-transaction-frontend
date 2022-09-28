@@ -1,25 +1,28 @@
+import { useContext } from 'react';
 
-import TransactionPageList from'./transaction-page/TransactionPageList';
-import TransactionCategoryList from'./transaction-category/TransactionCategoryList';
+import { ContextCrud } from '../../../contexts/ContextCrud';
+
+import Notification from '../../common/notification/Notification';
+import Modal from '../../common/modal/Modal';
+
+import PdfOffsetForm from'./PdfOffsetForm';
+import PdfOffsetList from'./PdfOffsetList';
 
 import './PdfOffset.module.scss';
 
 const PdfOffsetPage = () => {
+    const { alertMsg, alertType, alertShow, setAlertShow, modalShow } = useContext(ContextCrud);
 
     return (
-        <div className='container-fluid'>
-            <div className='page-block'>
-                <div className='row'>
-                    <div className='col-12 col-xl-6'>
-                        <TransactionCategoryList />
-                    </div>
-                    <div className='col-12 col-xl-6'>
-                        <TransactionPageList />
-                    </div>
+        <>
+            <div className='container-fluid'>
+                <div className='page-block'>
+                    <PdfOffsetList />
                 </div>
-                
             </div>
-        </div>
+            <Modal Content={PdfOffsetForm} Show={modalShow} />
+            <Notification Msg={alertMsg} Type={alertType} Show={alertShow} SetShow={setAlertShow} />
+        </>
     )
 } 
 
