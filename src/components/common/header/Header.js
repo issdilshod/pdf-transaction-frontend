@@ -10,10 +10,10 @@ const Header = () => {
 
     return (
         <div className='header-block d-flex'>
-            <div className='left-menu-toggle mr-auto' onClick={() => {setLeftMenuShow(!leftMenuShow)}}>
+            <div className='left-menu-toggle mr-auto' onClick={() => {setLeftMenuShow(!leftMenuShow); setRightMenuShow(false); }}>
                 <span><FaBars /></span>
             </div>
-            <div className='rigth-menu-control d-flex' onClick={ () => { setRightMenuShow(!rightMenuShow) } }>
+            <div className='rigth-menu-control d-flex' onClick={ () => { setRightMenuShow(!rightMenuShow); setLeftMenuShow(false); } }>
                 <div className='setting-control'>
                     <span><FaCog /> Settings</span>
                 </div>
