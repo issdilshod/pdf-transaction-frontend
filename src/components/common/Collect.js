@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Context } from '../../contexts/Context';
 
 import Header from './header/Header';
-import LeftMenu from './leftmenu/LeftMenu';
-import RightMenu from './rightmenu/RightMenu';
+import LeftMenu from './left-menu/LeftMenu';
+import RightMenu from './right-menu/RightMenu';
 
 const Collect = ( { MainContent } ) => {
     const [leftMenuShow, setLeftMenuShow] = useState(false);
