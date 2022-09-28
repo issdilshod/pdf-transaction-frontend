@@ -162,6 +162,23 @@ a{
     text-align: right;
 }
 
+/* Errors */
+.c-error-block{
+    margin: 60px auto;
+    width: 50%;
+    text-align: center;
+
+    .c-error{
+        font-weight: 700;
+        font-size: 150px;
+    }
+
+    .c-error-msg{
+        font-weight: 500;
+        font-size: 1em;
+    }
+}
+
 /* Pages */
 .page-block{
     margin-top: 20px;
