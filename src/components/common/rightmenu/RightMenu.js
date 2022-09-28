@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FaUser, FaFilePdf, FaThLarge, FaFileImage, FaRegArrowAltCircleRight, FaRegCommentDots, FaFont, FaBirthdayCake, FaListOl, FaKey } from 'react-icons/fa';
+import { FaUser, FaFilePdf, FaThLarge, FaFileImage, FaRegArrowAltCircleRight, FaRegCommentDots, FaFont, FaBirthdayCake, FaListOl, FaKey, FaExchangeAlt } from 'react-icons/fa';
 
 import './RightMenu.scss';
 import { Context } from '../../../contexts/Context';
@@ -15,6 +15,10 @@ const RightMenu = () => {
                 <Link to={'/users/'} className='right-menu-item d-flex'>
                     <i><FaUser /></i>
                     <span>Users</span>
+                </Link>
+                <Link to={'/transaction-type/'} className='right-menu-item d-flex'>
+                    <i><FaExchangeAlt /></i>
+                    <span>Transaction's type</span>
                 </Link>
                 <Link to={'/pdf-offsets/'} className='right-menu-item d-flex'>
                     <i><FaFilePdf /></i>
