@@ -7,7 +7,7 @@ const Page404 = () => {
             <div className="c-error-block">
                 <div className="c-error">404</div>
                 <div className="c-error-msg">Oops! This Page Could Not Be Found</div>
-                <Link to={'/'}>Go Back</Link>
+                <Link to={'/dashboard/'}>Go Back</Link>
             </div>
         </div>
     )
