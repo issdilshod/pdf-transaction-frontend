@@ -9,6 +9,7 @@ import User from './account/user/User';
 import Sender from './partners/sender/Sender';
 import Holiday from './helpers/holidays/Holiday';
 import Range from './helpers/ranges/Range';
+import FontGroup from './helpers/fonts/FontGroup';
 
 const Main = () => {
     return (
@@ -22,6 +23,7 @@ const Main = () => {
                     <Route path="/senders" element={<Sender />} />
                     <Route path="/holidays" element={<Holiday />} />
                     <Route path="/ranges" element={<Range />} />
+                    <Route path="/font-group" element={<FontGroup />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  

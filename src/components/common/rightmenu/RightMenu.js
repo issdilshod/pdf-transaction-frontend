@@ -36,7 +36,7 @@ const RightMenu = () => {
                     <i><FaRegCommentDots /></i>
                     <span>Descriptions</span>
                 </Link>
-                <Link to={'/fonts/'} className='right-menu-item d-flex'>
+                <Link to={'/font-group/'} className='right-menu-item d-flex'>
                     <i><FaFont /></i>
                     <span>Fonts</span>
                 </Link>
