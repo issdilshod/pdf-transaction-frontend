@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Api from '../../../services/Api';
@@ -15,6 +15,15 @@ const Login = () => {
     const [loginForm, setLoginForm] = useState({});
     const [errorMsg, setErrorMsg] = useState('');
     const [errorShow, setErrorShow] = useState(false);
+
+    useEffect(() => { // check auth
+        api.request('/api/is_auth', 'GET')
+            .then(res => {
+                if (res.status==200){
+                    nav('/dashboard/');
+                }
+            });
+    }, []);
 
     const handleLoginFormChange = (e) => {
         const { value, name } = e.target;
