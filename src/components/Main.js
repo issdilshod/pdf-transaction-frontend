@@ -10,6 +10,7 @@ import Sender from './partners/sender/Sender';
 import Holiday from './helpers/holidays/Holiday';
 import Range from './helpers/ranges/Range';
 import FontGroup from './helpers/fonts/FontGroup';
+import TransactionType from './transactions/transaction-type/TransactionType';
 
 const Main = () => {
     return (
@@ -24,6 +25,7 @@ const Main = () => {
                     <Route path="/holidays" element={<Holiday />} />
                     <Route path="/ranges" element={<Range />} />
                     <Route path="/font-group" element={<FontGroup />} />
+                    <Route path="/transaction-type" element={<TransactionType />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
