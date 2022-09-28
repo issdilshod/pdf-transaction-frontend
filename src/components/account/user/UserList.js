@@ -6,7 +6,7 @@ import { ContextCrud } from "../../../contexts/ContextCrud";
 
 const UserList = () => {
     const { userList } = useContext(ContextData);
-    const { handleAddClick, handleEditClick, handleDeleteClick, alertMsg, alertType, alertShow } = useContext(ContextCrud);
+    const { handleAddClick, handleEditClick, handleDeleteClick } = useContext(ContextCrud);
 
     return (
         <>
