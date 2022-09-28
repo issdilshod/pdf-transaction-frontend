@@ -20,7 +20,7 @@ const Collect = ( { MainContent } ) => {
                 <div className='main-content'>
                     <Header />
                     <div className='d-flex'>
-                        <div className='mr-auto w-100'><MainContent /></div>
+                        <div className='mr-auto w-100 main-section'><MainContent /></div>
                         <div><RightMenu /></div>
                     </div>
                 </div>
