@@ -11,6 +11,7 @@ import Holiday from './helpers/holidays/Holiday';
 import Range from './helpers/ranges/Range';
 import FontGroup from './helpers/fonts/FontGroup';
 import TransactionType from './transactions/transaction-type/TransactionType';
+import PdfOffset from './transactions/pdfoffsets/PdfOffset';
 
 const Main = () => {
     return (
@@ -26,6 +27,7 @@ const Main = () => {
                     <Route path="/ranges" element={<Range />} />
                     <Route path="/font-group" element={<FontGroup />} />
                     <Route path="/transaction-type" element={<TransactionType />} />
+                    <Route path="/pdf-offsets" element={<PdfOffset />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
