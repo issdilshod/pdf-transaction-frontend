@@ -8,7 +8,7 @@ const HolidayForm = () => {
     return (
         <div className='c-form'>
             <div className='c-form-head d-flex'>
-                <div className='mr-auto'>Sender</div>
+                <div className='mr-auto'>Holiday</div>
                 <div class='c-times' onClick={ () => { triggerModalHide() } }>
                     <i><FaTimes /></i>
                 </div>
