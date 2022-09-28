@@ -7,6 +7,7 @@ import Page404 from './errors/404/Page404';
 import Dashboard from './common/dashboard/Dashboard';
 import User from './account/user/User';
 import Sender from './partners/sender/Sender';
+import Holiday from './helpers/holidays/Holiday';
 
 const Main = () => {
     return (
@@ -18,6 +19,7 @@ const Main = () => {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/users" element={<User />} />
                     <Route path="/senders" element={<Sender />} />
+                    <Route path="/holidays" element={<Holiday />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
