@@ -1,7 +1,7 @@
 
 import UserList from'./UserList';
 
-import './UserPage.scss';
+import './User.module.scss';
 
 const UserPage = () => {
 

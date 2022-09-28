@@ -3,13 +3,13 @@ import { FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 
 import { ContextData } from "../../../contexts/ContextData";
 
-const UserList = () => {
-    const { userList } = useContext(ContextData);
+const SenderList = () => {
+    const { senderList } = useContext(ContextData);
 
     return (
         <>
             <div className="page-head d-flex">
-                <div className="page-title mr-auto">Users</div>
+                <div className="page-title mr-auto">Senders</div>
                 <div>
                     <button className="c-btn c-btn-primary">
                         <i><FaPlus /></i>
@@ -20,17 +20,17 @@ const UserList = () => {
                 <table className="c-table mt-4">
                     <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Sender Name</th>
+                        <th>Sender ID</th>
                         <th>Actions</th>
                     </tr>
                     {
-                        userList.map((value, index) => {
+                        senderList.map((value, index) => {
                             return (
                                 <tr key={index}>
                                     <td>{index+1}</td>
-                                    <td>{value['first_name']}</td>
-                                    <td>{value['last_name']}</td>
+                                    <td>{value['name']}</td>
+                                    <td>{value['it_id']}</td>
                                     <td>
                                         <button className="c-btn c-btn-primary mr-2">
                                             <i><FaPencilAlt /></i>
@@ -49,4 +49,4 @@ const UserList = () => {
     )
 } 
 
-export default UserList;
+export default SenderList;
