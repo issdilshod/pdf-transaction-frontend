@@ -18,31 +18,35 @@ const SenderList = () => {
             </div>
             <div className="page-content">
                 <table className="c-table mt-4">
-                    <tr>
-                        <th>#</th>
-                        <th>Sender Name</th>
-                        <th>Sender ID</th>
-                        <th>Actions</th>
-                    </tr>
-                    {
-                        senderList.map((value, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index+1}</td>
-                                    <td>{value['name']}</td>
-                                    <td>{value['it_id']}</td>
-                                    <td>
-                                        <button className="c-btn c-btn-primary mr-2">
-                                            <i><FaPencilAlt /></i>
-                                        </button>
-                                        <button className="c-btn c-btn-danger">
-                                            <i><FaTrash /></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Sender Name</th>
+                            <th>Sender ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            senderList.map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>{value['name']}</td>
+                                        <td>{value['it_id']}</td>
+                                        <td>
+                                            <button className="c-btn c-btn-primary mr-2">
+                                                <i><FaPencilAlt /></i>
+                                            </button>
+                                            <button className="c-btn c-btn-danger">
+                                                <i><FaTrash /></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
                 </table>
             </div>
         </>

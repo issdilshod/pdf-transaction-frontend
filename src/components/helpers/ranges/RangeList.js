@@ -18,31 +18,35 @@ const RangeList = () => {
             </div>
             <div className="page-content">
                 <table className="c-table mt-4">
-                    <tr>
-                        <th>#</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Actions</th>
-                    </tr>
-                    {
-                        rangeList.map((value, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index+1}</td>
-                                    <td>{value['start']}</td>
-                                    <td>{value['end']}</td>
-                                    <td>
-                                        <button className="c-btn c-btn-primary mr-2">
-                                            <i><FaPencilAlt /></i>
-                                        </button>
-                                        <button className="c-btn c-btn-danger">
-                                            <i><FaTrash /></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            rangeList.map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>{value['start']}</td>
+                                        <td>{value['end']}</td>
+                                        <td>
+                                            <button className="c-btn c-btn-primary mr-2">
+                                                <i><FaPencilAlt /></i>
+                                            </button>
+                                            <button className="c-btn c-btn-danger">
+                                                <i><FaTrash /></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
                 </table>
             </div>
         </>

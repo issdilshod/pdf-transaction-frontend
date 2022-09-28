@@ -18,31 +18,35 @@ const UserList = () => {
             </div>
             <div className="page-content">
                 <table className="c-table mt-4">
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Actions</th>
-                    </tr>
-                    {
-                        userList.map((value, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{index+1}</td>
-                                    <td>{value['first_name']}</td>
-                                    <td>{value['last_name']}</td>
-                                    <td>
-                                        <button className="c-btn c-btn-primary mr-2">
-                                            <i><FaPencilAlt /></i>
-                                        </button>
-                                        <button className="c-btn c-btn-danger">
-                                            <i><FaTrash /></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            userList.map((value, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{index+1}</td>
+                                        <td>{value['first_name']}</td>
+                                        <td>{value['last_name']}</td>
+                                        <td>
+                                            <button className="c-btn c-btn-primary mr-2">
+                                                <i><FaPencilAlt /></i>
+                                            </button>
+                                            <button className="c-btn c-btn-danger">
+                                                <i><FaTrash /></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
                 </table>
             </div>
         </>

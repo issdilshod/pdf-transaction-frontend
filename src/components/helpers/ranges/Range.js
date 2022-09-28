@@ -21,7 +21,6 @@ const Range = () => {
                 switch (res.status){
                     case 200:
                     case 201:
-                        console.log(res.data.data);
                         setRangeList(res.data.data);
                         break;
                 }
