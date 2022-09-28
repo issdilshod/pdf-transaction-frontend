@@ -12,6 +12,7 @@ import Range from './helpers/ranges/Range';
 import FontGroup from './helpers/fonts/FontGroup';
 import TransactionType from './transactions/transaction-type/TransactionType';
 import PdfOffset from './transactions/pdfoffsets/PdfOffset';
+import Company from './partners/company/Company';
 
 const Main = () => {
     return (
@@ -28,6 +29,7 @@ const Main = () => {
                     <Route path="/font-group" element={<FontGroup />} />
                     <Route path="/transaction-type" element={<TransactionType />} />
                     <Route path="/pdf-offsets" element={<PdfOffset />} />
+                    <Route path="/companies" element={<Company />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
