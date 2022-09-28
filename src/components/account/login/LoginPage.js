@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Context } from '../../../contexts/Context';
-import './Login.module.scss';
+import './Login.scss';
 
 const LoginPage = () => {
 
