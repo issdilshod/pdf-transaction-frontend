@@ -39,10 +39,6 @@ const Company = () => {
         getStates();
     }, [])
 
-    useEffect(() => {
-        console.log(companyForm);
-    }, [companyForm]);
-
     //#endregion
 
     //#region Functions
