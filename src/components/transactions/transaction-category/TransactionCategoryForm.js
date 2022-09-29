@@ -11,7 +11,6 @@ const TransactionCategoryForm = () => {
 
     const handleLocalChange = (obj) => {
         handleFormChange(obj);
-        console.log(obj);
     }
 
     return (
