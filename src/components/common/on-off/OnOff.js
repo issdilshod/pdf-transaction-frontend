@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import './OnOff.scss';
 
-const OnOff = ({ Name = '', State = false, onChange = () => {} }) => {
+const OnOff = ({ Name, State, onChange }) => {
 
     const [curState, setCurState] = useState(Boolean(State));
 
     useEffect(() => {
-        setCurState(curState);
+        setCurState(State);
     }, [State]);
 
     const handleLocalClick = (state) => {
