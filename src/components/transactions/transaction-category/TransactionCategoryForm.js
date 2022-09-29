@@ -10,7 +10,8 @@ const TransactionCategoryForm = () => {
     const { transactionTypeList } = useContext(ContextData);
 
     const handleLocalChange = (obj) => {
-        handleFormChange({'target': obj});
+        handleFormChange(obj);
+        console.log(obj);
     }
 
     return (
@@ -66,17 +67,17 @@ const TransactionCategoryForm = () => {
                     <div className='col-6 col-sm-3 form-group'>
                         <label>Customer</label>
                         <OnOff 
-                            name='customer'
-                            currentState={transactionCategoryForm['customer']} 
-                            changeState={handleLocalChange} 
+                            Name='customer'
+                            State={transactionCategoryForm['customer']} 
+                            onChange={handleLocalChange} 
                         />
                     </div>
                     <div className='col-6 col-sm-3 form-group'>
                         <label>Sender</label>
                         <OnOff 
-                            name='sender'
-                            currentState={transactionCategoryForm['sender']} 
-                            changeState={handleLocalChange} 
+                            Name='sender'
+                            State={transactionCategoryForm['sender']} 
+                            onChange={handleLocalChange} 
                         />
                     </div>
                     <div className='col-12 mt-4 text-right'>

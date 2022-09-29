@@ -2,23 +2,23 @@
 import { useEffect, useState } from 'react';
 import './OnOff.scss';
 
-const OnOff = ({ name = '', currentState = false, changeState = () => {} }) => {
+const OnOff = ({ Name = '', State = false, onChange = () => {} }) => {
 
-    const [thisState, setThisState] = useState(Boolean(currentState));
+    const [curState, setCurState] = useState(Boolean(State));
 
     useEffect(() => {
-        setThisState(currentState);
-    }, [currentState]);
+        setCurState(curState);
+    }, [State]);
 
     const handleLocalClick = (state) => {
-        changeState({'name': name, 'value': state});
-        setThisState(state);
+        onChange({'target':{'name': Name, 'value': state}});
+        setCurState(state);
     }
 
     return (
         <div 
-            className={`on-off ${thisState?'on-off-active':''}`}
-            onClick={ () => { handleLocalClick(!thisState) } }
+            className={`on-off ${curState?'on-off-active':''}`}
+            onClick={ () => { handleLocalClick(!curState) } }
         >
             <div className='d-flex'><div className='mr-auto'>ON</div><div>OFF</div></div>
         </div>
