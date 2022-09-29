@@ -16,6 +16,7 @@ import Company from './partners/company/Company';
 import Customer from './partners/customer/Customer';
 import Organization from './partners/organization/Organization';
 import TransactionCategory from './transactions/transaction-category/TransactionCategory';
+import Description from './helpers/descriptions/Description';
 
 const Main = () => {
     return (
@@ -36,6 +37,7 @@ const Main = () => {
                     <Route path="/customers" element={<Customer />} />
                     <Route path="/organizations" element={<Organization />} />
                     <Route path="/transaction-categories" element={<TransactionCategory />} />
+                    <Route path="/descriptions" element={<Description />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  

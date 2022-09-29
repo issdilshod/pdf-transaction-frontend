@@ -350,6 +350,15 @@ a{
     box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.7);
     padding: 10px;
     cursor: default;
+
+    span{
+        font-size: .6em;
+        margin-left: 5px;
+    }
+}
+
+.c-badge-sm{
+    padding: 5px;
 }
 
 .c-badge-success{
@@ -359,5 +368,15 @@ a{
 
 .c-badge-danger{
     background-color: #bf1919;
+    color: #fff;
+}
+
+.c-badge-warning{
+    background-color: #e0e320;
+    color: #201a7a;
+}
+
+.c-badge-primary{
+    background-color: #201a7a;
     color: #fff;
 }
