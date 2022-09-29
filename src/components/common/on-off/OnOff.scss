@@ -1,0 +1,36 @@
+.on-off{
+    position: relative;
+    background-color: #b3b3b3;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.5);
+    padding: 10px 20px;
+    cursor: pointer;
+
+    div{
+        font-weight: 700;
+        color: #fff;
+        transition: .4s;
+    }
+}
+
+.on-off:before{
+    content: '';
+    background-color: #f3f3f3;
+    position: absolute;
+    top:10px;
+    left:5%;
+    width: 50px;
+    height: 25px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 5px 0px rgb(102 102 102 / 80%);
+    transition: 0.4s;
+}
+
+.on-off-active{
+    background-color: #00d85b;
+
+}
+
+.on-off-active:before{
+    left: 75%;
+}
