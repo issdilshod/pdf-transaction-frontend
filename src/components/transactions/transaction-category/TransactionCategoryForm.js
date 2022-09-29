@@ -35,8 +35,6 @@ const TransactionCategoryForm = () => {
         handleFormChange({'target': { 'name': name, value: tmpCateg } });
     }
 
-    useEffect(() => {console.log(transactionCategoryForm);}, [transactionCategoryForm])
-
     return (
         <div className='c-form'>
             <div className='c-form-head d-flex'>
