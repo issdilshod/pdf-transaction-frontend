@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { FaPlus, FaTimes, FaTrash } from 'react-icons/fa';
 
-import './List.scss';
+import './ListSelectable.scss';
 
-const List = ({ Name, AllItems, Items, Selected, onAdd, onDelete}) => {
+const ListSelectable = ({ Name, AllItems, Items, Selected, onAdd, onDelete}) => {
     const [allItems, setAllItems] = useState(AllItems);
     const [items, setItems] = useState(Items);
     const [selected, setSeleted] = useState(Selected);
@@ -89,4 +89,4 @@ const List = ({ Name, AllItems, Items, Selected, onAdd, onDelete}) => {
     )
 }
 
-export default List;
+export default ListSelectable;

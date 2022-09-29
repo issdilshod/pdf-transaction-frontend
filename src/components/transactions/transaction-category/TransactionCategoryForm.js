@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 import { ContextData } from "../../../contexts/ContextData";
-import List from "../../common/list/List";
+import ListSelectable from "./list-selectable/ListSelectable";
 
 import OnOff from '../../common/on-off/OnOff';
 
@@ -103,7 +103,7 @@ const TransactionCategoryForm = () => {
                     </div>
                     <div className='col-12 form-group'>
                         <label>Descriptions</label>
-                        <List 
+                        <ListSelectable 
                             Name='descriptions'
                             AllItems={descriptionList}
                             Items={transactionCategoryForm['descriptions']}
