@@ -344,3 +344,20 @@ a{
         }
     }
 }
+
+.c-badge{
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.7);
+    padding: 10px;
+    cursor: default;
+}
+
+.c-badge-success{
+    background-color: #19bf5e;
+    color: #fff;
+}
+
+.c-badge-danger{
+    background-color: #bf1919;
+    color: #fff;
+}

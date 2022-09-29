@@ -46,8 +46,22 @@ const TransactionCategoryList = () => {
                                         <td>{value['transaction_type']['name']}</td>
                                         <td>{value['name']}</td>
                                         <td>{value['offset']}</td>
-                                        <td>{value['customer']}</td>
-                                        <td>{value['sender']}</td>
+                                        <td>
+                                            { Boolean(value['customer']) &&
+                                                <span className="c-badge c-badge-success">ON</span>
+                                            }
+                                            { !Boolean(value['customer']) &&
+                                                <span className="c-badge c-badge-danger">OFF</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            { Boolean(value['sender']) &&
+                                                <span className="c-badge c-badge-success">ON</span>
+                                            }
+                                            { !Boolean(value['sender']) &&
+                                                <span className="c-badge c-badge-danger">OFF</span>
+                                            }
+                                        </td>
                                         <td>
                                             <button 
                                                 className="c-btn c-btn-primary mr-2"
