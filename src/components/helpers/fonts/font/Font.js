@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 
 
 const Font = ({ Fonts, onAdd, onDelete, onChange }) => {
@@ -63,7 +63,7 @@ const Font = ({ Fonts, onAdd, onDelete, onChange }) => {
                                         onChange={ (e) => { handleChange(index, 'hex', e.target.value) }}
                                     />
                                 </td>
-                                <td>
+                                <td className="text-right">
                                     <button 
                                         className="c-btn c-btn-danger"
                                         onClick={ (e) => { handleDelete(index, e) } }
@@ -79,7 +79,7 @@ const Font = ({ Fonts, onAdd, onDelete, onChange }) => {
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>
+                    <td className="text-right">
                         <button 
                             className="c-btn c-btn-primary"
                             onClick={ (e) => { handleAdd(e) }}
