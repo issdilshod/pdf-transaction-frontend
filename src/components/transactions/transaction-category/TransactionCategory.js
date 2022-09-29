@@ -11,6 +11,7 @@ const TransactionCategory = () => {
     const api = new Api();
     const [transactionCategoryList, setTransactionCategoryList] = useState([]);
     const [transactionTypeList, setTransactionTypeList] = useState([]);
+    const [descriptionList, setDescriptionList] = useState([]);
 
     // CRUD
     const entity = {
@@ -18,7 +19,8 @@ const TransactionCategory = () => {
         'name': '',
         'offset': '',
         'customer': 0,
-        'sender': 0
+        'sender': 0,
+        'descriptions': []
     };
     const [modalShow, setModalShow] = useState(false);
     const [transactionCategoryForm, setTransactionCategoryForm] = useState(entity);
@@ -33,11 +35,24 @@ const TransactionCategory = () => {
     useEffect(() => {
         getTransactionCategoryList();
         getTransactionTypeList();
+        getDescriptionList();
     }, [])
 
     //#endregion
 
     //#region Functions
+
+    const getDescriptionList = () => {
+        api.request('/api/description', 'GET')
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        setDescriptionList(res.data.data);
+                        break;
+                }
+            });
+    }
 
     const getTransactionTypeList = () => {
         api.request('/api/transaction-type', 'GET')
@@ -151,9 +166,10 @@ const TransactionCategory = () => {
         });
     }
 
-    const handleFormChange = (e) => {
+    const handleFormChange = (e, child = false) => {
         const { value, name } = e.target;
-        setTransactionCategoryForm({  ...transactionCategoryForm, [name]: value });
+        setTransactionCategoryForm({  ...transactionCategoryForm, [name]: value  });
+        
     }
 
     const handleFormSubmit = (e) => {
@@ -211,7 +227,7 @@ const TransactionCategory = () => {
 
     return (
         <ContextData.Provider value={
-            {transactionCategoryList, setTransactionCategoryList, transactionTypeList}
+            {transactionCategoryList, setTransactionCategoryList, transactionTypeList, descriptionList}
         }>
             <ContextCrud.Provider value={
                 {modalShow, transactionCategoryForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}

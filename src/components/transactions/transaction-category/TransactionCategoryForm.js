@@ -1,23 +1,47 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 import { ContextData } from "../../../contexts/ContextData";
+import List from "../../common/list/List";
 
 import OnOff from '../../common/on-off/OnOff';
 
 const TransactionCategoryForm = () => {
     const { transactionCategoryForm, triggerModalHide, handleFormChange, handleFormSubmit } = useContext(ContextCrud);
-    const { transactionTypeList } = useContext(ContextData);
+    const { transactionTypeList, descriptionList } = useContext(ContextData);
 
     const handleLocalChange = (obj) => {
         handleFormChange(obj);
     }
 
+    const handleAdd = (id, name = '') => {
+        let tmpCateg = transactionCategoryForm['descriptions'];
+        let tmpDesc = descriptionList;
+        for (let key in tmpDesc){
+            if (tmpDesc[key]['id']==id){
+                tmpCateg.push(tmpDesc[key]);
+            }
+        }
+        handleFormChange({'target': { 'name': name, value: tmpCateg } });
+    }
+
+    const handleDelete = (id, name = '') => {
+        let tmpCateg = transactionCategoryForm['descriptions'];
+        for (let key in tmpCateg){
+            if (tmpCateg[key]['id']==id){
+                tmpCateg.splice(key, 1);
+            }
+        }
+        handleFormChange({'target': { 'name': name, value: tmpCateg } });
+    }
+
+    useEffect(() => {console.log(transactionCategoryForm);}, [transactionCategoryForm])
+
     return (
         <div className='c-form'>
             <div className='c-form-head d-flex'>
                 <div className='mr-auto'>Transaction Cateories</div>
-                <div class='c-times' onClick={ () => { triggerModalHide() } }>
+                <div className='c-times' onClick={ () => { triggerModalHide() } }>
                     <i><FaTimes /></i>
                 </div>
             </div>
@@ -77,6 +101,16 @@ const TransactionCategoryForm = () => {
                             Name='sender'
                             State={transactionCategoryForm['sender']} 
                             onChange={handleLocalChange} 
+                        />
+                    </div>
+                    <div className='col-12 form-group'>
+                        <label>Descriptions</label>
+                        <List 
+                            Name='descriptions'
+                            AllItems={descriptionList}
+                            Items={transactionCategoryForm['descriptions']}
+                            onAdd={handleAdd}
+                            onDelete={handleDelete}
                         />
                     </div>
                     <div className='col-12 mt-4 text-right'>

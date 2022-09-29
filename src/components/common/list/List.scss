@@ -1,0 +1,35 @@
+.c-list-block{    
+
+    .c-list{
+        background-color: #fff;
+        box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.5);
+        border-radius: 20px;
+
+        .c-list-head{
+            font-weight: 700;
+            border-bottom: 1px solid #f3f3f35e;
+            padding: 20px;
+        }
+
+        .c-list-body{
+            padding: 20px;
+
+            .c-list-item{
+                font-weight: 500;
+
+                div{
+                    padding: 10px 0px;
+
+                    i{
+                        cursor: pointer;
+                        transition: .4s;
+                    }
+
+                    i:hover{
+                        color: #190ec5;
+                    }
+                }
+            }
+        }
+    }
+}
