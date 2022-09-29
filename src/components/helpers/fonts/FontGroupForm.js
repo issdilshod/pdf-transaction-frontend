@@ -12,10 +12,6 @@ const FontGroupForm = () => {
         handleFormChange({'target': { 'name': 'fonts', 'value':  tmpArr} });
     }
 
-useEffect(() => {
-    console.log(fontGroupForm);
-}, [fontGroupForm])
-
     const onChange = (index, name, value) => {
         let tmpArr = fontGroupForm['fonts'];
         tmpArr[index][name] = value;
