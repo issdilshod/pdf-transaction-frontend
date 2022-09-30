@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import CustomerPage from "./CustomerPage";
 
+import Papa from "papaparse";
+
 const Customer = () => {
     const api = new Api();
     const [customerList, setCustomerList] = useState([]);
@@ -96,6 +98,23 @@ const Customer = () => {
         return tmp_res;
     }
 
+    const fimport = async (data) => {
+        let tmp_res = api.request('/api/customer-import', 'POST', data)
+            .then(res => {
+                switch (res.status){
+                    case 200:
+                    case 201:
+                        tmp_res = {'status': 'ok', 'data': res.data.data};
+                        break;
+                    default:
+                        tmp_res = {'status': 'error', 'data': 'Error'};
+                        break;
+                }
+                return tmp_res;
+            });
+        return tmp_res;
+    }
+
     //#endregion
 
     //#region Handles
@@ -170,6 +189,64 @@ const Customer = () => {
         
     }
 
+
+    const [importModalShow, setImportModalShow] = useState(false);
+    const [importedCustomers, setImportedCustomers] = useState([]);
+    const [importedHeaders, setImportedHeaders] = useState([]);
+    const [importMap, setImportMap] = useState({'name': 0});
+
+    const handleImportClick = () => {
+        setImportModalShow(true);
+    }
+
+    const handleImportChange = (e) => {
+        if (typeof(e.target.files[0])!='undefined'){
+            Papa.parse(e.target.files[0], {
+                header: true,
+                skipEmptyLines: true,
+                complete: function (results) {
+                    const rowsArray = [];
+                    const valuesArray = [];
+
+                    // Iterating data to get column name and their values
+                    results.data.map((d) => {
+                        rowsArray.push(Object.keys(d));
+                        valuesArray.push(Object.values(d));
+                    });
+
+                    setImportedHeaders(rowsArray[0]);
+                    setImportedCustomers(valuesArray);
+                },
+            });
+        }else{
+            setImportedHeaders([]);
+            setImportedCustomers([]);
+        }
+    }
+
+    const handleImportedChange = (header, body) => {
+        setImportedHeaders(header);
+        setImportedCustomers(body);
+    }
+
+    const handleImportMapChange = (e) => {
+        const { name, value } = e.target;
+        setImportMap({ ...importMap, [name]: value });
+    }
+
+    const handleImportSubmit = (e) => {
+        e.preventDefault();
+        fimport({'mapping': importMap, 'data': importedCustomers}).then(function(res){
+            if (res['status'] == 'ok'){
+                getCustomerList()
+                triggerModalHide();
+                triggerAlertShow('success', 'Successfuly added');
+            }else{
+                triggerAlertShow('danger', res['data']);
+            }
+        });
+    }
+
     //#endregion
 
     //#region Triggers
@@ -180,6 +257,11 @@ const Customer = () => {
 
     const triggerModalHide = () => {
         setModalShow(false);
+        setImportModalShow(false);
+
+        setImportedCustomers([]);
+        setImportedHeaders([]);
+        setImportMap({'name': 0});
     }
 
     const triggerAlertShow = (typ, msg) => {
@@ -196,7 +278,7 @@ const Customer = () => {
             {customerList, setCustomerList}
         }>
             <ContextCrud.Provider value={
-                {modalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange }
             }>
                 <Collect MainContent={CustomerPage} />
             </ContextCrud.Provider>

@@ -1,18 +1,24 @@
 import React, { useContext } from "react";
-import { FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaPlus, FaTrash, FaUpload } from "react-icons/fa";
 
 import { ContextData } from "../../../contexts/ContextData";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 
 const CustomerList = () => {
     const { customerList } = useContext(ContextData);
-    const { handleAddClick, handleEditClick, handleDeleteClick } = useContext(ContextCrud);
+    const { handleAddClick, handleEditClick, handleDeleteClick, handleImportClick } = useContext(ContextCrud);
 
     return (
         <>
             <div className="page-head d-flex">
                 <div className="page-title mr-auto">Customers</div>
                 <div>
+                    <button 
+                        className="c-btn c-btn-info mr-2"
+                        onClick={ () => { handleImportClick() } }
+                    >
+                        <i><FaUpload /></i>
+                    </button>
                     <button 
                         className="c-btn c-btn-primary"
                         onClick={ () => { handleAddClick() } }
