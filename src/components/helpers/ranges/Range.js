@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import RangePage from "./RangePage";
 
+import Loading from '../../common/loading/Loading';
+
 const Range = () => {
     const api = new Api();
     const [rangeList, setRangeList] = useState([]);
@@ -24,6 +26,8 @@ const Range = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -35,6 +39,7 @@ const Range = () => {
     //#region Functions
 
     const getRangeList = () => {
+        setLoading(true);
         api.request('/api/range', 'GET')
             .then(res => {
                 switch (res.status){
@@ -43,10 +48,12 @@ const Range = () => {
                         setRangeList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/range', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -58,12 +65,14 @@ const Range = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/range/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -75,12 +84,14 @@ const Range = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/range/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -92,6 +103,7 @@ const Range = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -193,15 +205,20 @@ const Range = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {rangeList, setRangeList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, rangeForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {rangeList, setRangeList}
             }>
-                <Collect MainContent={RangePage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, rangeForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={RangePage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

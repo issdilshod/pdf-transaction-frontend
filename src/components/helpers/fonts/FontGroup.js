@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import FontGroupPage from "./FontGroupPage";
 
+import Loading from '../../common/loading/Loading';
+
 const FontGroup = () => {
     const api = new Api();
     const [fontGroupList, setFontGroupList] = useState([]);
@@ -24,6 +26,8 @@ const FontGroup = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -35,6 +39,7 @@ const FontGroup = () => {
     //#region Functions
 
     const getFontGroupList = () => {
+        setLoading(true);
         api.request('/api/font-group', 'GET')
             .then(res => {
                 switch (res.status){
@@ -43,10 +48,12 @@ const FontGroup = () => {
                         setFontGroupList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/font-group', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -58,12 +65,14 @@ const FontGroup = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/font-group/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -75,12 +84,14 @@ const FontGroup = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/font-group/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -92,6 +103,7 @@ const FontGroup = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -193,15 +205,20 @@ const FontGroup = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {fontGroupList, setFontGroupList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, fontGroupForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {fontGroupList, setFontGroupList}
             }>
-                <Collect MainContent={FontGroupPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, fontGroupForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={FontGroupPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

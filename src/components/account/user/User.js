@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import UserPage from "./UserPage";
 
+import Loading from '../../common/loading/Loading';
+
 const User = () => {
     const api = new Api();
     const [userList, setUserList] = useState([]);
@@ -26,6 +28,8 @@ const User = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -37,6 +41,7 @@ const User = () => {
     //#region Functions
 
     const getUserList = () => {
+        setLoading(true);
         api.request('/api/user', 'GET')
             .then(res => {
                 switch (res.status){
@@ -45,10 +50,12 @@ const User = () => {
                         setUserList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/user', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -60,12 +67,14 @@ const User = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/user/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -77,12 +86,14 @@ const User = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/user/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -94,6 +105,7 @@ const User = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -194,15 +206,20 @@ const User = () => {
     //#endregion 
 
     return (
-        <ContextData.Provider value={
-            {userList, setUserList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, userForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {userList, setUserList}
             }>
-                <Collect MainContent={UserPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, userForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={UserPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

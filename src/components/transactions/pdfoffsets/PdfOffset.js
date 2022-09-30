@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import PdfOffsetPage from "./PdfOffsetPage";
 
+import Loading from '../../common/loading/Loading';
+
 const PdfOffset = () => {
     const api = new Api();
     const [pdfOffsetList, setPdfOffsetList] = useState([]);
@@ -25,6 +27,8 @@ const PdfOffset = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -36,6 +40,7 @@ const PdfOffset = () => {
     //#region Functions
 
     const getPdfOffsetList = () => {
+        setLoading(true);
         api.request('/api/transaction-page', 'GET')
             .then(res => {
                 switch (res.status){
@@ -44,10 +49,12 @@ const PdfOffset = () => {
                         setPdfOffsetList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-page', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -59,12 +66,14 @@ const PdfOffset = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-page/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -76,12 +85,14 @@ const PdfOffset = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-page/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -93,6 +104,7 @@ const PdfOffset = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -194,15 +206,20 @@ const PdfOffset = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {pdfOffsetList, setPdfOffsetList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, pdfOffsetForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {pdfOffsetList, setPdfOffsetList}
             }>
-                <Collect MainContent={PdfOffsetPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, pdfOffsetForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={PdfOffsetPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

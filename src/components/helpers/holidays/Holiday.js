@@ -6,6 +6,7 @@ import { ContextCrud } from "../../../contexts/ContextCrud";
 import Collect from "../../common/Collect";
 
 import HolidayPage from "./HolidayPage";
+import Loading from "../../common/loading/Loading";
 
 const Holiday = () => {
     const api = new Api();
@@ -24,6 +25,8 @@ const Holiday = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -35,6 +38,7 @@ const Holiday = () => {
     //#region Functions
 
     const getHolidayList = () => {
+        setLoading(true);
         api.request('/api/holiday', 'GET')
             .then(res => {
                 switch (res.status){
@@ -43,10 +47,12 @@ const Holiday = () => {
                         setHolidayList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/holiday', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -58,12 +64,14 @@ const Holiday = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/holiday/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -75,12 +83,14 @@ const Holiday = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/holiday/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -92,6 +102,7 @@ const Holiday = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -193,15 +204,20 @@ const Holiday = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {holidayList, setHolidayList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, holidayForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {holidayList, setHolidayList}
             }>
-                <Collect MainContent={HolidayPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, holidayForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={HolidayPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

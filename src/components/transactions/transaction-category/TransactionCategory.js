@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import TransactionCategoryPage from "./TransactionCategoryPage";
 
+import Loading from '../../common/loading/Loading';
+
 const TransactionCategory = () => {
     const api = new Api();
     const [transactionCategoryList, setTransactionCategoryList] = useState([]);
@@ -29,6 +31,8 @@ const TransactionCategory = () => {
     const [alertMsg, setAlertMsg] = useState('');
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
+
+    const [loading, setLoading] = useState(true);
 
     //#region Init
 
@@ -67,6 +71,7 @@ const TransactionCategory = () => {
     }
 
     const getTransactionCategoryList = () => {
+        setLoading(true);
         api.request('/api/transaction-category', 'GET')
             .then(res => {
                 switch (res.status){
@@ -75,10 +80,12 @@ const TransactionCategory = () => {
                         setTransactionCategoryList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-category', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -90,12 +97,14 @@ const TransactionCategory = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-category/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -107,12 +116,14 @@ const TransactionCategory = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/transaction-category/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -124,6 +135,7 @@ const TransactionCategory = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -226,15 +238,20 @@ const TransactionCategory = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {transactionCategoryList, setTransactionCategoryList, transactionTypeList, descriptionList}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, transactionCategoryForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {transactionCategoryList, setTransactionCategoryList, transactionTypeList, descriptionList}
             }>
-                <Collect MainContent={TransactionCategoryPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, transactionCategoryForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={TransactionCategoryPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 

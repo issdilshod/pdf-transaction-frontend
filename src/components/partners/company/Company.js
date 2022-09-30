@@ -7,6 +7,8 @@ import Collect from "../../common/Collect";
 
 import CompanyPage from "./CompanyPage";
 
+import Loading from '../../common/loading/Loading';
+
 const Company = () => {
     const api = new Api();
     const [companyList, setCompanyList] = useState([]);
@@ -32,6 +34,8 @@ const Company = () => {
 
     const [states, setStates] = useState([]);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -56,6 +60,7 @@ const Company = () => {
     }
 
     const getCompanyList = () => {
+        setLoading(true);
         api.request('/api/company', 'GET')
             .then(res => {
                 switch (res.status){
@@ -64,10 +69,12 @@ const Company = () => {
                         setCompanyList(res.data.data);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/company', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -79,12 +86,14 @@ const Company = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/company/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -96,12 +105,14 @@ const Company = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/company/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -113,6 +124,7 @@ const Company = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -220,15 +232,20 @@ const Company = () => {
 
 
     return (
-        <ContextData.Provider value={
-            {companyList, setCompanyList, states}
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, companyForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+        <>
+            <ContextData.Provider value={
+                {companyList, setCompanyList, states}
             }>
-                <Collect MainContent={CompanyPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, companyForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                }>
+                    <Collect MainContent={CompanyPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 
