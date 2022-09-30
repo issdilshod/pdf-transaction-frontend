@@ -35,13 +35,14 @@ const Customer = () => {
 
     //#region Functions
 
-    const getCustomerList = () => {
-        api.request('/api/customer', 'GET')
+    const getCustomerList = (page = '') => {
+        api.request('/api/customer' + page, 'GET')
             .then(res => {
                 switch (res.status){
                     case 200:
                     case 201:
                         setCustomerList(res.data.data);
+                        setTotalPage(res.data.meta['last_page']);
                         break;
                 }
             });
@@ -272,10 +273,24 @@ const Customer = () => {
 
     //#endregion 
 
+    //#region Pagination
+
+    const [currentPage, setCurentPage] = useState(1);
+    const [totalPage, setTotalPage] = useState(1);
+
+    const handlePaginationClick = (index) => {
+        setCurentPage(index);
+        getCustomerList('?page='+index);
+    }
+
+    //#endregion
 
     return (
         <ContextData.Provider value={
-            {customerList, setCustomerList}
+            {
+                customerList, setCustomerList,
+                handlePaginationClick, currentPage, totalPage,
+            }
         }>
             <ContextCrud.Provider value={
                 {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange }
