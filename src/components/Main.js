@@ -18,6 +18,8 @@ import Organization from './partners/organization/Organization';
 import TransactionCategory from './transactions/transaction-category/TransactionCategory';
 import Description from './helpers/descriptions/Description';
 
+import Statements from './statements/statements/Statements';
+
 const Main = () => {
     return (
         <Router>
@@ -38,6 +40,7 @@ const Main = () => {
                     <Route path="/organizations" element={<Organization />} />
                     <Route path="/transaction-categories" element={<TransactionCategory />} />
                     <Route path="/descriptions" element={<Description />} />
+                    <Route path="/statements" element={<Statements />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
