@@ -9,6 +9,8 @@ import CustomerPage from "./CustomerPage";
 
 import Papa from "papaparse";
 
+import Loading from '../../common/loading/Loading';
+
 const Customer = () => {
     const api = new Api();
     const [customerList, setCustomerList] = useState([]);
@@ -25,6 +27,8 @@ const Customer = () => {
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+
     //#region Init
 
     useEffect(() => {
@@ -36,6 +40,7 @@ const Customer = () => {
     //#region Functions
 
     const getCustomerList = (page = '') => {
+        setLoading(true);
         api.request('/api/customer' + page, 'GET')
             .then(res => {
                 switch (res.status){
@@ -45,10 +50,12 @@ const Customer = () => {
                         setTotalPage(res.data.meta['last_page']);
                         break;
                 }
+                setLoading(false);
             });
     }
 
     const add = async (form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/customer', 'POST', form)
             .then(res => {
                 switch (res.status){
@@ -60,12 +67,14 @@ const Customer = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const edit = async (id, form) => {
+        setLoading(true);
         let tmp_res = api.request('/api/customer/'+id, 'PUT', form)
             .then(res => {
                 switch (res.status){
@@ -77,12 +86,14 @@ const Customer = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fdelete = async (id) => {
+        setLoading(true);
         let tmp_res = api.request('/api/customer/'+id, 'DELETE')
             .then(res => {
                 switch (res.status){
@@ -94,12 +105,14 @@ const Customer = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
     }
 
     const fimport = async (data) => {
+        setLoading(true);
         let tmp_res = api.request('/api/customer-import', 'POST', data)
             .then(res => {
                 switch (res.status){
@@ -111,6 +124,7 @@ const Customer = () => {
                         tmp_res = {'status': 'error', 'data': 'Error'};
                         break;
                 }
+                setLoading(false);
                 return tmp_res;
             });
         return tmp_res;
@@ -286,18 +300,23 @@ const Customer = () => {
     //#endregion
 
     return (
-        <ContextData.Provider value={
-            {
-                customerList, setCustomerList,
-                handlePaginationClick, currentPage, totalPage,
-            }
-        }>
-            <ContextCrud.Provider value={
-                {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange }
+        <>
+            <ContextData.Provider value={
+                {
+                    customerList, setCustomerList,
+                    handlePaginationClick, currentPage, totalPage,
+                }
             }>
-                <Collect MainContent={CustomerPage} />
-            </ContextCrud.Provider>
-        </ContextData.Provider>
+                <ContextCrud.Provider value={
+                    {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange }
+                }>
+                    <Collect MainContent={CustomerPage} />
+                </ContextCrud.Provider>
+            </ContextData.Provider>
+            {   loading &&
+                <Loading />
+            }
+        </>
     )
 }
 
