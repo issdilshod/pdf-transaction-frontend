@@ -37,7 +37,7 @@ const ImportForm = () => {
     return (
         <div className='c-form'>
             <div className='c-form-head d-flex'>
-                <div className='mr-auto'>Customer</div>
+                <div className='mr-auto'>Import Customer</div>
                 <div className='c-times' onClick={ () => { triggerModalHide() } }>
                     <i><FaTimes /></i>
                 </div>
