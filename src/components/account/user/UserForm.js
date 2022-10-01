@@ -9,7 +9,7 @@ const UserForm = () => {
         <div className='c-form'>
             <div className='c-form-head d-flex'>
                 <div className='mr-auto'>User</div>
-                <div class='c-times' onClick={ () => { triggerModalHide() } }>
+                <div className='c-times' onClick={ () => { triggerModalHide() } }>
                     <i><FaTimes /></i>
                 </div>
             </div>
