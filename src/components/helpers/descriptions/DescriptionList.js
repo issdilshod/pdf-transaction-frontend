@@ -44,6 +44,7 @@ const DescriptionList = () => {
                                                 value['description_rules'].map((value1, index1) => {
                                                     return (
                                                         <span 
+                                                            key={index1}
                                                             className="c-badge c-badge-sm c-badge-primary mr-2"
                                                         >
                                                             {value1['description_rule']['value']}
