@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Api from '../../../services/Api';
 import { ContextData } from "../../../contexts/ContextData";
@@ -13,7 +14,10 @@ import Loading from '../../common/loading/Loading';
 
 const Customer = () => {
     const api = new Api();
+    const nav = useNavigate();
     const [customerList, setCustomerList] = useState([]);
+
+    const { page } = useParams()
 
     // CRUD
     const entity = {
@@ -32,7 +36,12 @@ const Customer = () => {
     //#region Init
 
     useEffect(() => {
-        getCustomerList();
+        let tmpPage = '';
+        if (page){
+            tmpPage = '?page=' + page;
+            setCurentPage(page);
+        }
+        getCustomerList(tmpPage);
     }, [])
 
     //#endregion
@@ -48,6 +57,7 @@ const Customer = () => {
                     case 201:
                         setCustomerList(res.data.data);
                         setTotalPage(res.data.meta['last_page']);
+                        setFromItem(res.data.meta['from']);
                         break;
                 }
                 setLoading(false);
@@ -291,10 +301,12 @@ const Customer = () => {
 
     const [currentPage, setCurentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
+    const [fromItem, setFromItem] = useState(0);
 
     const handlePaginationClick = (index) => {
         setCurentPage(index);
         getCustomerList('?page='+index);
+        nav('/customers/page/'+index);
     }
 
     //#endregion
@@ -304,7 +316,7 @@ const Customer = () => {
             <ContextData.Provider value={
                 {
                     customerList, setCustomerList,
-                    handlePaginationClick, currentPage, totalPage,
+                    handlePaginationClick, currentPage, totalPage, fromItem
                 }
             }>
                 <ContextCrud.Provider value={

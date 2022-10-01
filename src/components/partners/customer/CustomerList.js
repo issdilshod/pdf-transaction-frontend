@@ -5,7 +5,7 @@ import { ContextData } from "../../../contexts/ContextData";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 
 const CustomerList = () => {
-    const { customerList } = useContext(ContextData);
+    const { customerList, fromItem } = useContext(ContextData);
     const { handleAddClick, handleEditClick, handleDeleteClick, handleImportClick } = useContext(ContextCrud);
 
     return (
@@ -41,7 +41,7 @@ const CustomerList = () => {
                             customerList.map((value, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{index+1}</td>
+                                        <td>{fromItem+index}</td>
                                         <td>{value['name']}</td>
                                         <td>
                                             <button 
