@@ -1,0 +1,51 @@
+
+.indicators-block{
+    transition: .4s;
+
+    .indicators{
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 6px 0px #03035A1e;
+        font-weight: 700;
+        font-size: 1.2em;
+        cursor: pointer;
+
+        background: linear-gradient(-45deg, #03035A3e, #03035A05, #77528F3e, #77528F05);
+        animation: gradient 20s ease infinite;
+        background-size: 400% 400%;
+
+        .indicator-icon{
+
+            i{
+                font-size: 1.4em;
+            }
+        }
+
+        .indicator-count{
+            font-weight: 700;
+            font-size: 1.2em;
+            transition: .6s;
+        }
+
+    }
+
+    .indicators:hover{
+        .indicator-count{
+            font-weight: 1000;
+            font-size: 2em;
+        }
+    }
+
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

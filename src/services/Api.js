@@ -19,7 +19,7 @@ class Api {
     async request(_url = '', _method = 'POST', _data = {}, _file = false, _params = {}){
         // set token to header
         let config = {};
-        let _token = await this.getToken();
+        let _token = this.getToken();
         config.headers = { 'Authorization': 'Bearer ' + _token,
                             'Access-Control-Allow-Origin': '*',
                             'Access-Control-Allow-Headers': '*',
