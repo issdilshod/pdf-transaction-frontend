@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Api from '../../../services/Api';
 import { ContextData } from "../../../contexts/ContextData";
@@ -11,6 +12,7 @@ import Loading from '../../common/loading/Loading';
 
 const Statements = () => {
     const api = new Api();
+    const nav = useNavigate();
     const [statementsList, setStatementsList] = useState([]);
 
     const [alertMsg, setAlertMsg] = useState('');
@@ -67,11 +69,11 @@ const Statements = () => {
     //#region Handles
 
     const handleAddClick = () => {
-        console.log('add clicked');
+        nav('/statement/');
     }
 
     const handleEditClick = (id) => {
-        console.log('edit click');
+        nav('/statement/'+id);
     }
 
     const handleDeleteClick = (id) => {
