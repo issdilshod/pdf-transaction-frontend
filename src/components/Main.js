@@ -19,6 +19,7 @@ import TransactionCategory from './transactions/transaction-category/Transaction
 import Description from './helpers/descriptions/Description';
 
 import Statements from './statements/statements/Statements';
+import Statement from './statements/statement/Statement';
 
 const Main = () => {
     return (
@@ -36,11 +37,17 @@ const Main = () => {
                     <Route path="/transaction-type" element={<TransactionType />} />
                     <Route path="/pdf-offsets" element={<PdfOffset />} />
                     <Route path="/companies" element={<Company />} />
+
                     <Route path="/customers" element={<Customer />} />
+                    <Route path="/customers/page/:page" element={<Customer />} />
+
                     <Route path="/organizations" element={<Organization />} />
                     <Route path="/transaction-categories" element={<TransactionCategory />} />
                     <Route path="/descriptions" element={<Description />} />
+
                     <Route path="/statements" element={<Statements />} />
+                    <Route path="/statement" element={<Statement />} />
+                    <Route path="/statement/:id" element={<Statement />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  
