@@ -17,7 +17,7 @@ const Statement = () => {
     return (
         <>
             <ContextData.Provider value={
-                { setLoading }
+                { setLoading, id }
             }>
                 <Collect MainContent={StatementPage} />
             </ContextData.Provider>
