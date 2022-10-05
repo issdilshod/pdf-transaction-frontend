@@ -11,7 +11,13 @@ const Organization = ({statement, setStatement, step, setStep}) => {
     useEffect(() => {
         api.request('/api/organization', 'GET')
             .then(res => {
-                setOrganizations(res.data.data);
+                switch (res.status)
+                {
+                    case 200:
+                    case 201:
+                        setOrganizations(res.data.data);
+                        break;
+                }
             });
     });
 

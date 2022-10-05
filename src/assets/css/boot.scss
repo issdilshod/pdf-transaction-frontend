@@ -380,3 +380,8 @@ a{
     background-color: #201a7a;
     color: #fff;
 }
+
+.c-disabled{
+    opacity: .3;
+    pointer-events: none;
+}

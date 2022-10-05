@@ -25,21 +25,15 @@
                 content: '';
             }
         }
-
-        .c-disabled{
-            opacity: .3;
-            pointer-events: none;
-        }
     }
 }
 
 .steps-page{
     background-color: #ffffff;
-    height: 76vh;
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.3);
-    overflow: auto;
+    zoom: 80%;
 }
 
 .spec-pagination{
@@ -66,4 +60,32 @@
     }
 
     
+}
+
+.transaction-creator{
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.transaction-info{
+    margin-top: 10px;
+}
+
+.transaction-sort{
+    position: relative;
+
+    button{
+        position: absolute;
+        top: 10%;
+        left: -20px;
+    }
+}
+
+/* Change bootstrap styles */
+.nav-link{
+    color:#201a7a;
+    font-weight: 500;
+}
+
+.nav-link:hover{
+    color:#190ec5;
 }

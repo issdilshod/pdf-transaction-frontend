@@ -11,7 +11,13 @@ const Company = ({statement, setStatement, step, setStep}) => {
     useEffect(() => {
         api.request('/api/company', 'GET')
             .then(res => {
-                setCompanies(res.data.data);
+                switch (res.status)
+                {
+                    case 200:
+                    case 201:
+                        setCompanies(res.data.data);
+                        break;
+                }
             });
     });
 

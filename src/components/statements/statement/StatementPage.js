@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 
+import Api from '../../../services/Api';
+
 import { ContextCrud } from '../../../contexts/ContextCrud';
 import { ContextData } from '../../../contexts/ContextData';
 
@@ -9,8 +11,11 @@ import Company from './steps/Company';
 import Organization from './steps/Organization';
 
 import './Statement.scss';
+import Transaction from './steps/Transaction';
 
 const StatementsPage = () => {
+    const api = new Api();
+
     const { loading, id } = useContext(ContextData);
 
     const [alertMsg, setAlertMsg] = useState('');
@@ -20,7 +25,7 @@ const StatementsPage = () => {
     //#region Statement const 
 
     const [breadcrumbs, setBreadcrumbs] = useState([
-        'Company', 'Organization'
+        'Company', 'Organization', 'Transactions', 'Pages', 'Replacements', 'Compression', 'PDF'
     ]);
 
     const [step, setStep] = useState(0);
@@ -29,15 +34,15 @@ const StatementsPage = () => {
     const entityStatement = {
         'company_id': '',
         'organization_id': '',
+        'periods': []
     };
 
     const entityPeriod = {
-        'statement_id': '',
-        'period': ''
+        'period': '', 
+        'transactions': []
     };
 
     const entityTransaction = {
-        'period_id': '',
         'type_id': '',
         'category_id': '',
         'customer_id': '',
@@ -45,14 +50,21 @@ const StatementsPage = () => {
         'date': '',
         'amount': '',
         'amount_min': '',
-        'amount_max': ''
+        'amount_max': '',
     };
 
+    const [editMode, setEditMode] = useState(false);
     const [statement, setStatement] = useState(entityStatement);
-    const [period, setPeriod] = useState([entityPeriod]);
 
     useEffect(() => {
-        console.log(step);
+        if (step==3){ // transaction created
+            if (!editMode){
+                api.request('/api/statement', 'POST', statement)
+                    .then(res => {
+
+                    });
+            }
+        }
     }, [step]);
 
     //#endregion
@@ -99,12 +111,25 @@ const StatementsPage = () => {
                         {   step==1 &&
                             <Organization statement={statement} setStatement={setStatement} step={step} setStep={setStep} />
                         }
+                        {   step==2 &&
+                            <Transaction step={step} setStep={setStep} statement={statement} setStatement={setStatement} entityPeriod={entityPeriod} entityTransaction={entityTransaction} />
+                        }
                     </div>
 
                     <div className='spec-pagination d-flex justify-content-end'>
-                        <div>Previous</div>
+                        <div 
+                            className={`${step<=0?'c-disabled':''}`}
+                            onClick={ () => { if (step>0){ setStep(step-1) } } }
+                        >
+                            Previous
+                        </div>
                         <div>Save</div>
-                        <div>Next</div>
+                        <div 
+                            className={`${step>=7?'c-disabled':''}`}
+                            onClick={ () => { if (step<7){ setStep(step+1) } } }
+                        >
+                            Next
+                        </div>
                     </div>
 
                 </div>
