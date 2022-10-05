@@ -1,8 +1,11 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import DateFunction from './functions/DateFunction';
 import Periods from './Periods';
 
 const Transactions = ({statement, setStatement, types}) => {
+
+    const dateFunction = new DateFunction();
 
     return (
         <>
@@ -18,7 +21,7 @@ const Transactions = ({statement, setStatement, types}) => {
                                     <Tab
                                         key={index}
                                         eventKey={index}
-                                        title={value['period']}
+                                        title={ dateFunction.beautifulDate(value['period']) }
                                     >
                                         <Periods statement={statement} setStatement={setStatement} transactions={statement['periods'][index]['transactions']} types={types} periodIndex={index} />
                                     </Tab>

@@ -35,15 +35,29 @@ class DateFunction{
 
     beautifulDate(date){
         let result = '';
-        if (date instanceof Date && !isNaN(date)){
+        if (date!=''){
+            let month = ['jan.', 'feb.', 'mar.', 'apr.', 'may', 'jun.', 'jul.', 'aug.', 'sep.', 'oct.', 'nov.', 'dec.'];
+            let tmpDate = new Date(date);
+            result = 
+                    (tmpDate.getDate()) + ' ' +
+                    (month[tmpDate.getMonth()]) + ' ' +
+                    tmpDate.getFullYear().toString().substr(2, 2);
+        }
+
+        return result;
+    }
+
+    beautifulDateTime(datetime){
+        let result = '';
+        if (datetime instanceof Date && !isNaN(datetime)){
         result = 
-                ((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1)) + '/' + 
-                (date.getDate()<10?'0'+date.getDate():date.getDate()) + '/' +
-                date.getFullYear().toString().substr(2, 2) + ' ' + 
-                (date.getHours()<10?'0'+date.getHours():date.getHours()) + ':' +
-                (date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
+                ((datetime.getMonth()+1)<10?'0'+(datetime.getMonth()+1):(datetime.getMonth()+1)) + '/' + 
+                (datetime.getDate()<10?'0'+datetime.getDate():datetime.getDate()) + '/' +
+                datetime.getFullYear().toString().substr(2, 2) + ' ' + 
+                (datetime.getHours()<10?'0'+datetime.getHours():datetime.getHours()) + ':' +
+                (datetime.getMinutes()<10?'0'+datetime.getMinutes():datetime.getMinutes());
         }else{
-            console.log(date);
+            console.log(datetime);
         }
         return result;
     }

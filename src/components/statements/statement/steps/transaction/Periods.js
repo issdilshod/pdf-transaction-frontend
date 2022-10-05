@@ -89,7 +89,7 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                             </button>
                                             {index+1}
                                         </td>
-                                        <td>{dateFunction.beautifulDate(value['date'])}</td>
+                                        <td>{dateFunction.beautifulDateTime(value['date'])}</td>
                                         <td>{typeFunction.getTypeName(value['type_id'], types)}</td>
                                         <td>
                                             <select
