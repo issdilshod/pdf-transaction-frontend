@@ -1,0 +1,11 @@
+export const CONST = 1;
+export const SELECT = 2;
+export const TYPE = 3;
+export const TEXT = 4;
+export const RANDOM = 5;
+export const MONTH_DAY = 6;
+export const YEAR_MONTH_DAY = 7;
+export const HOURS_MINUTES = 8;
+export const FULL_YEAR_MONTH_DAY = 9;
+export const VALUE = 10;
+export const VALUE_CUT = 11;

@@ -110,6 +110,15 @@ a{
     box-shadow: 0px 0px 5px 1px #1a7a715e;
 }
 
+.c-btn-warning{
+    background-color: #e0e320;
+    color: #fff;
+}
+
+.c-btn-warning:hover{
+    box-shadow: 0px 0px 5px 1px #e0e3205e;
+}
+
 /* Main collection */
 .menu-content{
     height: 100vh;
@@ -381,7 +390,18 @@ a{
     color: #fff;
 }
 
+.c-badge-info{
+    background-color: #1a7a71;
+    color: #fff;
+}
+
 .c-disabled{
     opacity: .3;
     pointer-events: none;
+}
+
+/* C-Line */
+.c-line{
+    width: 100%;
+    border-bottom: 1px solid #f3f3f3;
 }

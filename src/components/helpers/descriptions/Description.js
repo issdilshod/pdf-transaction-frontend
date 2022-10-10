@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import Api from '../../../services/Api';
+import RulesFunction from "./rules/functions/RulesFunction";
+
 import { ContextData } from "../../../contexts/ContextData";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 import Collect from "../../common/Collect";
@@ -9,6 +11,7 @@ import DescriptionPage from "./DescriptionPage";
 
 const Description = () => {
     const api = new Api();
+    const rulesFunction = new RulesFunction();
     const [descriptionList, setDescriptionList] = useState([]);
     const [descriptionRuleList, setDescriptionRuleList] = useState([]);
 
@@ -16,7 +19,8 @@ const Description = () => {
     const entity = {
         'name': '',
         'description': '',
-        'split': 0
+        'split': 0,
+        'rules': []
     };
     const [modalShow, setModalShow] = useState(false);
     const [descriptionForm, setDescriptionForm] = useState(entity);
@@ -154,6 +158,25 @@ const Description = () => {
         setDescriptionForm({  ...descriptionForm, [name]: value });
     }
 
+    const handleRuleRemove = (index) => {
+        let tmpArray = {...descriptionForm};
+        tmpArray['rules'].splice(index, 1);
+        setDescriptionForm(tmpArray);
+    }
+
+    const handleRuleChoose = (id) => {
+        let tmpArray = {...descriptionForm};
+        let rule = rulesFunction.getRule(id, descriptionRuleList);
+        // TODO: check type and create value object
+        tmpArray['rules'].push({ 'id': id, 'description_rule': rule, 'value': '' });
+        setDescriptionForm(tmpArray);
+        console.log(tmpArray);
+    }
+
+    const handleRuleChange = (e) => {
+
+    }
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if (editMode){
@@ -212,7 +235,11 @@ const Description = () => {
             {descriptionList, setDescriptionList, descriptionRuleList, setDescriptionRuleList}
         }>
             <ContextCrud.Provider value={
-                {modalShow, descriptionForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                {
+                    modalShow, descriptionForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, 
+                    handleFormChange, handleFormSubmit, handleRuleRemove, handleRuleChoose, handleRuleChange,
+                    alertMsg, alertType, alertShow, setAlertShow
+                }
             }>
                 <Collect MainContent={DescriptionPage} />
             </ContextCrud.Provider>

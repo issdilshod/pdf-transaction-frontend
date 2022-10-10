@@ -41,7 +41,7 @@ const DescriptionList = () => {
                                         <td>{value['name']}</td>
                                         <td>
                                             {
-                                                value['description_rules'].map((value1, index1) => {
+                                                value['rules'].map((value1, index1) => {
                                                     return (
                                                         <span 
                                                             key={index1}
