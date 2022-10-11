@@ -51,6 +51,9 @@ const StatementsPage = () => {
         'amount': '',
         'amount_min': '',
         'amount_max': '',
+        'descriptions': [ 
+            { 'description': { 'rules': [] }, 'value': '{}' } 
+        ],
     };
 
     const [editMode, setEditMode] = useState(false);
@@ -59,10 +62,10 @@ const StatementsPage = () => {
     useEffect(() => {
         if (step==3){ // transaction created
             if (!editMode){
-                api.request('/api/statement', 'POST', statement)
+                /*api.request('/api/statement', 'POST', statement)
                     .then(res => {
 
-                    });
+                    });*/
             }
         }
     }, [step]);

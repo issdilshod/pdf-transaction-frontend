@@ -1,4 +1,5 @@
 import { FaCheck, FaTrash } from "react-icons/fa";
+import Descriptions from "./Descriptions";
 import CategoryFunction from "./functions/CategoryFunction";
 import DateFunction from "./functions/DateFunction";
 import NumberFunction from "./functions/NumberFunction";
@@ -43,15 +44,14 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
 
     const handleCategoryChange = (e, type_id, index) => {
         const { value } = e.target;
+        let tmpArray = {...statement};
+        tmpArray['periods'][periodIndex]['transactions'][index]['category_id'] = value;
+        tmpArray['periods'][periodIndex]['transactions'][index]['descriptions'] = [];
         if (value!=''){
             let category = typeFunction.getTypeCategory(type_id, value, types);
-            // TODO: make description
-            console.log(index);
-            for (let key in category['descriptions']){
-                categoryFunction.makeDescriptionFromRule(category['descriptions'], statement['periods'][periodIndex]['transactions'][index]);
-            }
-            
+            tmpArray['periods'][periodIndex]['transactions'][index]['descriptions'] = categoryFunction.getDescriptions(category);
         }
+        setStatement(tmpArray);
     }
 
     return (
@@ -95,6 +95,7 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                             <select
                                                 className='form-control'
                                                 onChange={ (e) => { handleCategoryChange(e, value['type_id'], index) } }
+                                                value={value['category_id']}
                                             >
                                                 <option value=''>-</option>
                                                 {
@@ -106,8 +107,22 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                                 }
                                             </select>
                                         </td>
-                                        <td>
+                                        <td className='col-desc'>
 
+                                            {
+                                                value['descriptions'].map((value1, index1) => {
+                                                    return (
+                                                        <Descriptions 
+                                                            key={index1}
+                                                            periodIndex={periodIndex}
+                                                            transactionIndex={index}
+                                                            descriptionIndex={index1}
+                                                            description={value1}
+                                                            transaction={value}
+                                                        />
+                                                    )
+                                                })
+                                            }
                                         </td>
                                         <td className='text-center'>
                                             <span>{value['amount']}</span>

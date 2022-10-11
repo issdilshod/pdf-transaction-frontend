@@ -233,6 +233,10 @@ a{
         padding: 20px;
     }
 
+    tr .col-desc{
+        white-space: break-spaces;
+    }
+
     tr:nth-child(odd){
         td{
             background-color: #f9f9f9;
