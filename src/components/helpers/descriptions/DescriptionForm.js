@@ -39,8 +39,8 @@ const DescriptionForm = () => {
         handleRuleChoose(id);
     }
 
-    const handleRuleChangeLocal = (e) => {
-
+    const onChangeRuleLocal = (e) => {
+        handleRuleChange(e);
     }
 
     return (
@@ -107,12 +107,29 @@ const DescriptionForm = () => {
                                 descriptionForm['rules'].map((value, index) => {
                                     return(
                                         <div key={index} className='col-12 col-sm-6 mb-2'>
-                                            <div className='c-badge c-badge-primary d-flex'>
-                                                <div className='mr-auto'>
-                                                    {index+1}. {value['description_rule']['value']}
-
+                                            <div className='c-badge'>
+                                                <div className='d-flex'>
+                                                    <div className='mr-auto'>
+                                                        <b>{index+1}. {value['description_rule']['value']}</b>
+                                                    </div>
+                                                    <div>
+                                                        <button 
+                                                            className='c-btn c-btn-danger'
+                                                            onClick={ (e) => { handleRuleRemoveLocal(e, index) } }
+                                                        >
+                                                            <i>
+                                                                <FaTimes />
+                                                            </i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div>
                                                     { DESCRIPTIONRULE_CONST.SELECT===value['description_rule']['type'] && // SELECT
-                                                        <SelectType />
+                                                        <SelectType 
+                                                            index={index}
+                                                            ovalue={JSON.parse(value['value'])}
+                                                            onChange={onChangeRuleLocal}
+                                                        />
                                                     }
 
                                                     { DESCRIPTIONRULE_CONST.TYPE===value['description_rule']['type'] && // TYPING...
@@ -120,27 +137,28 @@ const DescriptionForm = () => {
                                                     }
 
                                                     { DESCRIPTIONRULE_CONST.TEXT===value['description_rule']['type'] && // TEXT...
-                                                        <TextType />
+                                                        <TextType 
+                                                            index={index}
+                                                            value={JSON.parse(value['value'])}
+                                                            onChange={onChangeRuleLocal}
+                                                        />
                                                     }
 
                                                     { DESCRIPTIONRULE_CONST.RANDOM===value['description_rule']['type'] && // MIN&MAX
-                                                        <MinMaxType />
+                                                        <MinMaxType 
+                                                            index={index}
+                                                            value={JSON.parse(value['value'])}
+                                                            onChange={onChangeRuleLocal}
+                                                        />
                                                     }
 
                                                     { DESCRIPTIONRULE_CONST.VALUE_CUT===value['description_rule']['type'] && // VALUE&CUT
-                                                        <ValueCutType />
+                                                        <ValueCutType 
+                                                            index={index}
+                                                            value={JSON.parse(value['value'])}
+                                                            onChange={onChangeRuleLocal}
+                                                        />
                                                     }
-
-                                                </div>
-                                                <div>
-                                                    <button 
-                                                        className='c-btn c-btn-danger'
-                                                        onClick={ (e) => { handleRuleRemoveLocal(e, index) } }
-                                                    >
-                                                        <i>
-                                                            <FaTimes />
-                                                        </i>
-                                                    </button>
                                                 </div>
                                             </div>
                                             

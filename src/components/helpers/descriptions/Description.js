@@ -3,11 +3,15 @@ import React, { useEffect, useState } from "react";
 import Api from '../../../services/Api';
 import RulesFunction from "./rules/functions/RulesFunction";
 
+import * as DESCRIPTIONRULE_CONST from '../../../consts/DescriptionRuleConsts';
+
 import { ContextData } from "../../../contexts/ContextData";
 import { ContextCrud } from "../../../contexts/ContextCrud";
 import Collect from "../../common/Collect";
 
 import DescriptionPage from "./DescriptionPage";
+
+import './Description.scss';
 
 const Description = () => {
     const api = new Api();
@@ -167,14 +171,29 @@ const Description = () => {
     const handleRuleChoose = (id) => {
         let tmpArray = {...descriptionForm};
         let rule = rulesFunction.getRule(id, descriptionRuleList);
-        // TODO: check type and create value object
-        tmpArray['rules'].push({ 'id': id, 'description_rule': rule, 'value': '' });
+        let tmpValue = null;
+        if (DESCRIPTIONRULE_CONST.TEXT===rule['type']){
+            tmpValue = { 'value': '' };
+        } else if (DESCRIPTIONRULE_CONST.SELECT===rule['type']){
+            tmpValue = { 'value': [] };
+        } else if (DESCRIPTIONRULE_CONST.RANDOM===rule['type']){
+            tmpValue = { 'min': 0.00, 'max': 0.00 };
+        } else if (DESCRIPTIONRULE_CONST.VALUE_CUT===rule['type']){
+            tmpValue = { 'value': 0 };
+        }
+        tmpArray['rules'].push({ 'rule_id': id, 'description_rule': rule, 'value': JSON.stringify(tmpValue) });
         setDescriptionForm(tmpArray);
-        console.log(tmpArray);
     }
 
     const handleRuleChange = (e) => {
+        let { index, selector, value } = e;
+        let tmpArray = {...descriptionForm};
+        let tmpValue = JSON.parse(tmpArray['rules'][index]['value']);
+        
+        tmpValue[selector] = value;
+        tmpArray['rules'][index]['value'] = JSON.stringify(tmpValue);
 
+        setDescriptionForm(tmpArray);
     }
 
     const handleFormSubmit = (e) => {

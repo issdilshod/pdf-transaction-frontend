@@ -8,8 +8,6 @@ import Modal from '../../common/modal/Modal';
 import DescriptionForm from'./DescriptionForm';
 import DescriptionList from'./DescriptionList';
 
-import './Description.module.scss';
-
 const DescriptionPage = () => {
     const { alertMsg, alertType, alertShow, setAlertShow, modalShow } = useContext(ContextCrud);
 
