@@ -3,7 +3,7 @@
 const TypeType = () => {
 
     return (
-        <div>type...</div>
+        <div>Type field...</div>
     )
 }
 
