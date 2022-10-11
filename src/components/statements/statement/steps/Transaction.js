@@ -72,8 +72,14 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
                         tmpTransactions['type_id'] = manualPeriod['type_id'];
                         tmpArray['periods'][key]['transactions'].push(tmpTransactions);
                     }
+
+                    // sort array
+                    tmpArray['periods'][key]['transactions'].sort(function(a, b) {
+                        return a.type_id.localeCompare(b.type_id) || new Date(a.date) - new Date(b.date);
+                    });
                 }
             }
+
             setStatement(tmpArray);
         }   
     }
