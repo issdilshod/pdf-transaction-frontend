@@ -76,8 +76,6 @@ class DescriptionFunction {
 
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
 
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERID) {
-
         }
         //TODO: find real data and set
         result = typeOfValue;

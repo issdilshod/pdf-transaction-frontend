@@ -39,6 +39,8 @@ const StatementsPage = () => {
 
     const entityPeriod = {
         'period': '', 
+        'begining_balance': '',
+        'ending_balance': '',
         'transactions': []
     };
 

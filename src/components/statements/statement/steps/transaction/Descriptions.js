@@ -13,7 +13,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
         console.log(index, 'company clicked');
     }
 
-    const onSenderNameClickLocal = (index) => {
+    const onSenderClickLocal = (index) => {
         console.log(index, 'sender clicked');
     }
 
@@ -109,7 +109,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
 
                                     { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME &&
                                         <b
-                                            onClick={ () => { onSelectClickLocal(index) } }
+                                            onClick={ () => { onSenderClickLocal(index) } }
                                         >
                                             { descriptionFunction.get_value(transaction, value) }
                                         </b>

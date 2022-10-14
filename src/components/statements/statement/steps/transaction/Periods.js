@@ -4,6 +4,7 @@ import CategoryFunction from "./functions/CategoryFunction";
 import DateFunction from "./functions/DateFunction";
 import NumberFunction from "./functions/NumberFunction";
 import TypeFunction from "./functions/TypeFunction";
+import TransactionFunction from "./functions/TransactionFunction";
 
 
 const Periods = ({statement, setStatement, transactions, types, periodIndex}) => {
@@ -12,6 +13,7 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
     const dateFunction = new DateFunction()
     const numberFunction = new NumberFunction();
     const categoryFunction = new CategoryFunction();
+    const transactionFunction = new TransactionFunction();
 
     const handleAmountChange = (e, index) => {
         const {value, name} = e.target;
@@ -39,6 +41,10 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
         let tmpArray = {...statement};
         let amount = numberFunction.random(tmpArray['periods'][periodIndex]['transactions'][index]['amount_min'], tmpArray['periods'][periodIndex]['transactions'][index]['amount_max']);
         tmpArray['periods'][periodIndex]['transactions'][index]['amount'] = amount;
+
+        // calc ending balance
+        tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
+
         setStatement(tmpArray);
     }
 
@@ -51,6 +57,17 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
             let category = typeFunction.getTypeCategory(type_id, value, types);
             tmpArray['periods'][periodIndex]['transactions'][index]['descriptions'] = categoryFunction.getDescriptions(category);
         }
+        setStatement(tmpArray);
+    }
+
+    const handleOnChangeBeginingBalance = (e) => {
+        const { value } = e.target;
+        let tmpArray = {...statement};
+        tmpArray['periods'][periodIndex]['begining_balance'] = value;
+
+        // calc ending balance
+        tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
+
         setStatement(tmpArray);
     }
 
@@ -185,10 +202,12 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                     step='.01'
                                     name='begining_balance'
                                     placeholder='Begining balance'
+                                    value={statement['periods'][periodIndex]['begining_balance']}
+                                    onChange={ (e) => { handleOnChangeBeginingBalance(e) } }
                                 />
                             </td>
                             <td>
-                                444.4
+                                {statement['periods'][periodIndex]['ending_balance']}
                             </td>
                         </tr>
                     </tbody>
