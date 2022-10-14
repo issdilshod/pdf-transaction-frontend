@@ -235,6 +235,10 @@ a{
 
     tr .col-desc{
         white-space: break-spaces;
+
+        b{
+            cursor: pointer;
+        }
     }
 
     tr:nth-child(odd){

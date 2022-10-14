@@ -1,3 +1,4 @@
+import * as DESCRIPTIONRULEVALUE_CONSTS from '../../../../../../consts/DescriptionRuleValueConsts';
 
 class DescriptionFunction {
 
@@ -61,6 +62,25 @@ class DescriptionFunction {
                     date.getFullYear().substr(2, 2) + '' + // Year
                     ((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1)) + '' + // Month
                     (date.getDate()<10?'0'+date.getDate():date.getDate()); // Day
+        return result;
+    }
+
+    get_value(transaction, description){
+        let result = '';
+        let typeOfValue = description['description_rule']['value'];
+        if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
+
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
+
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
+
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
+
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERID) {
+
+        }
+        //TODO: find real data and set
+        result = typeOfValue;
         return result;
     }
 
