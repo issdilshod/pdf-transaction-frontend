@@ -34,6 +34,13 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
         if (tmpArray['periods'][periodIndex]['transactions'].length<=0){
             tmpArray['periods'].splice(periodIndex, 1);
         }
+        
+        // calc ending balance
+        tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
         setStatement(tmpArray);
     }
 
@@ -44,6 +51,9 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
 
         // calc ending balance
         tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
 
         setStatement(tmpArray);
     }
@@ -57,6 +67,10 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
             let category = typeFunction.getTypeCategory(type_id, value, types);
             tmpArray['periods'][periodIndex]['transactions'][index]['descriptions'] = categoryFunction.getDescriptions(category);
         }
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
         setStatement(tmpArray);
     }
 
@@ -75,7 +89,7 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
         <div className='mt-2'>
             <div className='d-flex'>
                 <div className='mr-auto'>
-                    <h6>Transactions</h6>
+                    <b>Transactions</b>
                 </div>
                 <button className='c-btn c-btn-danger' onClick={ () => { handleRemovePeriod() } }>
                     <FaTrash />
@@ -183,14 +197,21 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                 </table>
 
                 <div className='mt-4 mb-2'>
-                    <h6>Total</h6>
+                    <b>Total</b>
                 </div>
 
                 <table className='c-table'>
                     <thead>
                         <tr>
-                            <th style={ {width: '50%'} }>Begining balance</th>
-                            <th style={ {width: '50%'} }>Ending balance</th>
+                            <th style={ {width: '25%'} }>Begining balance</th>
+                            {
+                                statement['periods'][periodIndex]['types'].map((value, index) => {
+                                    return(
+                                        <th key={index} style={ {width: '25%'} }>{value['name']}</th>
+                                    )
+                                })
+                            }
+                            <th>Ending balance</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -206,6 +227,13 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                     onChange={ (e) => { handleOnChangeBeginingBalance(e) } }
                                 />
                             </td>
+                            {
+                                statement['periods'][periodIndex]['types'].map((value, index) => {
+                                    return(
+                                        <td key={index}>{value['value']}</td>
+                                    )
+                                })
+                            }
                             <td>
                                 {statement['periods'][periodIndex]['ending_balance']}
                             </td>
@@ -214,7 +242,7 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                 </table>
 
                 <div className='mt-4 mb-2'>
-                    <h6>PDF Content</h6>
+                    <b>PDF Content</b>
                 </div>
 
                 <table className='c-table'>

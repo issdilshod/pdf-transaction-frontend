@@ -41,7 +41,10 @@ const StatementsPage = () => {
         'period': '', 
         'begining_balance': '',
         'ending_balance': '',
-        'transactions': []
+        'transactions': [],
+
+        // helper
+        'types': [],
     };
 
     const entityTransaction = {
