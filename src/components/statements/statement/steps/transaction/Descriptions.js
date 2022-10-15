@@ -114,6 +114,12 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
                                             { descriptionFunction.get_value(transaction, value) }
                                         </b>
                                     }
+
+                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERID &&
+                                        <b>
+                                            { descriptionFunction.get_value(transaction, value) }
+                                        </b>
+                                    }
                                     
                                 </>
                             }
