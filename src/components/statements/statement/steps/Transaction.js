@@ -16,29 +16,37 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
 
     const [types, setTypes] = useState([]);
     const [holidays, setHolidays] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         api.request('/api/transaction-type', 'GET')
             .then(res => {
-                switch (res.status)
-                {
-                    case 200:
-                    case 201:
-                        setTypes(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setTypes(res.data.data);
                 }
             });
         
         api.request('/api/holiday', 'GET')
             .then(res => {
-                switch (res.status)
-                {
-                    case 200:
-                    case 201:
-                        setHolidays(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setHolidays(res.data.data);
                 }
             });
+
+        api.request('/api/transaction-page', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setPages(res.data.data);
+                }
+            })
+
+        api.request('/api/transaction-category', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setCategories(res.data.data);
+                }
+            })
     }, []);
 
     //#endregion
@@ -147,7 +155,7 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
             </div>
 
             <div className='transaction-info'>
-                <Transactions statement={statement} setStatement={setStatement} types={types} />
+                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} />
             </div>
         </>
         

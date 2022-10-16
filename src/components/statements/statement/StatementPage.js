@@ -45,6 +45,7 @@ const StatementsPage = () => {
 
         // helper
         'types': [],
+        'pages': [],
     };
 
     const entityTransaction = {
@@ -59,6 +60,11 @@ const StatementsPage = () => {
         'descriptions': [ 
             { 'description': { 'rules': [] }, 'value': '{}' } 
         ],
+
+        // helper
+        'offset': {
+            'id': '', 'value': ''
+        }
     };
 
     const [editMode, setEditMode] = useState(false);

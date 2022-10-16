@@ -7,7 +7,7 @@ import TypeFunction from "./functions/TypeFunction";
 import TransactionFunction from "./functions/TransactionFunction";
 
 
-const Periods = ({statement, setStatement, transactions, types, periodIndex}) => {
+const Periods = ({statement, setStatement, transactions, types, pages, categories, periodIndex}) => {
 
     const typeFunction = new TypeFunction();
     const dateFunction = new DateFunction()
@@ -67,9 +67,12 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
             let category = typeFunction.getTypeCategory(type_id, value, types);
             tmpArray['periods'][periodIndex]['transactions'][index]['descriptions'] = categoryFunction.getDescriptions(category);
         }
-
+        
         // get types of period with values
         tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
 
         setStatement(tmpArray);
     }
@@ -105,6 +108,13 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                             <th style={{width: '12%'}}>Date</th>
                             <th style={{width: '10%'}}>Type</th>
                             <th style={{width: '5%'}}>Category</th>
+                            {
+                                statement['periods'][periodIndex]['pages'].map((value, index) => {
+                                    return (
+                                        <th key={index}>Page {value['page']}</th>
+                                    )
+                                })
+                            }
                             <th style={{width: '40%'}}>Description</th>
                             <th style={{width: '20%'}}>Amount</th>
                         </tr>
@@ -138,6 +148,19 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
                                                 }
                                             </select>
                                         </td>
+
+                                        {
+                                            statement['periods'][periodIndex]['pages'].map((value1, index1) => {
+                                                return (
+                                                    <td key={index}>
+                                                        { (value1['id']==value['offset']['id']) &&
+                                                            value['offset']['value']
+                                                        }
+                                                    </td>
+                                                )
+                                            })
+                                        }
+
                                         <td className='col-desc'>
 
                                             {
