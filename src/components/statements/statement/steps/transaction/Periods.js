@@ -39,6 +39,9 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
             // get types of period with values
             tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+            // get pages of transaction
+            tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
         }
     
         setStatement(tmpArray);
