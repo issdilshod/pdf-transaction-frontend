@@ -1,10 +1,20 @@
+.right-menu::-webkit-scrollbar{
+    width: 5px;
+    background-color: #f3f3f3;
+}
+
+.right-menu::-webkit-scrollbar-thumb{
+    border-radius: 20px;
+    background-color: #201a7a
+}
+
 .right-menu{
     background-color: #fff;
     height: 100vh;
     box-shadow: 0px 0px 10px 0px rgba(200, 200, 200, 0.3);
     width: 66px;
     z-index: 20;
-    overflow: hidden;
+    overflow: auto;
     transition: .4s;
 
     .right-menu-items{
