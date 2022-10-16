@@ -104,19 +104,19 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                 <table className='c-table mt-2'>
                     <thead>
                         <tr>
-                            <th style={{width: '5%'}}>#</th>
-                            <th style={{width: '12%'}}>Date</th>
-                            <th style={{width: '10%'}}>Type</th>
-                            <th style={{width: '5%'}}>Category</th>
+                            <th style={{width: '60px'}}>#</th>
+                            <th style={{width: '150px'}}>Date</th>
+                            <th style={{width: '140px'}}>Type</th>
+                            <th style={{width: '150px'}}>Category</th>
                             {
                                 statement['periods'][periodIndex]['pages'].map((value, index) => {
                                     return (
-                                        <th key={index}>Page {value['page']}</th>
+                                        <th style={{width: '80px'}} key={index}>Page {value['page']}</th>
                                     )
                                 })
                             }
-                            <th style={{width: '40%'}}>Description</th>
-                            <th style={{width: '20%'}}>Amount</th>
+                            <th style={{width: '600px'}}>Description</th>
+                            <th style={{width: '300px'}}>Amount</th>
                         </tr>
                     </thead>
                     <tbody>
