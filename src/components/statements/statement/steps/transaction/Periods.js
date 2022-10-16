@@ -33,14 +33,14 @@ const Periods = ({statement, setStatement, transactions, types, periodIndex}) =>
         tmpArray['periods'][periodIndex]['transactions'].splice(index, 1);
         if (tmpArray['periods'][periodIndex]['transactions'].length<=0){
             tmpArray['periods'].splice(periodIndex, 1);
+        }else{
+            // calc ending balance
+            tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
+
+            // get types of period with values
+            tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
         }
-        
-        // calc ending balance
-        tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
-
-        // get types of period with values
-        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
-
+    
         setStatement(tmpArray);
     }
 
