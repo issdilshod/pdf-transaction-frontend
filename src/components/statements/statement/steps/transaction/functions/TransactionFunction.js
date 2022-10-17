@@ -1,7 +1,43 @@
+import DescriptionFunction from "./DescriptionFunction";
+import NumberFunction from "./NumberFunction";
 
 class TransactionFunction {
     constructor(){
-
+        this.offset = {
+            'start': {
+                'x': -4282,
+                'y': -140,
+            },
+            'amount_digits': { // how much digits on amount determine offset
+                '3': {'amount': 3822, 'date': -4279},
+                '4': {'amount': 3765, 'date': -4222},
+                '5': {'amount': 3724, 'date': -4181},
+                '6': {'amount': 3682, 'date': -4139}, 
+                '7': {'amount': 3613, 'date': -4070},
+            },
+            'continue': {
+                'amount_digits': {
+                    '3' : -372, 
+                    '4' : -315, 
+                    '5' : -274, 
+                    '6' : -232, 
+                    '7' : -163
+                }
+            },
+            'total': {
+                '3' : 3692, 
+                '4' : 3635, 
+                '5' : 3594, 
+                '6' : 3552, 
+                '7' : 3483
+            }
+        }
+        this.negative = { 
+            'x': 27,
+            'y': -13
+        };
+        this.descriptionFunction = new DescriptionFunction();
+        this.numberFunction = new NumberFunction();
     }
 
     calc_ending_balance(period){
@@ -51,6 +87,7 @@ class TransactionFunction {
     }
 
     get_pdf_content_lines(period, pages){
+        period['pdf_content']['lines'] = [];
         const standart = "0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 {offset} m\n4800 {offset} l\nS";
         let result = '', page_id = '', last_page_id = '';
         for (let key in period['transactions']){
@@ -85,6 +122,142 @@ class TransactionFunction {
 
         return period;
     }
+
+    get_pdf_content_transactions(statement, period, pages){
+        period['pdf_content']['transactions'] = [];
+        let page_id = '', last_page_id = '', last_amount = '', count_last_description = '';
+        let result = '';
+        for (let key in period['transactions']){
+            if (period['transactions'][key]['offset']['id']!=''){
+                let date = '', tmpContent = [], amount = '';
+
+                //#region get all description/date/amount one by one and set to tmp pdf content
+
+                // description
+                for (let key1 in period['transactions'][key]['descriptions']){
+                    let tmpDesc = this.descriptionFunction.get_string_description(statement, period, period['transactions'][key], period['transactions'][key]['descriptions'][key1]);
+                    tmpContent.push('('+tmpDesc+')Tj');
+                }
+
+                // date
+                date = new Date(period['transactions'][key]['date']);
+                date = 
+                    ((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1)) + '/' + // Month
+                    (date.getDate()<10?'0'+date.getDate():date.getDate()) + '/' + // Day
+                    date.getFullYear().toString().substr(2, 2); // Year
+
+                // amount
+                amount = this.numberFunction.to_currency(period['transactions'][key]['amount']);
+
+                //#endregion
+
+                //#region determine page mod
+
+                let page_mod = false;
+                let tmpPage = {}
+                if (period['transactions'][key]['offset']['id']!=''){
+                    tmpPage = this.#get_page(pages, period['transactions'][key]['offset']['id']);
+                }
+                if ('page' in tmpPage){ page_mod = (tmpPage['page']%2==0); }
+
+                //#endregion
+                
+                //#region calculate
+
+                page_id = period['transactions'][key]['offset']['id'];
+                let tmpX = 0, tmpY = 0, tmpAmountX, tmpAmountY;
+                if (page_id!=last_page_id){ // start of page
+                    tmpX = this.offset.start.x;
+                    let mod = 0;
+                    if (page_mod){ mod = this.negative.y; }
+
+                    tmpY += this.offset.start.y + mod;
+
+                    let negative = 0;
+                    if (this.#determine_is_negative(period['transactions'][key]['amount'])){ negative = this.negative.x; }
+
+                    let digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
+
+                    tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) + negative;
+                    tmpAmountY = (tmpContent.length==1?0:(90*tmpContent.length-1));
+
+                    last_page_id = page_id;
+                }else{
+                    tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
+
+                    let negative = 0;
+                    if (this.#determine_is_negative(last_amount)){ negative = this.negative.x; }
+
+                    let digit = this.#determine_digit_of_amount(last_amount);
+                    tmpX = parseInt(this.offset.amount_digits[digit].date) + negative;
+
+                    digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
+                    tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) + negative;
+                    tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
+                }
+
+                last_amount = period['transactions'][key]['amount'];
+                count_last_description = tmpContent.length;
+
+                //#endregion
+
+                //#region set pdf content
+
+                // date
+                result += tmpX + ' ' + tmpY + ' Td\n';
+                result += '('+date+')Tj\n';
+                
+                // description
+                tmpY = 0;
+                result += '457 ' + tmpY + ' Td\n';
+                for (let key1 in tmpContent){
+                    if (key1>0){
+                        result += '0 -90 Td\n';
+                    }
+                    result += tmpContent[key1] + "\n";
+                }
+
+                // amount
+                result += tmpAmountX + ' ' + tmpAmountY + ' Td\n';
+                result += '('+amount+')Tj\n';
+
+                //#endregion
+  
+                // set to array
+                let exists = false, exists_index;
+                for (let key1 in period['pdf_content']['transactions']){
+                    if (period['pdf_content']['transactions'][key1]['id']==page_id){
+                        exists = true;
+                        exists_index = key1;
+                        break;
+                    }
+                }
+
+                if (!exists){
+                    period['pdf_content']['transactions'].push({ 'id': page_id, 'page': tmpPage['page'], 'content': result });
+                }else{
+                    period['pdf_content']['transactions'][exists_index]['content'] = result;
+                }
+            }
+        }
+
+        return period;
+    }
+
+    #determine_digit_of_amount(number){
+        let digit = parseInt(number).toString().length;
+        if (digit>7){ digit = 7; } // tmp
+        if (digit<3){ digit = 3; }
+        return digit;
+    }
+
+    #determine_is_negative(number){
+        if ((parseFloat(number)<0)){
+            return true;
+        }
+        return false;
+    }
+
     #get_transaction_pages(period, pages){
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){
@@ -142,7 +315,6 @@ class TransactionFunction {
                 period['transactions'][key]['offset'] = {'id': tmpPage['id'], 'value': tmpResOffset};
             } else { // next page
                 let nextPage = this.#find_next_page(pages, tmpPage['id']);
-                console.log(nextPage);
                 if (nextPage==false){ // it is last page
                     period['transactions'][key]['offset'] = {'id': tmpPage['id'], 'value': tmpResOffset};
                 }else{ // set to next page

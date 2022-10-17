@@ -45,6 +45,10 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
             // get pages of transaction
             tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+            // get pdf contents (lines/transactions)
+            tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+            tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
         }
     
         setStatement(tmpArray);
@@ -60,6 +64,9 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
         // get types of period with values
         tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pdf content (transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
 
         setStatement(tmpArray);
     }
@@ -82,6 +89,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
         // get pdf contents (lines/transactions)
         tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
         setStatement(tmpArray);
     }
 
@@ -204,7 +213,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         decimalsLimit={2}
                                                         name='min'
                                                         placeholder="Min"
-                                                        defaultValue={value['amount_min']}
+                                                        value={value['amount_min']}
                                                         onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
@@ -215,7 +224,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         decimalsLimit={2}
                                                         name='max'
                                                         placeholder="Max"
-                                                        defaultValue={value['amount_max']}
+                                                        value={value['amount_max']}
                                                         onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
