@@ -5,6 +5,9 @@ import DateFunction from "./functions/DateFunction";
 import NumberFunction from "./functions/NumberFunction";
 import TypeFunction from "./functions/TypeFunction";
 import TransactionFunction from "./functions/TransactionFunction";
+import CurrencyInput from "react-currency-input-field";
+import CurrencyFormat from "react-currency-format";
+import { Tab, Tabs } from "react-bootstrap";
 
 
 const Periods = ({statement, setStatement, transactions, types, pages, categories, periodIndex}) => {
@@ -184,29 +187,36 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                             }
                                         </td>
                                         <td className='text-center'>
-                                            <span>{value['amount']}</span>
+                                            <span>
+                                                <CurrencyFormat 
+                                                    value={value['amount']}
+                                                    displayType='text'
+                                                    thousandSeparator={true}
+                                                    decimalScale={2}
+                                                />
+                                            </span>
 
                                             <div className='row mt-2'>
                                                 <div className='col-6 p-0'>
-                                                    <input 
+                                                    <CurrencyInput
                                                         className='form-control'
-                                                        type='number'
+                                                        decimalScale={2}
+                                                        decimalsLimit={2}
                                                         name='min'
-                                                        step='.01'
                                                         placeholder="Min"
-                                                        value={value['amount_min']}
-                                                        onChange={ (e) => { handleAmountChange(e, index) } }
+                                                        defaultValue={value['amount_min']}
+                                                        onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
                                                 <div className='col-6 p-0'>
-                                                    <input 
+                                                    <CurrencyInput
                                                         className='form-control'
-                                                        type='number'
+                                                        decimalScale={2}
+                                                        decimalsLimit={2}
                                                         name='max'
-                                                        step='.01'
                                                         placeholder="Max"
-                                                        value={value['amount_max']}
-                                                        onChange={ (e) => { handleAmountChange(e, index) } }
+                                                        defaultValue={value['amount_max']}
+                                                        onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
                                                 <div className='col-12 p-0 mt-2'>
@@ -245,25 +255,36 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                     <tbody>
                         <tr>
                             <td>
-                                <input 
+                                <CurrencyInput
                                     className="form-control"
-                                    type='number'
-                                    step='.01'
+                                    decimalScale={2}
+                                    decimalsLimit={2}
                                     name='begining_balance'
-                                    placeholder='Begining balance'
-                                    value={statement['periods'][periodIndex]['begining_balance']}
-                                    onChange={ (e) => { handleOnChangeBeginingBalance(e) } }
+                                    placeholder="Begining balance"
+                                    defaultValue={statement['periods'][periodIndex]['begining_balance']}
+                                    onChange={ (e) => { handleOnChangeBeginingBalance({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}) } }
                                 />
                             </td>
                             {
                                 statement['periods'][periodIndex]['types'].map((value, index) => {
                                     return(
-                                        <td key={index}>{value['value']}</td>
+                                        <td key={index}>
+                                            <CurrencyFormat 
+                                                value={value['value']}
+                                                displayType='text'
+                                                thousandSeparator={true}
+                                                decimalScale={2}
+                                            />
+                                        </td>
                                     )
                                 })
                             }
                             <td>
-                                {statement['periods'][periodIndex]['ending_balance']}
+                                <CurrencyFormat
+                                    value={statement['periods'][periodIndex]['ending_balance']}
+                                    displayType='text'
+                                    thousandSeparator={true}
+                                />
                             </td>
                         </tr>
                     </tbody>
