@@ -23,7 +23,14 @@ const Company = ({statement, setStatement, step, setStep}) => {
 
     const handleChange = (e) => {
         const {value, name} = e.target;
-        setStatement({ ...statement, [name]: value });
+        // get company
+        let company = {};
+        for (let key in companies){
+            if (value==companies[key]['id']){
+                company = companies[key];
+            }
+        }
+        setStatement({ ...statement, [name]: value, 'company': company });
         if (value!=''){
             setStep(step+1);
         }
