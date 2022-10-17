@@ -324,7 +324,17 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                     eventKey={index}
                                                     title={ 'Page' + value['page']}
                                                 >
-                                                    { value['content'] }
+                                                    {
+                                                        value['types'].map((value1, index1) => {
+                                                            return (
+                                                                <div key={index1}>
+                                                                    <p>{value1['type_id']}</p>
+                                                                    {value1['content']}
+                                                                </div>
+                                                            )
+                                                        })
+                                                        
+                                                    }
                                                 </Tab>
                                             )
                                         })
@@ -341,9 +351,19 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                 <Tab
                                                     key={index}
                                                     eventKey={index}
-                                                    title={ 'Page' + value['page'] }
+                                                    title={ 'Page' + value['page']}
                                                 >
-                                                    { value['content'] }
+                                                    {
+                                                        value['types'].map((value1, index1) => {
+                                                            return (
+                                                                <div key={index1}>
+                                                                    <p>{value1['type_id']}</p>
+                                                                    {value1['content']}
+                                                                </div>
+                                                            )
+                                                        })
+                                                        
+                                                    }
                                                 </Tab>
                                             )
                                         })

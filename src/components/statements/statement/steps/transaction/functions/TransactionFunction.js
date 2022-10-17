@@ -103,19 +103,37 @@ class TransactionFunction {
                 }
 
                 // set pdf content
-                let exists = false, exists_index;
+                let exists = false, exists_index, type_exists = false, type_exists_index;
                 for (let key1 in period['pdf_content']['lines']){
                     if (period['pdf_content']['lines'][key1]['id']==page_id){
                         exists = true;
                         exists_index = key1;
+                        for (let key2 in period['pdf_content']['lines'][key1]['types']){
+                            if (period['pdf_content']['lines'][key1]['types'][key2]['type_id']==period['transactions'][key]['type_id']){
+                                type_exists = true;
+                                type_exists_index = key2;
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
 
                 if (!exists){
-                    period['pdf_content']['lines'].push({ 'id': page_id, 'page': tmpPage['page'], 'content': result });
+                    period['pdf_content']['lines'].push({ 'id': page_id, 'page': tmpPage['page'], 'types': [{
+                            'type_id': period['transactions'][key]['type_id'],
+                            'content': result
+                        }]  
+                    });
                 }else{
-                    period['pdf_content']['lines'][exists_index]['content'] = result;
+                    if (!type_exists){
+                        period['pdf_content']['lines'][exists_index]['types'].push({
+                            'type_id': period['transactions'][key]['type_id'],
+                            'content': result
+                        });
+                    }else{
+                        period['pdf_content']['lines'][exists_index]['types'][type_exists_index]['content'] = result;
+                    }
                 }
             }
         }
@@ -227,19 +245,37 @@ class TransactionFunction {
                 //#endregion
   
                 // set to array
-                let exists = false, exists_index;
+                let exists = false, exists_index, type_exists = false, type_exists_index;
                 for (let key1 in period['pdf_content']['transactions']){
                     if (period['pdf_content']['transactions'][key1]['id']==page_id){
                         exists = true;
                         exists_index = key1;
+                        for (let key2 in period['pdf_content']['transactions'][key1]['types']){
+                            if (period['pdf_content']['transactions'][key1]['types'][key2]['type_id']==period['transactions'][key]['type_id']){
+                                type_exists = true;
+                                type_exists_index = key2;
+                                break;
+                            }
+                        }
                         break;
                     }
                 }
 
                 if (!exists){
-                    period['pdf_content']['transactions'].push({ 'id': page_id, 'page': tmpPage['page'], 'content': result });
+                    period['pdf_content']['transactions'].push({ 'id': page_id, 'page': tmpPage['page'], 'types': [{
+                            'type_id': period['transactions'][key]['type_id'],
+                            'content': result
+                        }]  
+                    });
                 }else{
-                    period['pdf_content']['transactions'][exists_index]['content'] = result;
+                    if (!type_exists){
+                        period['pdf_content']['transactions'][exists_index]['types'].push({
+                            'type_id': period['transactions'][key]['type_id'],
+                            'content': result
+                        });
+                    }else{
+                        period['pdf_content']['transactions'][exists_index]['types'][type_exists_index]['content'] = result;
+                    }
                 }
             }
         }
