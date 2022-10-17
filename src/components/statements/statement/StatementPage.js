@@ -46,6 +46,10 @@ const StatementsPage = () => {
         // helper
         'types': [],
         'pages': [],
+        'pdf_content': {
+            'lines': [],
+            'transactions': []
+        },
     };
 
     const entityTransaction = {

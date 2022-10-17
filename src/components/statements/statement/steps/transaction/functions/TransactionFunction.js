@@ -50,6 +50,41 @@ class TransactionFunction {
         return result;
     }
 
+    get_pdf_content_lines(period, pages){
+        const standart = "0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 {offset} m\n4800 {offset} l\nS";
+        let result = '', page_id = '', last_page_id = '';
+        for (let key in period['transactions']){
+            if (period['transactions'][key]['offset']['id']!=''){
+                page_id = period['transactions'][key]['offset']['id'];
+                let tmpPage = this.#get_page(pages, page_id);
+                if (page_id!=last_page_id){ // new page
+                    last_page_id = page_id;
+                    result = standart.replaceAll("{offset}", tmpPage['start_offset']) + "\n";
+                    result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
+                }else{
+                    result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
+                }
+
+                // set pdf content
+                let exists = false, exists_index;
+                for (let key1 in period['pdf_content']['lines']){
+                    if (period['pdf_content']['lines'][key1]['id']==page_id){
+                        exists = true;
+                        exists_index = key1;
+                        break;
+                    }
+                }
+
+                if (!exists){
+                    period['pdf_content']['lines'].push({ 'id': page_id, 'page': tmpPage['page'], 'content': result });
+                }else{
+                    period['pdf_content']['lines'][exists_index]['content'] = result;
+                }
+            }
+        }
+
+        return period;
+    }
     #get_transaction_pages(period, pages){
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){

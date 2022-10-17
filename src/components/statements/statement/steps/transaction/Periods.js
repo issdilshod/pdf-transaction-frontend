@@ -77,6 +77,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         // get pages of transaction
         tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
 
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
         setStatement(tmpArray);
     }
 
@@ -155,7 +157,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                         {
                                             statement['periods'][periodIndex]['pages'].map((value1, index1) => {
                                                 return (
-                                                    <td key={index}>
+                                                    <td key={index1}>
                                                         { (value1['id']==value['offset']['id']) &&
                                                             value['offset']['value']
                                                         }
@@ -280,11 +282,43 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                     </thead>
                     <tbody>
                         <tr>
-                            <td>
-                                
+                            <td className='col-desc'>
+                                <Tabs
+                                    defaultActiveKey='0'
+                                >
+                                    {
+                                        statement['periods'][periodIndex]['pdf_content']['lines'].map((value, index) => {
+                                            return (
+                                                <Tab
+                                                    key={index}
+                                                    eventKey={index}
+                                                    title={ 'Page' + value['page']}
+                                                >
+                                                    { value['content'] }
+                                                </Tab>
+                                            )
+                                        })
+                                    }
+                                </Tabs>
                             </td>
-                            <td>
-                                
+                            <td className='col-desc'>
+                                <Tabs
+                                    defaultActiveKey='0'
+                                >
+                                    {
+                                        statement['periods'][periodIndex]['pdf_content']['transactions'].map((value, index) => {
+                                            return (
+                                                <Tab
+                                                    key={index}
+                                                    eventKey={index}
+                                                    title={ 'Page' + value['page'] }
+                                                >
+                                                    { value['content'] }
+                                                </Tab>
+                                            )
+                                        })
+                                    }
+                                </Tabs>
                             </td>
                         </tr>
                     </tbody>
