@@ -167,6 +167,9 @@ class TransactionFunction {
                 page_id = period['transactions'][key]['offset']['id'];
                 let tmpX = 0, tmpY = 0, tmpAmountX, tmpAmountY;
                 if (page_id!=last_page_id){ // start of page
+                    // reset
+                    result = '';
+
                     tmpX = this.offset.start.x;
                     let mod = 0;
                     if (page_mod){ mod = this.negative.y; }
