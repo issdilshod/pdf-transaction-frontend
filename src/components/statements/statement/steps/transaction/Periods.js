@@ -328,7 +328,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         value['types'].map((value1, index1) => {
                                                             return (
                                                                 <div key={index1}>
-                                                                    <p>{value1['type_id']}</p>
+                                                                    <p className='mt-2'><b>{typeFunction.getTypeName(value1['type_id'], types)}</b></p>
                                                                     {value1['content']}
                                                                 </div>
                                                             )
@@ -357,7 +357,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         value['types'].map((value1, index1) => {
                                                             return (
                                                                 <div key={index1}>
-                                                                    <p>{value1['type_id']}</p>
+                                                                    <p className='mt-2'><b>{typeFunction.getTypeName(value1['type_id'], types)}</b></p>
                                                                     {value1['content']}
                                                                 </div>
                                                             )
