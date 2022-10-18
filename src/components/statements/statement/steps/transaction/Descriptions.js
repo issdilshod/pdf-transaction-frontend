@@ -2,15 +2,11 @@ import * as DESCRIPTIONRULES_CONSTS from '../../../../../consts/DescriptionRuleC
 import * as DESCRIPTIONRULEVALUE_CONSTS from '../../../../../consts/DescriptionRuleValueConsts';
 import DescriptionFunction from './functions/DescriptionFunction';
 
-const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, description, transaction, onCustomerClick, onCompanyClick, onSenderClick, onRandomClick, onSelectClick, onTypeClick}) => {
+const Descriptions = ({statement, periodIndex, transactionIndex, descriptionIndex, description, transaction, onCustomerClick, onSenderClick, onRandomClick, onSelectClick, onTypeClick}) => {
     const descriptionFunction = new DescriptionFunction();
 
     const onCustomerClickLocal = (index) => {
         console.log(index, 'customer clicked');
-    }
-
-    const onCompanyClickLoacal = (index) => {
-        console.log(index, 'company clicked');
     }
 
     const onSenderClickLocal = (index) => {
@@ -22,7 +18,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
     }
 
     const onSelectClickLocal = (index) => {
-        console.log(index, 'select clicked');
+        onSelectClick(transactionIndex, descriptionIndex, index);
     }
 
     const onTypeClickLocal = (index) => {
@@ -99,10 +95,8 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
                             { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.VALUE) && // value
                                 <>
                                     { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.COMPANY &&
-                                        <b
-                                            onClick={ () => { onCompanyClickLoacal(index) } }
-                                        >
-                                            { descriptionFunction.get_value(transaction, value) }
+                                        <b>
+                                            { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
                                     }
 
@@ -110,7 +104,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
                                         <b
                                             onClick={ () => { onCustomerClickLocal(index) } }
                                         >
-                                            { descriptionFunction.get_value(transaction, value) }
+                                            { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
                                     }
 
@@ -118,13 +112,13 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
                                         <b
                                             onClick={ () => { onSenderClickLocal(index) } }
                                         >
-                                            { descriptionFunction.get_value(transaction, value) }
+                                            { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
                                     }
 
                                     { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERID &&
                                         <b>
-                                            { descriptionFunction.get_value(transaction, value) }
+                                            { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
                                     }
                                     

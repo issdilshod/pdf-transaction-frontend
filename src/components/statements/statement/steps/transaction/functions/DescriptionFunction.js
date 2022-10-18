@@ -41,7 +41,12 @@ class DescriptionFunction {
 
     get_select(description, index){
         let result = JSON.parse(description['value']);
-        result = result[index]['val'];
+        result = JSON.parse(result[index]);
+        if (result['val']==''){ // then get standart
+            result = description['description']['rules'][index]['description_rule']['value'];
+        }else{
+            result = result['val'];
+        }
         return result;
     }
 
@@ -66,11 +71,11 @@ class DescriptionFunction {
         return result;
     }
 
-    get_value(transaction, description){
+    get_value(statement, period, transaction, description){
         let result = '';
         let typeOfValue = description['description_rule']['value'];
         if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
-
+            
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
 
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
@@ -107,7 +112,7 @@ class DescriptionFunction {
             }else if (type==DESCRIPTIONRULES_CONSTS.YEAR_MONTH_DAY){
                 result += this.get_year_month_day(transaction);
             }else if (type==DESCRIPTIONRULES_CONSTS.VALUE){
-                result += this.get_value(transaction, description['description']['rules'][key]);
+                result += this.get_value(statement, period, transaction, description['description']['rules'][key]);
             }
         }
         return result;

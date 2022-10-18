@@ -27,6 +27,9 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
     const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
 
+    const [selectFormEntity, setSelectFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
+    const [selectForm, setSelectForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
+
     /* Handle Globe */
 
     const handleRemovePeriod = () => {
@@ -263,6 +266,60 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setRandomForm(randomFormEntity);
 
     }
+
+    /* Handle Select */
+
+    const handleSelectClick = (transactionIndex, descriptionIndex, index) => {
+        let tmpArray = {...statement};
+        let value = tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex];
+        value = JSON.parse(value['value']);
+        value = JSON.parse(value[index]);
+        
+        setSelectForm({ ...randomForm, 
+            'show': true, 
+            'transactionIndex': transactionIndex, 'descriptionIndex': descriptionIndex, 'index': index, 
+            'variants': value['value'], 'val': value['val'], 
+            'description': descriptionFunction.get_string_description(statement, statement['periods'][periodIndex], statement['periods'][periodIndex]['transactions'][transactionIndex], tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex]) });
+    }
+
+    const handleSelectClose = () => {
+        setSelectForm(selectFormEntity)
+    }
+
+    const handleSelectChange = (e) => {
+        const { value, name } = e.target;
+        setSelectForm({ ...selectForm, [name]: value });
+    }
+
+    const handleSelectSave = (e) => {
+        e.preventDefault();
+
+        // set data
+        let tmpArray = {...statement};
+        let description = tmpArray['periods'][periodIndex]['transactions'][selectForm.transactionIndex]['descriptions'][selectForm.descriptionIndex];
+        let values = JSON.parse(description['value']);
+        let value = JSON.parse(values[selectForm.index]);
+        value['val'] = selectForm.val;
+        //reverse
+        values[selectForm.index] = JSON.stringify(value);
+        description['value'] = JSON.stringify(values);
+        tmpArray['periods'][periodIndex]['transactions'][selectForm.transactionIndex]['descriptions'][selectForm.descriptionIndex] = description;
+ 
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setSelectForm(selectFormEntity);
+    }
+
     
 
     return (
@@ -385,6 +442,58 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                         </div>
                     </div>
                 </div>
+
+                <div id='select' className={`c-modal ${!selectForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Choose variants</div>
+                                <div className='c-times' onClick={ () => { handleSelectClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+                                    <div className='col-12'>
+                                        <p>{selectForm['description']}</p>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <label>Variants</label>
+                                            <select 
+                                                className='form-control'
+                                                name='val'
+                                                value={selectForm['val']}
+                                                onChange={ (e) => { handleSelectChange(e) } }
+                                            >
+                                                <option></option>
+                                                {
+                                                    selectForm['variants'].map((value, index) => {
+                                                        return (
+                                                            <option key={index}>{value}</option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group text-right">
+                                            <button 
+                                                className='c-btn c-btn-primary'
+                                                onClick={ (e) => { handleSelectSave(e) } }
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
 
             <div className='d-flex'>
@@ -475,8 +584,11 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             descriptionIndex={index1}
                                                             description={value1}
                                                             transaction={value}
-                                                            // random consts
+                                                            statement={statement}
+                                                            // random event
                                                             onRandomClick={handleRandomClick}
+                                                            // select event
+                                                            onSelectClick={handleSelectClick}
                                                         />
                                                     )
                                                 })
