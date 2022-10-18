@@ -12,12 +12,16 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
     const api = new Api();
     const dateFunction = new DateFunction();
 
-    //#region Types, Holidays
-
     const [types, setTypes] = useState([]);
     const [holidays, setHolidays] = useState([]);
     const [pages, setPages] = useState([]);
     const [categories, setCategories] = useState([]);
+
+    const [manualPeriod, setManualPeriod] = useState({
+        'period': '',
+        'type_id': '',
+        'total': ''
+    });
 
     useEffect(() => {
         api.request('/api/transaction-type', 'GET')
@@ -48,10 +52,6 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
                 }
             })
     }, []);
-
-    //#endregion
-
-    //#region Click add transactions MANUAL
 
     const handleAddTransaction = () => {
         if (manualPeriod['period']!='' && manualPeriod['type_id']!='' && manualPeriod['total']!=''){
@@ -92,22 +92,12 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
         }   
     }
 
-    //#endregion
-
-    //#region Create Transaction
-
-    const [manualPeriod, setManualPeriod] = useState({
-        'period': '',
-        'type_id': '',
-        'total': ''
-    });
-
     const handleManualChange = (e) => {
         const { value, name } = e.target;
         setManualPeriod({ ...manualPeriod, [name]: value });
     }
 
-    //#endregion
+    
 
     return (
         <>
@@ -155,7 +145,7 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
             </div>
 
             <div className='transaction-info'>
-                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} />
+                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} holidays={holidays} />
             </div>
         </>
         

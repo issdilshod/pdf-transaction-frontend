@@ -39,6 +39,10 @@ a{
     overflow: hidden;
 }
 
+.t-cursor-pointer{
+    cursor: pointer;
+}
+
 /* Forms */
 .form-group{
     margin-bottom: 8px;
@@ -157,6 +161,11 @@ a{
 
 .ml-4{
     margin-left: 1rem;
+}
+
+/* Paddings */
+.p-2{
+    padding: 20px !important;
 }
 
 .text-left{

@@ -1,4 +1,5 @@
-import { FaCheck, FaTrash } from "react-icons/fa";
+import { useState } from "react";
+import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import Descriptions from "./Descriptions";
 import CategoryFunction from "./functions/CategoryFunction";
 import DateFunction from "./functions/DateFunction";
@@ -10,13 +11,16 @@ import CurrencyFormat from "react-currency-format";
 import { Tab, Tabs } from "react-bootstrap";
 
 
-const Periods = ({statement, setStatement, transactions, types, pages, categories, periodIndex}) => {
+const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, periodIndex}) => {
 
     const typeFunction = new TypeFunction();
     const dateFunction = new DateFunction()
     const numberFunction = new NumberFunction();
     const categoryFunction = new CategoryFunction();
     const transactionFunction = new TransactionFunction();
+
+    const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
+    const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
 
     const handleAmountChange = (e, index) => {
         const {value, name} = e.target;
@@ -105,8 +109,150 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setStatement(tmpArray);
     }
 
+    const handleDateClick = (index) => {
+        let tmpArray = transactions;
+        let date = dateFunction.get_fullyear_month_day(tmpArray[index]['date']);
+        let time = dateFunction.get_hour_minute(tmpArray[index]['date']);
+        let dateFirst = dateFunction.get_first_day(statement['periods'][periodIndex]['period']);
+        setDateForm({ ...dateForm, show: true, transactionIndex: index, date: date, time: time, min: dateFirst, max: statement['periods'][periodIndex]['period'] });
+    }
+
+    const handleDateClose = () => {
+        setDateForm(dateFormEntity);
+    }
+
+    const handleDateChange = (e) => {
+        const { value, name } = e.target;
+        setDateForm({ ...dateForm, [name]: value });
+    }
+
+    const handleDateSave = (e) => {
+        e.preventDefault();
+        let tmpArray = {...statement};
+        let tmpDate = new Date(dateForm['date'] + ' ' + dateForm['time']);
+        
+        // check holidays/time
+        let on_holiday = false, holiday_index;
+        for (let key in holidays){
+            if (holidays[key]['date']==dateForm['date']){
+                on_holiday = true;
+                holiday_index = key;
+                break;
+            }
+        }
+
+        let on_weekend = false;
+        if (tmpDate.getDay()=='0' || tmpDate.getDay()=='6'){
+            on_weekend = true;
+        }
+
+        let out_time = false;
+        if (tmpDate.getHours()<'9' || tmpDate.getHours()>'16'){
+            out_time = true;
+        }
+
+        // TODO: Alert to ui
+        if (on_holiday){
+            alert('Can\'t choose holiday ' + holidays[holiday_index]['name'] + ' date.');
+            return false;
+        }
+
+        if (on_weekend){
+            alert('Can\'t choose weekend date.');
+            return false;
+        }
+
+        if (out_time){
+            alert('Can\'t choose time before 9AM and after 5PM.');
+            return false;
+        }
+        
+        tmpArray['periods'][dateForm['periodIndex']]['transactions'][dateForm['transactionIndex']]['date'] = tmpDate;
+
+        // sort array
+        tmpArray['periods'][dateForm['periodIndex']]['transactions'].sort(function(a, b) {
+            return a.type_id.localeCompare(b.type_id) || new Date(a.date) - new Date(b.date);
+        });
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setDateForm(dateFormEntity);
+    }
+
+    
+
     return (
         <div className='mt-2'>
+
+            <>
+                <div className={`c-modal ${!dateForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Date choose</div>
+                                <div className='c-times' onClick={ () => { handleDateClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <label>Date</label>
+                                            <input 
+                                                className="form-control"
+                                                type="date"
+                                                placeholder="Date"
+                                                name='date'
+                                                value={ dateForm['date'] }
+                                                min={ dateForm['min'] }
+                                                max={ dateForm['max'] }
+                                                onChange={ (e) => { handleDateChange(e) } }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <label>Time</label>
+                                            <input 
+                                                className="form-control"
+                                                type="time"
+                                                placeholder="Time"
+                                                name='time'
+                                                value={ dateForm['time'] }
+                                                onChange={ (e) => { handleDateChange(e) } }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group text-right">
+                                            <button 
+                                                className='c-btn c-btn-primary'
+                                                onClick={ (e) => { handleDateSave(e) } }
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+
             <div className='d-flex'>
                 <div className='mr-auto'>
                     <b>Transactions</b>
@@ -147,7 +293,12 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                             </button>
                                             {index+1}
                                         </td>
-                                        <td>{dateFunction.beautifulDateTime(value['date'])}</td>
+                                        <td 
+                                            className='t-cursor-pointer'
+                                            onClick={ () => { handleDateClick(index) } }
+                                        >
+                                            {dateFunction.beautifulDateTime(value['date'])}
+                                        </td>
                                         <td>{typeFunction.getTypeName(value['type_id'], types)}</td>
                                         <td>
                                             <select

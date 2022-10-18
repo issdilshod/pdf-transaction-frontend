@@ -3,7 +3,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import DateFunction from './functions/DateFunction';
 import Periods from './Periods';
 
-const Transactions = ({statement, setStatement, types, pages, categories}) => {
+const Transactions = ({statement, setStatement, types, pages, categories, holidays}) => {
 
     const dateFunction = new DateFunction();
 
@@ -23,7 +23,7 @@ const Transactions = ({statement, setStatement, types, pages, categories}) => {
                                         eventKey={index}
                                         title={ dateFunction.beautifulDate(value['period']) }
                                     >
-                                        <Periods statement={statement} setStatement={setStatement} transactions={statement['periods'][index]['transactions']} types={types} pages={pages} categories={categories} periodIndex={index} />
+                                        <Periods statement={statement} setStatement={setStatement} transactions={statement['periods'][index]['transactions']} types={types} pages={pages} categories={categories} holidays={holidays} periodIndex={index} />
                                     </Tab>
                             )
                         })

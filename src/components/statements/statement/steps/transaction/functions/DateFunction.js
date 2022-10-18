@@ -62,6 +62,27 @@ class DateFunction{
         return result;
     }
 
+    get_fullyear_month_day(date){
+        date = new Date(date);
+        let tmpDate = date.getFullYear() + '-' + 
+                        ((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1)) + '-' + 
+                        (date.getDate()<10?'0'+date.getDate():date.getDate());
+        return tmpDate;
+    }
+
+    get_hour_minute(date){
+        date = new Date(date);
+        let tmpDate = (date.getHours()<10?'0'+date.getHours():date.getHours()) + ':' + 
+                        (date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
+        return tmpDate;
+    }
+
+    get_first_day(date){
+        date = new Date(date);
+        let tmpDate = new Date(date.getFullYear(), date.getMonth(), 1);
+        return this.get_fullyear_month_day(tmpDate);
+    }
+
 }
 
 export default DateFunction;
