@@ -24,6 +24,9 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
     const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
 
+    const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
+    const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
+
     /* Handle Globe */
 
     const handleRemovePeriod = () => {
@@ -202,8 +205,6 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     }
 
     /* Handle Random */
-    const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
-    const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
 
     const handleRandomClick = (transactionIndex, descriptionIndex, index) => {
         let tmpArray = {...statement};
