@@ -9,7 +9,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
         console.log(index, 'customer clicked');
     }
 
-    const onCompanyClickLoacl = (index) => {
+    const onCompanyClickLoacal = (index) => {
         console.log(index, 'company clicked');
     }
 
@@ -18,7 +18,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
     }
 
     const onRandomClickLocal = (index) => {
-        console.log(index, 'random clicked');
+        onRandomClick(transactionIndex, descriptionIndex, index);
     }
 
     const onSelectClickLocal = (index) => {
@@ -31,6 +31,13 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
     
     return (
         <p>
+            <>
+                <div className={`c-modal c-modal-hide`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form-head d-flex'>head</div>
+                    </div>
+                </div>
+            </>
             {
                 description['description']['rules'].map((value, index) => {
                     return (
@@ -93,7 +100,7 @@ const Descriptions = ({periodIndex, transactionIndex, descriptionIndex, descript
                                 <>
                                     { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.COMPANY &&
                                         <b
-                                            onClick={ () => { onCompanyClickLoacl(index) } }
+                                            onClick={ () => { onCompanyClickLoacal(index) } }
                                         >
                                             { descriptionFunction.get_value(transaction, value) }
                                         </b>

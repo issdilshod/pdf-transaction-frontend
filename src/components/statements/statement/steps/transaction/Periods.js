@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import Descriptions from "./Descriptions";
 import CategoryFunction from "./functions/CategoryFunction";
@@ -9,6 +9,7 @@ import TransactionFunction from "./functions/TransactionFunction";
 import CurrencyInput from "react-currency-input-field";
 import CurrencyFormat from "react-currency-format";
 import { Tab, Tabs } from "react-bootstrap";
+import DescriptionFunction from "./functions/DescriptionFunction";
 
 
 const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, periodIndex}) => {
@@ -18,6 +19,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const numberFunction = new NumberFunction();
     const categoryFunction = new CategoryFunction();
     const transactionFunction = new TransactionFunction();
+    const descriptionFunction = new DescriptionFunction();
 
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
     const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
@@ -198,13 +200,75 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
         setDateForm(dateFormEntity);
     }
+
+    /* Handle Random */
+    const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
+    const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
+
+    const handleRandomClick = (transactionIndex, descriptionIndex, index) => {
+        let tmpArray = {...statement};
+        let value = tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex];
+        value = JSON.parse(value['value']);
+        value = JSON.parse(value[index]);
+        
+        setRandomForm({ ...randomForm, 
+            'show': true, 
+            'transactionIndex': transactionIndex, 'descriptionIndex': descriptionIndex, 'index': index, 
+            'min': value['min'], 'max': value['max'], 'val': value['val'], 
+            'mmin': value['min'], 'mmax': value['max'],
+            'description': descriptionFunction.get_string_description(statement, statement['periods'][periodIndex], statement['periods'][periodIndex]['transactions'][transactionIndex], tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex]) });
+    }
+
+    const handleRandomClose = () => {
+        setRandomForm(randomFormEntity)
+    }
+
+    const handleRandomChange = (e) => {
+        const { value, name } = e.target;
+
+        // TODO: Check number is not less or over min&max
+
+        setRandomForm({ ...randomForm, [name]: value });
+    }
+
+    const handleRandomGen = (e) => {
+        e.preventDefault();
+
+        let tmpRandom = parseInt(numberFunction.random(randomForm['min'], randomForm['max']));
+
+        // set data
+        let tmpArray = {...statement};
+        let description = tmpArray['periods'][periodIndex]['transactions'][randomForm.transactionIndex]['descriptions'][randomForm.descriptionIndex];
+        let values = JSON.parse(description['value']);
+        let value = JSON.parse(values[randomForm.index]);
+        value['min'] = randomForm['min']; value['max'] = randomForm['max']; value['val'] = tmpRandom;
+        //reverse
+        values[randomForm.index] = JSON.stringify(value);
+        description['value'] = JSON.stringify(values);
+        tmpArray['periods'][periodIndex]['transactions'][randomForm.transactionIndex]['descriptions'][randomForm.descriptionIndex] = description;
+ 
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setRandomForm(randomFormEntity);
+
+    }
     
 
     return (
         <div className='mt-2'>
 
             <>
-                <div className={`c-modal ${!dateForm['show']?'c-modal-hide':''}`}>
+                <div id='date' className={`c-modal ${!dateForm['show']?'c-modal-hide':''}`}>
                     <div className='c-modal-window'>
                         <div className='c-form'>
                             <div className='c-form-head d-flex'>
@@ -252,6 +316,66 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                 onClick={ (e) => { handleDateSave(e) } }
                                             >
                                                 Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='random' className={`c-modal ${!randomForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Random generate</div>
+                                <div className='c-times' onClick={ () => { handleRandomClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+                                    <div className='col-12'>
+                                        <p>{randomForm['description']}</p>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group">
+                                            <label>Min</label>
+                                            <input 
+                                                className="form-control"
+                                                type="number"
+                                                placeholder="Min"
+                                                name='min'
+                                                value={ randomForm['min'] }
+                                                min={ randomForm['mmin'] }
+                                                onChange={ (e) => { handleRandomChange(e) } }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-sm-6">
+                                        <div className="form-group">
+                                            <label>Max</label>
+                                            <input 
+                                                className="form-control"
+                                                type="number"
+                                                placeholder="Max"
+                                                name='max'
+                                                value={ randomForm['max'] }
+                                                max={ randomForm['mmax'] }
+                                                onChange={ (e) => { handleRandomChange(e) } }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group text-right">
+                                            <button 
+                                                className='c-btn c-btn-primary'
+                                                onClick={ (e) => { handleRandomGen(e) } }
+                                            >
+                                                Generate
                                             </button>
                                         </div>
                                     </div>
@@ -350,6 +474,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             descriptionIndex={index1}
                                                             description={value1}
                                                             transaction={value}
+                                                            // random consts
+                                                            onRandomClick={handleRandomClick}
                                                         />
                                                     )
                                                 })
