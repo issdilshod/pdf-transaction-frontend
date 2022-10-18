@@ -22,12 +22,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
     const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
 
-    const handleAmountChange = (e, index) => {
-        const {value, name} = e.target;
-        let tmpArray = {...statement};
-        tmpArray['periods'][periodIndex]['transactions'][index]['amount_'+name] = value;
-        setStatement(tmpArray);
-    }
+    /* Handle Globe */
 
     const handleRemovePeriod = () => {
         let tmpArray = {...statement};
@@ -58,22 +53,20 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setStatement(tmpArray);
     }
 
-    const handleAmountGen = (index) => {
+    /* Handle Begining balance */
+
+    const handleOnChangeBeginingBalance = (e) => {
+        const { value } = e.target;
         let tmpArray = {...statement};
-        let amount = numberFunction.random(tmpArray['periods'][periodIndex]['transactions'][index]['amount_min'], tmpArray['periods'][periodIndex]['transactions'][index]['amount_max']);
-        tmpArray['periods'][periodIndex]['transactions'][index]['amount'] = amount;
+        tmpArray['periods'][periodIndex]['begining_balance'] = value;
 
         // calc ending balance
         tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
 
-        // get types of period with values
-        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
-
-        // get pdf content (transactions)
-        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
-
         setStatement(tmpArray);
     }
+
+    /* Handle Category */
 
     const handleCategoryChange = (e, type_id, index) => {
         const { value } = e.target;
@@ -98,16 +91,33 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setStatement(tmpArray);
     }
 
-    const handleOnChangeBeginingBalance = (e) => {
-        const { value } = e.target;
+    /* Hanlde Amount */
+
+    const handleAmountChange = (e, index) => {
+        const {value, name} = e.target;
         let tmpArray = {...statement};
-        tmpArray['periods'][periodIndex]['begining_balance'] = value;
+        tmpArray['periods'][periodIndex]['transactions'][index]['amount_'+name] = value;
+        setStatement(tmpArray);
+    }
+
+    const handleAmountGen = (index) => {
+        let tmpArray = {...statement};
+        let amount = numberFunction.random(tmpArray['periods'][periodIndex]['transactions'][index]['amount_min'], tmpArray['periods'][periodIndex]['transactions'][index]['amount_max']);
+        tmpArray['periods'][periodIndex]['transactions'][index]['amount'] = amount;
 
         // calc ending balance
         tmpArray['periods'][periodIndex]['ending_balance'] = transactionFunction.calc_ending_balance(tmpArray['periods'][periodIndex]);
 
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pdf content (transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
         setStatement(tmpArray);
     }
+
+    /* Handle Date */
 
     const handleDateClick = (index) => {
         let tmpArray = transactions;
@@ -188,7 +198,6 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
         setDateForm(dateFormEntity);
     }
-
     
 
     return (
