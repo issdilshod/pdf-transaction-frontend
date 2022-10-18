@@ -10,7 +10,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
     }
 
     const onSenderClickLocal = (index) => {
-        console.log(index, 'sender clicked');
+        onSenderClick(transactionIndex, descriptionIndex, index);
     }
 
     const onRandomClickLocal = (index) => {

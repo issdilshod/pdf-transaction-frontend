@@ -12,7 +12,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import DescriptionFunction from "./functions/DescriptionFunction";
 
 
-const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, periodIndex}) => {
+const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, senders, periodIndex}) => {
 
     const typeFunction = new TypeFunction();
     const dateFunction = new DateFunction()
@@ -382,7 +382,60 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setTypeForm(typeFormEntity);
     }
 
+    /* Handle Sender */
 
+    // sender
+    const [senderFormEntity, setSenderFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
+    const [senderForm, setSenderForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
+
+    const handleSenderClick = (transactionIndex, descriptionIndex, index) => {
+        let tmpArray = {...statement};
+        let sender_id = '';
+
+        if (tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['sender']!=null){
+            sender_id = tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['sender']['id'];
+        }
+        
+        setSenderForm({ ...senderForm, 
+            'show': true, 
+            'transactionIndex': transactionIndex, 'descriptionIndex': descriptionIndex, 'index': index, 
+            'sender_id': sender_id, 
+            'description': descriptionFunction.get_string_description(statement, statement['periods'][periodIndex], statement['periods'][periodIndex]['transactions'][transactionIndex], tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex]) });
+    }
+
+    const handleSenderClose = () => {
+        setSenderForm(senderFormEntity);
+    }
+
+    const handleSenderChoose = (id) => {
+        let tmpArray = {...statement};
+
+        // find sender
+        let sender = {};
+        for (let key in senders){
+            if (senders[key]['id']==id){
+                sender = senders[key];
+            }
+        }
+        
+        tmpArray['periods'][senderForm.periodIndex]['transactions'][senderForm.transactionIndex]['sender_id'] = id;
+        tmpArray['periods'][senderForm.periodIndex]['transactions'][senderForm.transactionIndex]['sender'] = sender;
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setSenderForm(senderFormEntity);
+
+    }
 
     return (
         <div className='mt-2'>
@@ -599,6 +652,47 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                         </div>
                     </div>
                 </div>
+
+                <div id='sender' className={`c-modal ${!senderForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Choose sender</div>
+                                <div className='c-times' onClick={ () => { handleSenderClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+                                    <div className='col-12'>
+                                        <p>{senderForm['description']}</p>
+                                    </div>
+                                    {
+                                        senders.map((value, index) => {
+                                            return(
+                                                <div key={index} className="col-12">
+                                                    <div className="form-group">
+                                                        <input 
+                                                            id={`sender${index}`}
+                                                            className='t-cursor-pointer mr-2'
+                                                            type='radio'
+                                                            name='val'
+                                                            value={senderForm['sender_id']}
+                                                            onClick={ () => { handleSenderChoose(value['id']) } }
+                                                        />
+                                                        <label className='t-cursor-pointer' htmlFor={`sender${index}`}>{value['name']} - {value['it_id']}</label>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
 
             <div className='d-flex'>
@@ -696,6 +790,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             onSelectClick={handleSelectClick}
                                                             // type event
                                                             onTypeClick={handleTypeClick}
+                                                            // sender event
+                                                            onSenderClick={handleSenderClick}
                                                         />
                                                     )
                                                 })

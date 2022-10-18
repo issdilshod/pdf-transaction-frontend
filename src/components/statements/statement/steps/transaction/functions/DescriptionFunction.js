@@ -85,9 +85,14 @@ class DescriptionFunction {
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
             typeOfValue = statement['organization']['name'];
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
-
+            if (transaction['sender_id']!=''){
+                typeOfValue = transaction['sender']['name'];
+            }
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID) {
+            if (transaction['sender_id']!=''){
+                typeOfValue = transaction['sender']['it_id'];
+            }
         }
-        //TODO: find real data and set
         result = typeOfValue;
         return result;
     }
