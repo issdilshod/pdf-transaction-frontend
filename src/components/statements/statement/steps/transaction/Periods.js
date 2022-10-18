@@ -21,14 +21,21 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const transactionFunction = new TransactionFunction();
     const descriptionFunction = new DescriptionFunction();
 
+    // date
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
     const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
 
+    // random
     const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
     const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
 
+    // select
     const [selectFormEntity, setSelectFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
     const [selectForm, setSelectForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
+
+    // typig
+    const [typeFormEntity, setTypeFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
+    const [typeForm, setTypeForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
 
     /* Handle Globe */
 
@@ -320,7 +327,62 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setSelectForm(selectFormEntity);
     }
 
-    
+    /* Handle Typing */
+
+    const handleTypeClick = (transactionIndex, descriptionIndex, index) => {
+        let tmpArray = {...statement};
+        let value = tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex];
+        value = JSON.parse(value['value']);
+        value = JSON.parse(value[index]);
+
+        if (value==null){ value = ''; }
+        
+        setTypeForm({ ...typeForm, 
+            'show': true, 
+            'transactionIndex': transactionIndex, 'descriptionIndex': descriptionIndex, 'index': index, 
+            'val': value, 
+            'description': descriptionFunction.get_string_description(statement, statement['periods'][periodIndex], statement['periods'][periodIndex]['transactions'][transactionIndex], tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex]) });
+    }
+
+    const handleTypeClose = () => {
+        setTypeForm(typeFormEntity);
+    }
+
+    const handleTypeChange = (e) => {
+        const { value } = e.target;
+        setTypeForm({ ...typeForm, 'val': value });
+    }
+
+    const handleTypeSave = (e) => {
+        e.preventDefault();
+
+        // set data
+        let tmpArray = {...statement};
+        let description = tmpArray['periods'][periodIndex]['transactions'][typeForm.transactionIndex]['descriptions'][typeForm.descriptionIndex];
+        let values = JSON.parse(description['value']);
+        let value = JSON.parse(values[typeForm.index]);
+        value = typeForm.val;
+        //reverse
+        values[typeForm.index] = JSON.stringify(value);
+        description['value'] = JSON.stringify(values);
+        tmpArray['periods'][periodIndex]['transactions'][typeForm.transactionIndex]['descriptions'][typeForm.descriptionIndex] = description;
+ 
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setTypeForm(typeFormEntity);
+    }
+
+
 
     return (
         <div className='mt-2'>
@@ -494,6 +556,49 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                         </div>
                     </div>
                 </div>
+
+                <div id='type' className={`c-modal ${!typeForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Text for description</div>
+                                <div className='c-times' onClick={ () => { handleTypeClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+                                    <div className='col-12'>
+                                        <p>{typeForm['description']}</p>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group">
+                                            <label>Your text</label>
+                                            <input 
+                                                className='form-control'
+                                                type='text'
+                                                value={typeForm['val']}
+                                                onChange={ (e) => { handleTypeChange(e) } }
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="form-group text-right">
+                                            <button 
+                                                className='c-btn c-btn-primary'
+                                                onClick={ (e) => { handleTypeSave(e) } }
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </>
 
             <div className='d-flex'>
@@ -589,6 +694,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             onRandomClick={handleRandomClick}
                                                             // select event
                                                             onSelectClick={handleSelectClick}
+                                                            // type event
+                                                            onTypeClick={handleTypeClick}
                                                         />
                                                     )
                                                 })

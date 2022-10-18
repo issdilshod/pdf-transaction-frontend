@@ -58,7 +58,11 @@ class DescriptionFunction {
 
     get_type(description, index){
         let result = JSON.parse(description['value']);
-        result = result[index]['val'];
+        result = JSON.parse(result[index]);
+        
+        if (result=='' || result==null){ // then get standart
+            result = description['description']['rules'][index]['description_rule']['value'];
+        }
         return result;
     }
 
@@ -77,9 +81,9 @@ class DescriptionFunction {
         if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
             
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
-
+            typeOfValue = statement['company']['name'];
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
-
+            typeOfValue = statement['organization']['name'];
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
 
         }

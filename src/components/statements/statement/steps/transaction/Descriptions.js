@@ -22,7 +22,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
     }
 
     const onTypeClickLocal = (index) => {
-        console.log(index, 'type clicked');
+        onTypeClick(transactionIndex, descriptionIndex, index);
     }
     
     return (
@@ -117,6 +117,12 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                     }
 
                                     { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERID &&
+                                        <b>
+                                            { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
+                                        </b>
+                                    }
+
+                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION &&
                                         <b>
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
