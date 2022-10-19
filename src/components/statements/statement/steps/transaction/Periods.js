@@ -27,23 +27,27 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
     // date
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
-    const [dateForm, setDateForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
+    const [dateForm, setDateForm] = useState(dateFormEntity);
 
     // random
     const [randomFormEntity, setRandomFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': ''});
-    const [randomForm, setRandomForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'min': '', 'max': '', 'val': '', 'mmin': '', 'mmax': '', 'description': ''});
+    const [randomForm, setRandomForm] = useState(randomFormEntity);
 
     // select
     const [selectFormEntity, setSelectFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
-    const [selectForm, setSelectForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'variants': [], 'description': ''});
+    const [selectForm, setSelectForm] = useState(selectFormEntity);
 
     // typig
     const [typeFormEntity, setTypeFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
-    const [typeForm, setTypeForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
+    const [typeForm, setTypeForm] = useState(typeFormEntity);
 
     // sender
     const [senderFormEntity, setSenderFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
-    const [senderForm, setSenderForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
+    const [senderForm, setSenderForm] = useState(senderFormEntity);
+
+    // customer
+    const [customerFormEntity, setCustomerFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'customer_id': '', 'description': '', 'list': [], 'filter': {'search': '', 'company': ''} });
+    const [customerForm, setCustomerForm] = useState(customerFormEntity);
 
     /* Handle Globe */
 
@@ -443,10 +447,6 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
     /* Handle Customer */
 
-    // customer
-    const [customerFormEntity, setCustomerFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'customer_id': '', 'description': '', 'list': [], 'filter': {'search': '', 'company': ''} });
-    const [customerForm, setCustomerForm] = useState(customerFormEntity);
-
     const handleCustomerClick = (transactionIndex, descriptionIndex, index) => {
         let tmpArray = {...statement};
         let customer_id = '';
@@ -789,6 +789,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             value={senderForm['sender_id']}
                                                             checked={ senderForm['sender_id']==value['id'] }
                                                             onClick={ () => { handleSenderChoose(value['id']) } }
+                                                            onChange={ () => { } }
                                                         />
                                                         <label className='t-cursor-pointer' htmlFor={`sender${index}`}>{value['name']} - {value['it_id']}</label>
                                                     </div>
@@ -845,6 +846,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             value={ customerForm['customer_id'] }
                                                             checked={ customerForm['customer_id']==value['id'] }
                                                             onClick={ () => { handleCustomerChoose(value['id']) } }
+                                                            onChange={ () => {  } }
                                                         />
                                                         <label className='t-cursor-pointer' htmlFor={`customer${index}`}>{value['name']}</label>
                                                     </div>
