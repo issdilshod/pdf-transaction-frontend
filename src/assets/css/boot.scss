@@ -424,3 +424,26 @@ a{
     width: 100%;
     border-bottom: 1px solid #f3f3f3;
 }
+
+/* C-Card */
+.c-card{
+
+}
+
+.c-card-head{
+    padding: 20px;
+    background-color: #201a7a;
+    border-radius: 20px 20px 0px 0px;
+    color: #fff;
+}
+
+.c-card-body{
+    padding: 20px;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #f3f3f3;
+}
+
+/* c-Whitespace */
+.c-white-space{
+    white-space: break-spaces;
+}

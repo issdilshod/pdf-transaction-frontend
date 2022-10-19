@@ -9,9 +9,10 @@ import Notification from '../../common/notification/Notification';
 
 import Company from './steps/Company';
 import Organization from './steps/Organization';
+import Transaction from './steps/Transaction';
+import Pages from './steps/Pages';
 
 import './Statement.scss';
-import Transaction from './steps/Transaction';
 
 const StatementsPage = () => {
     const api = new Api();
@@ -133,6 +134,9 @@ const StatementsPage = () => {
                         }
                         {   step==2 &&
                             <Transaction step={step} setStep={setStep} statement={statement} setStatement={setStatement} entityPeriod={entityPeriod} entityTransaction={entityTransaction} />
+                        }
+                        {   step==3 &&
+                            <Pages step={step} setStep={setStep} statement={statement} setStatement={setStatement} />
                         }
                     </div>
 
