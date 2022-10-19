@@ -79,7 +79,9 @@ class DescriptionFunction {
         let result = '';
         let typeOfValue = description['description_rule']['value'];
         if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
-            
+            if (transaction['customer_id']!=''){
+                typeOfValue = transaction['customer']['name'];
+            }
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
             typeOfValue = statement['company']['name'];
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {

@@ -17,6 +17,7 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
     const [pages, setPages] = useState([]);
     const [categories, setCategories] = useState([]);
     const [senders, setSenders] = useState([]);
+    const [customers, setCustomers] = useState([]);
 
     const [manualPeriod, setManualPeriod] = useState({
         'period': '',
@@ -56,6 +57,13 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
             .then(res => {
                 if (res.status===200||res.status===201){
                     setSenders(res.data.data);
+                }
+            })
+
+        api.request('/api/customer', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setCustomers(res.data.data);
                 }
             })
 
@@ -153,7 +161,7 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
             </div>
 
             <div className='transaction-info'>
-                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} holidays={holidays} senders={senders} />
+                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} holidays={holidays} senders={senders} customers={customers} />
             </div>
         </>
         

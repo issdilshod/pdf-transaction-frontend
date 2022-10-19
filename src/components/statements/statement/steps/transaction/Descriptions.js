@@ -6,7 +6,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
     const descriptionFunction = new DescriptionFunction();
 
     const onCustomerClickLocal = (index) => {
-        console.log(index, 'customer clicked');
+        onCustomerClick(transactionIndex, descriptionIndex, index);
     }
 
     const onSenderClickLocal = (index) => {

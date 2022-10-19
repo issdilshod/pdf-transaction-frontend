@@ -10,9 +10,11 @@ import CurrencyInput from "react-currency-input-field";
 import CurrencyFormat from "react-currency-format";
 import { Tab, Tabs } from "react-bootstrap";
 import DescriptionFunction from "./functions/DescriptionFunction";
+import Api from '../../../../../services/Api';
+import CustomerFunction from "./functions/CustomerFunction";
 
 
-const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, senders, periodIndex}) => {
+const Periods = ({statement, setStatement, transactions, types, pages, categories, holidays, senders, customers, periodIndex}) => {
 
     const typeFunction = new TypeFunction();
     const dateFunction = new DateFunction()
@@ -20,6 +22,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const categoryFunction = new CategoryFunction();
     const transactionFunction = new TransactionFunction();
     const descriptionFunction = new DescriptionFunction();
+    const customerFunction = new CustomerFunction();
+    const api = new Api();
 
     // date
     const [dateFormEntity, setDateFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'date': '', 'time': ''});
@@ -36,6 +40,10 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     // typig
     const [typeFormEntity, setTypeFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
     const [typeForm, setTypeForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'val': '', 'description': ''});
+
+    // sender
+    const [senderFormEntity, setSenderFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
+    const [senderForm, setSenderForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
 
     /* Handle Globe */
 
@@ -384,10 +392,6 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
     /* Handle Sender */
 
-    // sender
-    const [senderFormEntity, setSenderFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
-    const [senderForm, setSenderForm] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'sender_id': '', 'description': ''});
-
     const handleSenderClick = (transactionIndex, descriptionIndex, index) => {
         let tmpArray = {...statement};
         let sender_id = '';
@@ -436,6 +440,109 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         setSenderForm(senderFormEntity);
 
     }
+
+    /* Handle Customer */
+
+    // customer
+    const [customerFormEntity, setCustomerFormEntity] = useState({'show': false, 'periodIndex': periodIndex, 'transactionIndex': '', 'descriptionIndex': '', 'index': '', 'customer_id': '', 'description': '', 'list': [], 'filter': {'search': '', 'company': ''} });
+    const [customerForm, setCustomerForm] = useState(customerFormEntity);
+
+    const handleCustomerClick = (transactionIndex, descriptionIndex, index) => {
+        let tmpArray = {...statement};
+        let customer_id = '';
+        let tmpCustomers = [...customers];
+
+        if (tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['customer']!=null){
+            customer_id = tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['customer']['id'];
+            if(!customerFunction.customer_exists_in_list(tmpCustomers, customer_id)){
+                tmpCustomers.unshift(tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['customer']);
+            }
+        }
+
+        setCustomerForm({ ...customerForm, 
+            'show': true, 
+            'transactionIndex': transactionIndex, 'descriptionIndex': descriptionIndex, 'index': index, 
+            'customer_id': customer_id, 
+            'list': tmpCustomers,
+            'description': descriptionFunction.get_string_description(statement, statement['periods'][periodIndex], statement['periods'][periodIndex]['transactions'][transactionIndex], tmpArray['periods'][periodIndex]['transactions'][transactionIndex]['descriptions'][descriptionIndex]) });
+        
+    }
+
+    const handleCustomerClose = () => {
+        setCustomerForm(customerFormEntity);
+    }
+
+    const handleCustomerChoose = (id) => {
+        let tmpArray = {...statement};
+
+        // find customer
+        let customer = {};
+        for (let key in customerForm['list']){
+            if (customerForm['list'][key]['id']==id){
+                customer = customerForm['list'][key];
+            }
+        }
+        
+        tmpArray['periods'][customerForm.periodIndex]['transactions'][customerForm.transactionIndex]['customer_id'] = id;
+        tmpArray['periods'][customerForm.periodIndex]['transactions'][customerForm.transactionIndex]['customer'] = customer;
+
+        // get types of period with values
+        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+        // get pages of transaction
+        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pages);
+
+        // get pdf contents (lines/transactions)
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pages);
+        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pages);
+
+        setStatement(tmpArray);
+
+        setCustomerForm(customerFormEntity);
+
+    }
+
+    const handleCustomerSearch = (e) => {
+        let search = e.target.value;
+        let tmpArray1 = {...customerForm};
+        tmpArray1['filter']['search'] = search;
+        setCustomerForm(tmpArray1);
+
+        let tmpArray = {...statement};
+        let tmpCustomers = [];
+        let tmpCustomer = {};
+        let customerChoosed = false;
+        
+        if (tmpArray['periods'][periodIndex]['transactions'][customerForm.transactionIndex]['customer']!=null){
+            tmpCustomer = tmpArray['periods'][periodIndex]['transactions'][customerForm.transactionIndex]['customer'];
+            customerChoosed = true;
+        }
+
+        if (search.length>=3){
+            api.request('/api/customer/search/'+search, 'GET')
+                .then(res => {
+                    if (customerChoosed){
+                        tmpCustomers = res.data.data;
+                        if(!customerFunction.customer_exists_in_list(tmpCustomers, tmpCustomer)){ 
+                            tmpCustomers.unshift(tmpCustomer);
+                        }
+                    }else{
+                        tmpCustomers = res.data.data;
+                    }
+                    setCustomerForm({...customerForm, 'list': tmpCustomers })
+                })
+        }else{
+            tmpCustomers = [...customers];
+            if (customerChoosed){
+                if(!customerFunction.customer_exists_in_list(tmpCustomers, tmpCustomer)){ 
+                    tmpCustomers.unshift(tmpCustomer);
+                }
+            }
+            setCustomerForm({...customerForm, 'list': tmpCustomers });
+        }
+    }
+
+
 
     return (
         <div className='mt-2'>
@@ -680,9 +787,66 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             type='radio'
                                                             name='val'
                                                             value={senderForm['sender_id']}
+                                                            checked={ senderForm['sender_id']==value['id'] }
                                                             onClick={ () => { handleSenderChoose(value['id']) } }
                                                         />
                                                         <label className='t-cursor-pointer' htmlFor={`sender${index}`}>{value['name']} - {value['it_id']}</label>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id='customer' className={`c-modal ${!customerForm['show']?'c-modal-hide':''}`}>
+                    <div className='c-modal-window'>
+                        <div className='c-form'>
+                            <div className='c-form-head d-flex'>
+                                <div className='mr-auto'>Choose customer</div>
+                                <div className='c-times' onClick={ () => { handleCustomerClose() } }>
+                                    <i>
+                                        <FaTimes />
+                                    </i>
+                                </div>
+                            </div>
+                            <div className='c-form-body'>
+                                <div className="row">
+
+                                    <div className='col-12'>
+                                        <div className='form-group'>
+                                            <label>Search customer</label>
+                                            <input 
+                                                className='form-control'
+                                                type='text'
+                                                placeholder='Search...'
+                                                value={ customerForm['filter']['search'] }
+                                                onChange={ (e) => { handleCustomerSearch(e) }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className='col-12'>
+                                        <p>{customerForm['description']}</p>
+                                    </div>
+                                    {
+                                        customerForm['list'].map((value, index) => {
+                                            return(
+                                                <div key={index} className="col-12">
+                                                    <div className="form-group">
+                                                        <input 
+                                                            id={`customer${index}`}
+                                                            className='t-cursor-pointer mr-2'
+                                                            type='radio'
+                                                            name='val'
+                                                            value={ customerForm['customer_id'] }
+                                                            checked={ customerForm['customer_id']==value['id'] }
+                                                            onClick={ () => { handleCustomerChoose(value['id']) } }
+                                                        />
+                                                        <label className='t-cursor-pointer' htmlFor={`customer${index}`}>{value['name']}</label>
                                                     </div>
                                                 </div>
                                             )
@@ -792,6 +956,8 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             onTypeClick={handleTypeClick}
                                                             // sender event
                                                             onSenderClick={handleSenderClick}
+                                                            // customer event
+                                                            onCustomerClick={handleCustomerClick}
                                                         />
                                                     )
                                                 })
