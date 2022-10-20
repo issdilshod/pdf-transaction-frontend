@@ -109,7 +109,9 @@ const Pages = ({statement, setStatement}) => {
                                                 <div key={index1} className='c-card mt-2'>
                                                     <div className='c-card-head'>Page {index1+3} (Transactions)</div>
                                                     <div className='c-card-body'>
-                                                        transactions
+                                                        <div className='c-white-space'>
+                                                            {pdfContent.get_transactions(statement, value, value1)}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )
