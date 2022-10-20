@@ -16,6 +16,13 @@ const Pages = ({statement, setStatement}) => {
     const [dailyBalancesContent, setDailyBalancesContent] = useState(false);
     const [blankPageContent, setBlankPageContent] = useState(false);
 
+    const handleChange = (e, periodIndex) => {
+        const {value, name} = e.target;
+        let tmpArray = {...statement};
+        tmpArray['periods'][periodIndex][name] = value;
+        setStatement(tmpArray);
+    }
+
     return (
         <>
             {
@@ -47,6 +54,8 @@ const Pages = ({statement, setStatement}) => {
                                                         name='account_number'
                                                         type='text'
                                                         placeholder='Account number'
+                                                        value={value['account_number']}
+                                                        onChange={ (e) => { handleChange(e, index) } }
                                                     />
                                                 </div>
                                             </p>
@@ -68,6 +77,8 @@ const Pages = ({statement, setStatement}) => {
                                                         name='items_previous_cycle'
                                                         type='text'
                                                         placeholder='# of items-previous cycle¹'
+                                                        value={value['items_previous_cycle']}
+                                                        onChange={ (e) => { handleChange(e, index) } }
                                                     />
                                                 </div>
                                             </p>

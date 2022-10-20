@@ -42,6 +42,8 @@ const StatementsPage = () => {
         'period': '', 
         'begining_balance': '',
         'ending_balance': '',
+        'account_number': '',
+        'item_previous_cycle': '',
         'transactions': [],
 
         // helper

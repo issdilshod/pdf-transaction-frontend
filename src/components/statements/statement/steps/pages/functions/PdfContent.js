@@ -46,6 +46,7 @@ class PdfContent {
         // Header
         let header = this.#header(page);
         header = header.replace('{company_name}', statement['company']['name']);
+        header = header.replace('{account_number}', period['account_number']);
         header = header.replace('{start_period}', start_end_period['start']);
         header = header.replace('{end_period}', start_end_period['end']);
 
