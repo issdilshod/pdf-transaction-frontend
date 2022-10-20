@@ -78,8 +78,15 @@ const StatementsPage = () => {
 
     const [editMode, setEditMode] = useState(false);
     const [statement, setStatement] = useState(entityStatement);
+    const [types, setTypes] = useState([]);
 
     useEffect(() => {
+        api.request('/api/transaction-type', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setTypes(res.data.data);
+                }
+            });
         if (step==3){ // transaction created
             if (!editMode){
                 /*api.request('/api/statement', 'POST', statement)
@@ -138,7 +145,7 @@ const StatementsPage = () => {
                             <Transaction step={step} setStep={setStep} statement={statement} setStatement={setStatement} entityPeriod={entityPeriod} entityTransaction={entityTransaction} />
                         }
                         {   step==3 &&
-                            <Pages step={step} setStep={setStep} statement={statement} setStatement={setStatement} />
+                            <Pages step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} />
                         }
                     </div>
 

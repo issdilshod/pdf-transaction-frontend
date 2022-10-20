@@ -9,8 +9,8 @@ class PdfContent {
         this.Transactions = "{page_header}\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n{type_first}\n{type_second}\n{page_footer}";
         this.TransactionsNotMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F4 66.667 Tf\n300 -692 Td\n({company_name}   !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -726 m\n4800 -726 l\nS\n0 0 0 0 k\n0 0 0 0 K\nq\n0 0 0 0 k\n3270 -300 m\n4630 -300 l\n4630 -486 l\n3270 -486 l\nh\nf*\n0 0 0 0 k\n0 0 0 0 K\nQ\nQ\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F2 125 Tf\n3326 -451 Td\n(Your checking account)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 300 -390 cm\n2 0 0 2 0 0 cm\n0 0 m\n708 0 l\n708 -105 l\n0 -105 l\n0 0 l\nh\nW\nn\nq\nq\n708 0 0 105 0 -105 cm\n/Im1 Do\nQ\nQ\nQ\nQ\nQ\nq";
         this.TransactionsMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F3 66.667 Tf\n300 -302 Td\n({company_name}  !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -336 m\n4626 -336 l\nS\nQ\nQ\nq";
-        this.TransactionsFirstType = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}\nQ\nQ\nq\n0 1 .74902 .039216 k";
-        this.TransactionsSecondType = "BT\n/F1 125 Tf\n300 {y_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
+        this.TransactionsTypeFirst = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
+        this.TransactionsTypeSecond = "Q\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F1 125 Tf\n300 {y_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsSummaryContinue = "/F5 54.167 Tf\n{x_position} -308 Td\n(continued on the next page)Tj";
         this.TransactionsSummaryTotal = "1 .6 0 .05098 k\n/F4 83.333 Tf\n-4222 -161 Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
         this.TransactionsFooterPicture = "Q\nQ\nq\nq\nq\n1 0 0 1 450 -5175 cm\n2 0 0 2 0 0 cm\n0 0 m\n2100 0 l\n2100 -555 l\n0 -555 l\n0 0 l\nh\nW\nn\nq\nq\n2100 0 0 555 0 -555 cm\n/Im2 Do\nQ\nQ\nQ\nQ\nQ\nQ";
@@ -24,8 +24,8 @@ class PdfContent {
         this.BlankPage = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 .50196 k\nBT\n/F2 100 Tf\n1860 -3392 Td\n(This page intentionally left blank)Tj\n0 0 0 1 k\n/F2 66.667 Tf\n-1560 3120 Td\n({company_name}   !   Account # {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -306 m\n4626 -306 l\nS\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F3 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\nET\nQ\nQ";
     
         // Type data 
-        this.Deposits = {"name": "Deposits", "title": "Deposits and other credits", "total_title": "Total deposits and other credits"};
-        this.Withdrawals = {"name": "Widthdrawals", "title": "Withdrawals and other debits", "total_title": "Total withdrawals and other debits"};
+        this.Deposits = {"name": "Deposit", "title": "Deposits and other credits", "total_title": "Total deposits and other credits"};
+        this.Withdrawals = {"name": "Withdrawals", "title": "Withdrawals and other debits", "total_title": "Total withdrawals and other debits"};
 
     }
 
@@ -37,7 +37,7 @@ class PdfContent {
         return this.ImportantInformation;
     }
 
-    get_transactions(statement, period, page){
+    get_transactions(statement, period, page, types){
 
         let result = this.Transactions;
         let start_end_period = this.#start_end_period(period['period']);
@@ -49,7 +49,7 @@ class PdfContent {
         header = header.replace('{account_number}', period['account_number']);
         header = header.replace('{start_period}', start_end_period['start']);
         header = header.replace('{end_period}', start_end_period['end']);
-
+        
         // Footer
         let footer = this.TransactionsFooterNotPicture;
         

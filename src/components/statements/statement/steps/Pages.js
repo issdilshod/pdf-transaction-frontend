@@ -4,10 +4,10 @@ import PdfContent from "./pages/functions/PdfContent";
 import DateFunction from "./transaction/functions/DateFunction";
 
 
-const Pages = ({statement, setStatement}) => {
+const Pages = ({statement, setStatement, types}) => {
 
     const dateFunction = new DateFunction();
-    const pdfContent = new PdfContent()
+    const pdfContent = new PdfContent();
 
     const [accountSummaryContent, setAccountSummaryContent] = useState(false);
     const [importantInformationContent, setImportantInformationContent] = useState(false);
@@ -15,7 +15,7 @@ const Pages = ({statement, setStatement}) => {
 
     const [dailyBalancesContent, setDailyBalancesContent] = useState(false);
     const [blankPageContent, setBlankPageContent] = useState(false);
-
+    
     const handleChange = (e, periodIndex) => {
         const {value, name} = e.target;
         let tmpArray = {...statement};
@@ -121,7 +121,7 @@ const Pages = ({statement, setStatement}) => {
                                                     <div className='c-card-head'>Page {index1+3} (Transactions)</div>
                                                     <div className='c-card-body'>
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_transactions(statement, value, value1)}
+                                                            {pdfContent.get_transactions(statement, value, value1, types)}
                                                         </div>
                                                     </div>
                                                 </div>
