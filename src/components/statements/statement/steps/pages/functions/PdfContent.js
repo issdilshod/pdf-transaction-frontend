@@ -1,3 +1,5 @@
+import NumberFunction from "../../transaction/functions/NumberFunction";
+import TypeFunction from "./TypeFunction";
 
 class PdfContent {
 
@@ -24,17 +26,61 @@ class PdfContent {
         this.BlankPage = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 .50196 k\nBT\n/F2 100 Tf\n1860 -3392 Td\n(This page intentionally left blank)Tj\n0 0 0 1 k\n/F2 66.667 Tf\n-1560 3120 Td\n({company_name}   !   Account # {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -306 m\n4626 -306 l\nS\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F3 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\nET\nQ\nQ";
     
         // Type data 
-        this.Deposits = {"name": "Deposit", "title": "Deposits and other credits", "total_title": "Total deposits and other credits"};
+        this.Deposits = {"name": "Deposits", "title": "Deposits and other credits", "total_title": "Total deposits and other credits"};
         this.Withdrawals = {"name": "Withdrawals", "title": "Withdrawals and other debits", "total_title": "Total withdrawals and other debits"};
 
+        // functions 
+        this.numberFunction = new NumberFunction();
+        this.typeFunction = new TypeFunction();
     }
 
-    get_account_summary(){
-        return this.AccountSummary;
+    get_account_summary(statement, period, types){
+        let result = this.AccountSummary;
+
+        let start_end_period = this.#start_end_period(period['period']);
+        let max_page = this.#max_page(period);
+        let deposits_value = this.typeFunction.get_deposits_value(period);
+        let withdrawals_value = this.typeFunction.get_withdrawals_value(period);
+        let days_in_cycle = this.typeFunction.get_days_in_cycle(period['period']);
+
+        let average_balance = this.typeFunction.get_average_balance(period, types);
+
+        // replace
+        result = result.replace('{organization_name}', statement['organization']['name']);
+        result = result.replaceAll('{company_name}', statement['company']['name']);
+        result = result.replace('{company_address}', statement['company']['address']['address_line1'] + (statement['company']['address']['address_line1']!=''?', '+statement['company']['address']['address_line2']:''));
+        result = result.replace('{company_address2}', statement['company']['address']['city'] + ', ' + statement['company']['address']['state']['short_name'] + ' ' + statement['company']['address']['postal']);
+        result = result.replace('{max_page}', max_page);
+        result = result.replaceAll('{start_period}', start_end_period['start']);
+        result = result.replaceAll('{end_period}', start_end_period['end']);
+        result = result.replace('{account_number}', period['account_number']);
+        result = result.replace('{begining_balance}', this.numberFunction.to_currency(period['begining_balance']));
+        result = result.replace('{ending_balance}', this.numberFunction.to_currency(period['ending_balance']));
+        result = result.replace('{deposits_sum}', this.numberFunction.to_currency(deposits_value));
+        result = result.replace('{withdrawals_sum}', this.numberFunction.to_currency(withdrawals_value));
+        result = result.replace('{number_deposits}', this.typeFunction.get_deposits_count(period, types));
+        result = result.replace('{number_withdrawals}', this.typeFunction.get_withdrawals_count(period, types));
+        result = result.replace('{item_previous_cycle}', period['items_previous_cycle']);
+        result = result.replace('{days_in_cycle}', days_in_cycle);
+        result = result.replace('{average_balance}', this.numberFunction.to_currency(average_balance));
+
+        return result;
     }
 
-    get_importatnt_information(){
-        return this.ImportantInformation;
+    get_importatnt_information(statement, period){
+        let result = this.ImportantInformation;
+
+        let start_end_period = this.#start_end_period(period['period']);
+        let max_page = this.#max_page(period);
+
+        // replace
+        result = result.replace('{company_name}', statement['company']['name']);
+        result = result.replace('{account_number}', period['account_number']);
+        result = result.replaceAll('{start_period}', start_end_period['start']);
+        result = result.replaceAll('{end_period}', start_end_period['end']);
+        result = result.replace('{max_page}', max_page);
+
+        return result;
     }
 
     get_transactions(statement, period, page, types){
@@ -91,16 +137,59 @@ class PdfContent {
         return result;
     }
 
-    get_service_fees(){
-        return this.ServiceFees;
+    get_service_fees(statement, period, current_page){
+        let result = this.ServiceFees;
+
+        let start_end_period = this.#start_end_period(period['period']);
+        let max_page = this.#max_page(period);
+        let last_day_of_last_period = this.#last_day_of_last_period(period['period']);
+
+        // replace
+        result = result.replace('{company_name}', statement['company']['name']);
+        result = result.replace('{account_number}', period['account_number']);
+        result = result.replaceAll('{start_period}', start_end_period['start']);
+        result = result.replaceAll('{end_period}', start_end_period['end']);
+        result = result.replace('{current_page}', current_page);
+        result = result.replace('{max_page}', max_page);
+        result = result.replace('{last_day_of_last_month}', last_day_of_last_period);
+
+        return result;
     }
 
-    get_daily_balances(){
-        return this.DailyBalances;
+    #last_day_of_last_period(date){
+        date = new Date(date);
+        let result = new Date(date.getFullYear(), date.getMonth(), 0);
+        result = (((result.getMonth()+1)<10?'0'+(result.getMonth()+1):(result.getMonth()+1))) + '/' +
+                    (result.getDate()<10?'0'+result.getDate():result.getDate()) + '/' +
+                    (result.getFullYear().toString().substr(2, 2));
+        return result;
     }
 
-    get_blank_page(){
-        return this.BlankPage;
+    get_daily_balances(statement, period){
+        let result = this.DailyBalances;
+
+
+
+        // replace
+
+        return result;
+    }
+
+    get_blank_page(statement, period, current_page){
+        let result = this.BlankPage;
+
+        let start_end_period = this.#start_end_period(period['period']);
+        let max_page = this.#max_page(period);
+
+        // replace
+        result = result.replace('{company_name}', statement['company']['name']);
+        result = result.replace('{account_number}', period['account_number']);
+        result = result.replaceAll('{start_period}', start_end_period['start']);
+        result = result.replaceAll('{end_period}', start_end_period['end']);
+        result = result.replace('{current_page}', current_page);
+        result = result.replace('{max_page}', max_page);
+
+        return result;
     }  
 
 }

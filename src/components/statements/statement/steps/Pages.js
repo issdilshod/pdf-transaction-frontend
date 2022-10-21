@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import PdfContent from "./pages/functions/PdfContent";
 import DateFunction from "./transaction/functions/DateFunction";
-
+import DateFormatFunction from './pages/functions/DateFormatFunction';
+import NumberFunction from "./transaction/functions/NumberFunction";
+import TypeFunction from './pages/functions/TypeFunction';
 
 const Pages = ({statement, setStatement, types}) => {
 
     const dateFunction = new DateFunction();
     const pdfContent = new PdfContent();
+    const numberFunction = new NumberFunction();
+    const typeFunction = new TypeFunction();
 
     const [accountSummaryContent, setAccountSummaryContent] = useState(false);
     const [importantInformationContent, setImportantInformationContent] = useState(false);
@@ -60,15 +64,15 @@ const Pages = ({statement, setStatement, types}) => {
                                                 </div>
                                             </p>
 
-                                            <p>Begining balance on <b></b></p>
-                                            <p>Deposits and other credits: <b></b></p>
-                                            <p>Withdrawals and other debits: <b></b></p>
+                                            <p>Begining balance on { DateFormatFunction.start_period(value['period']) }: <b>{ numberFunction.to_currency(value['begining_balance']) }</b></p>
+                                            <p>Deposits and other credits: <b>{ numberFunction.to_currency(typeFunction.get_deposits_value(value)) }</b></p>
+                                            <p>Withdrawals and other debits: <b>{ numberFunction.to_currency(typeFunction.get_withdrawals_value(value)) }</b></p>
                                             <p>Checks: <b>-0.00</b></p>
                                             <p>Service fees: <b>-0.00</b></p>
-                                            <p>Ending balance on <b></b></p>
+                                            <p>Ending balance on { DateFormatFunction.end_period(value['period']) }: <b>{ numberFunction.to_currency(value['ending_balance']) }</b></p>
 
-                                            <p># of deposits/credits: <b></b></p>
-                                            <p># of withdrawals/debits: <b></b></p>
+                                            <p># of deposits/credits: <b>{ typeFunction.get_deposits_count(value, types) }</b></p>
+                                            <p># of withdrawals/debits: <b>{ typeFunction.get_withdrawals_count(value, types) }</b></p>
                                             <p className='d-flex'>
                                                 <div className='mr-2'># of items-previous cycle¹:</div> 
                                                 <div className='w-25'>
@@ -82,15 +86,15 @@ const Pages = ({statement, setStatement, types}) => {
                                                     />
                                                 </div>
                                             </p>
-                                            <p># of days in cycle: <b></b></p>
-                                            <p>Average ledger balance: <b></b></p>
+                                            <p># of days in cycle: <b>{ typeFunction.get_days_in_cycle(value['period']) }</b></p>
+                                            <p>Average ledger balance: <b>{ numberFunction.to_currency(typeFunction.get_average_balance(value, types)) }</b></p>
 
                                             <div className='c-card'>
                                                 <div className='c-card-head t-cursor-pointer' onClick={() => {setAccountSummaryContent(!accountSummaryContent)}}>PDF content</div>
                                                 <div className='c-card-body'>
                                                     {   accountSummaryContent &&
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_account_summary()}
+                                                            {pdfContent.get_account_summary(statement, value, types)}
                                                         </div>
                                                     }
                                                 </div>
@@ -106,7 +110,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                 <div className='c-card-body'>
                                                     {   importantInformationContent &&
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_importatnt_information()}
+                                                            {pdfContent.get_importatnt_information(statement, value)}
                                                         </div>
                                                     }
                                                 </div>
@@ -137,7 +141,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                 <div className='c-card-body'>
                                                     {   serviceFeesContent &&
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_service_fees()}
+                                                            {pdfContent.get_service_fees(statement, value, value['pages'].length+3)}
                                                         </div>
                                                     }
                                                 </div>
@@ -170,7 +174,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                 <div className='c-card-body'>
                                                     {   blankPageContent &&
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_blank_page()}
+                                                            {pdfContent.get_blank_page(statement, value, value['pages'].length+5)}
                                                         </div>
                                                     }
                                                 </div>
