@@ -13,12 +13,17 @@ const Pages = ({statement, setStatement, types}) => {
     const numberFunction = new NumberFunction();
     const typeFunction = new TypeFunction();
 
+    const [accountSummary, setAccountSummary] = useState(false);
     const [accountSummaryContent, setAccountSummaryContent] = useState(false);
     const [importantInformationContent, setImportantInformationContent] = useState(false);
+    const [importantInformation, setImportantInformation] = useState(false);
     const [serviceFeesContent, setServiceFeesContent] = useState(false);
+    const [serviceFees, setServiceFees] = useState(false);
 
     const [dailyBalancesContent, setDailyBalancesContent] = useState(false);
+    const [dailyBalances, setDailyBalances] = useState(false);
     const [blankPageContent, setBlankPageContent] = useState(false);
+    const [blankPage, setBlankPage] = useState(false);
     
     const handleChange = (e, periodIndex) => {
         const {value, name} = e.target;
@@ -43,8 +48,10 @@ const Pages = ({statement, setStatement, types}) => {
                                 >
                                     
                                     <div id='account_summary' className='c-card mt-2'>
-                                        <div className='c-card-head'>Page 1 (Account Summary)</div>
+                                        <div className='c-card-head t-cursor-pointer' onClick={ () => { setAccountSummary(!accountSummary) } }>Page 1 (Account Summary)</div>
                                         <div className='c-card-body'>
+                                        {   accountSummary &&
+                                        <>
                                             <p>Company name: <b>{statement['company']['name']}</b></p>
                                             <p>Company address: <b>{statement['company']['address']['address_line1']}, {statement['company']['address']['address_line2']}, {statement['company']['address']['city']}, {statement['company']['address']['state']['short_name']}</b></p>
 
@@ -99,12 +106,15 @@ const Pages = ({statement, setStatement, types}) => {
                                                     }
                                                 </div>
                                             </div>
+                                        </>
+                                        }
                                         </div>
                                     </div>
 
                                     <div id='important_information' className='c-card mt-2'>
-                                        <div className='c-card-head'>Page 2 (IMPORTANT INFORMATION)</div>
+                                        <div className='c-card-head t-cursor-pointer' onClick={ () => { setImportantInformation(!importantInformation) } }>Page 2 (IMPORTANT INFORMATION)</div>
                                         <div className='c-card-body'>
+                                            {   importantInformation &&
                                             <div className='c-card'>
                                                 <div className='c-card-head t-cursor-pointer' onClick={() => {setImportantInformationContent(!importantInformationContent)}}>PDF content</div>
                                                 <div className='c-card-body'>
@@ -115,6 +125,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                     }
                                                 </div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
 
@@ -134,8 +145,9 @@ const Pages = ({statement, setStatement, types}) => {
                                     }
 
                                     <div id='service_fees' className='c-card mt-2'>
-                                        <div className='c-card-head'>Page {value['pages'].length+3} (Service fees)</div>
+                                        <div className='c-card-head t-cursor-pointer' onClick={ () => { setServiceFees(!serviceFees) } }>Page {value['pages'].length+3} (Service fees)</div>
                                         <div className='c-card-body'>
+                                            {   serviceFees &&
                                             <div className='c-card'>
                                                 <div className='c-card-head t-cursor-pointer' onClick={() => {setServiceFeesContent(!serviceFeesContent)}}>PDF content</div>
                                                 <div className='c-card-body'>
@@ -146,13 +158,14 @@ const Pages = ({statement, setStatement, types}) => {
                                                     }
                                                 </div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
 
                                     <div id='daily_balances' className='c-card mt-2'>
-                                        <div className='c-card-head'>Page {value['pages'].length+4} (Daily Balances)</div>
+                                        <div className='c-card-head t-cursor-pointer' onClick={ () => { setDailyBalances(!dailyBalances) } }>Page {value['pages'].length+4} (Daily Balances)</div>
                                         <div className='c-card-body'>
-
+                                            {   dailyBalances &&
                                             <div className='c-card'>
                                                 <div className='c-card-head t-cursor-pointer' onClick={() => {setDailyBalancesContent(!dailyBalancesContent)}}>PDF content</div>
                                                 <div className='c-card-body'>
@@ -163,12 +176,15 @@ const Pages = ({statement, setStatement, types}) => {
                                                     }
                                                 </div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
 
+                                    {   (value['pages']%2!=0) &&
                                     <div id='blank_page' className='c-card mt-2'>
-                                        <div className='c-card-head'>Page {value['pages'].length+5} (Blank page)</div>
+                                        <div className='c-card-head t-cursor-pointer' onClick={ () => { setBlankPage(!blankPage) } }>Page {value['pages'].length+5} (Blank page)</div>
                                         <div className='c-card-body'>
+                                            {   blankPage &&
                                             <div className='c-card'>
                                                 <div className='c-card-head t-cursor-pointer' onClick={() => {setBlankPageContent(!blankPageContent)}}>PDF content</div>
                                                 <div className='c-card-body'>
@@ -179,9 +195,10 @@ const Pages = ({statement, setStatement, types}) => {
                                                     }
                                                 </div>
                                             </div>
+                                            }
                                         </div>
                                     </div>
-
+                                    }
 
                                 </Tab>
                             )
