@@ -15,14 +15,11 @@ const Pages = ({statement, setStatement, types}) => {
 
     const [accountSummary, setAccountSummary] = useState(false);
     const [accountSummaryContent, setAccountSummaryContent] = useState(false);
-    const [importantInformationContent, setImportantInformationContent] = useState(false);
     const [importantInformation, setImportantInformation] = useState(false);
-    const [serviceFeesContent, setServiceFeesContent] = useState(false);
     const [serviceFees, setServiceFees] = useState(false);
 
     const [dailyBalancesContent, setDailyBalancesContent] = useState(false);
     const [dailyBalances, setDailyBalances] = useState(false);
-    const [blankPageContent, setBlankPageContent] = useState(false);
     const [blankPage, setBlankPage] = useState(false);
     
     const handleChange = (e, periodIndex) => {
@@ -115,15 +112,8 @@ const Pages = ({statement, setStatement, types}) => {
                                         <div className='c-card-head t-cursor-pointer' onClick={ () => { setImportantInformation(!importantInformation) } }>Page 2 (IMPORTANT INFORMATION)</div>
                                         <div className='c-card-body'>
                                             {   importantInformation &&
-                                            <div className='c-card'>
-                                                <div className='c-card-head t-cursor-pointer' onClick={() => {setImportantInformationContent(!importantInformationContent)}}>PDF content</div>
-                                                <div className='c-card-body'>
-                                                    {   importantInformationContent &&
-                                                        <div className='c-white-space'>
-                                                            {pdfContent.get_importatnt_information(statement, value)}
-                                                        </div>
-                                                    }
-                                                </div>
+                                            <div className='c-white-space'>
+                                                {pdfContent.get_importatnt_information(statement, value)}
                                             </div>
                                             }
                                         </div>
@@ -148,15 +138,8 @@ const Pages = ({statement, setStatement, types}) => {
                                         <div className='c-card-head t-cursor-pointer' onClick={ () => { setServiceFees(!serviceFees) } }>Page {value['pages'].length+3} (Service fees)</div>
                                         <div className='c-card-body'>
                                             {   serviceFees &&
-                                            <div className='c-card'>
-                                                <div className='c-card-head t-cursor-pointer' onClick={() => {setServiceFeesContent(!serviceFeesContent)}}>PDF content</div>
-                                                <div className='c-card-body'>
-                                                    {   serviceFeesContent &&
-                                                        <div className='c-white-space'>
-                                                            {pdfContent.get_service_fees(statement, value, value['pages'].length+3)}
-                                                        </div>
-                                                    }
-                                                </div>
+                                            <div className='c-white-space'>
+                                                {pdfContent.get_service_fees(statement, value, value['pages'].length+3)}
                                             </div>
                                             }
                                         </div>
@@ -185,15 +168,8 @@ const Pages = ({statement, setStatement, types}) => {
                                         <div className='c-card-head t-cursor-pointer' onClick={ () => { setBlankPage(!blankPage) } }>Page {value['pages'].length+5} (Blank page)</div>
                                         <div className='c-card-body'>
                                             {   blankPage &&
-                                            <div className='c-card'>
-                                                <div className='c-card-head t-cursor-pointer' onClick={() => {setBlankPageContent(!blankPageContent)}}>PDF content</div>
-                                                <div className='c-card-body'>
-                                                    {   blankPageContent &&
-                                                        <div className='c-white-space'>
-                                                            {pdfContent.get_blank_page(statement, value, value['pages'].length+5)}
-                                                        </div>
-                                                    }
-                                                </div>
+                                            <div className='c-white-space'>
+                                                {pdfContent.get_blank_page(statement, value, value['pages'].length+5)}
                                             </div>
                                             }
                                         </div>
