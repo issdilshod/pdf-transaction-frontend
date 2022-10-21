@@ -13,15 +13,9 @@ const Protected = () => {
     useEffect(() => { // check auth
         api.request('/api/is_auth', 'GET')
             .then(res => {
-                switch(res.status){
-                    case 200:
-                    case 201:
-                        
-                        break;
-                    default:
-                        lStorage.removeItem('auth_token');
-                        nav('/login/');
-                        break; 
+                if (res.status===401){
+                    lStorage.removeItem('auth_token');
+                    nav('/login/');
                 }
             });
     }, []);
