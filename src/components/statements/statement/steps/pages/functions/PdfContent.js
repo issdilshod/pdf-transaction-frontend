@@ -34,6 +34,7 @@ class PdfContent {
         this.typeFunction = new TypeFunction();
     }
 
+    // done
     get_account_summary(statement, period, types){
         let result = this.AccountSummary;
 
@@ -67,6 +68,7 @@ class PdfContent {
         return result;
     }
 
+    // done
     get_importatnt_information(statement, period){
         let result = this.ImportantInformation;
 
@@ -83,6 +85,7 @@ class PdfContent {
         return result;
     }
 
+    // in progress
     get_transactions(statement, period, page, types){
 
         let result = this.Transactions;
@@ -107,7 +110,7 @@ class PdfContent {
 
         return result;
     }
-
+    // in func
     #start_end_period(date){
         let end_period = new Date(date);
         let start_period = new Date(end_period.getFullYear(), end_period.getMonth(), 1);
@@ -120,13 +123,13 @@ class PdfContent {
 
         return result;
     }
-
+    // in func
     #max_page(period){
         let pages_count = period['pages'].length;
         let result = (pages_count%2==0?(pages_count+4):(pages_count+5));
         return result;
     }
-
+    // in func
     #header(page){
         let result = '';
         if (page['page'] % 2==0){
@@ -137,6 +140,7 @@ class PdfContent {
         return result;
     }
 
+    // done
     get_service_fees(statement, period, current_page){
         let result = this.ServiceFees;
 
@@ -155,7 +159,7 @@ class PdfContent {
 
         return result;
     }
-
+    // in func
     #last_day_of_last_period(date){
         date = new Date(date);
         let result = new Date(date.getFullYear(), date.getMonth(), 0);
@@ -165,6 +169,7 @@ class PdfContent {
         return result;
     }
 
+    // not started
     get_daily_balances(statement, period){
         let result = this.DailyBalances;
 
@@ -175,6 +180,7 @@ class PdfContent {
         return result;
     }
 
+    // done
     get_blank_page(statement, period, current_page){
         let result = this.BlankPage;
 
