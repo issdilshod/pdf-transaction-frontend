@@ -149,16 +149,74 @@ const Pages = ({statement, setStatement, types}) => {
                                         <div className='c-card-head t-cursor-pointer' onClick={ () => { setDailyBalances(!dailyBalances) } }>Page {value['pages'].length+4} (Daily Balances)</div>
                                         <div className='c-card-body'>
                                             {   dailyBalances &&
-                                            <div className='c-card'>
-                                                <div className='c-card-head t-cursor-pointer' onClick={() => {setDailyBalancesContent(!dailyBalancesContent)}}>PDF content</div>
-                                                <div className='c-card-body'>
-                                                    {   dailyBalancesContent &&
-                                                        <div className='c-white-space'>
-                                                            {pdfContent.get_daily_balances()}
-                                                        </div>
-                                                    }
+
+                                            <>
+
+                                                <table className='c-table mt-2 mb-2'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Begining balance</th>
+                                                            <th>Deposits and other credits</th>
+                                                            <th>Withdrawals and other debits</th>
+                                                            <th>Ending balance</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            typeFunction.get_table_daily_balance(value, types).map((value1, index1) => {
+                                                                return (
+                                                                    <tr key={index1}>
+                                                                        <td>{value1['date']}</td>
+                                                                        <td>{ numberFunction.to_currency(value1['begining_balance']) }</td>
+                                                                        <td>
+                                                                            {
+                                                                                value1['types'].map((value2, index2) => {
+                                                                                    return (
+                                                                                        <span key={index2}>
+                                                                                            { (typeFunction.Deposits==value2['type']['name']) &&
+                                                                                                numberFunction.to_currency(value2['value'])
+                                                                                            }
+                                                                                        </span> 
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </td>
+                                                                        <td>
+                                                                            {
+                                                                                value1['types'].map((value2, index2) => {
+                                                                                    return (
+                                                                                        <span key={index2}>
+                                                                                            { (typeFunction.Withdrawals==value2['type']['name']) &&
+                                                                                                numberFunction.to_currency(value2['value'])
+                                                                                            }
+                                                                                        </span> 
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </td>
+                                                                        <td>{ numberFunction.to_currency(value1['ending_balance']) }</td>
+                                                                    </tr>
+                                                                )
+                                                            })
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                
+
+                                                <div className='c-card'>
+                                                    <div className='c-card-head t-cursor-pointer' onClick={() => {setDailyBalancesContent(!dailyBalancesContent)}}>PDF content</div>
+                                                    <div className='c-card-body'>
+                                                        {   dailyBalancesContent &&
+                                                            <div className='c-white-space'>
+                                                                {pdfContent.get_daily_balances()}
+                                                            </div>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </>
+
+                                            
                                             }
                                         </div>
                                     </div>
