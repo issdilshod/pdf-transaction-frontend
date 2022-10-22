@@ -209,7 +209,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                     <div className='c-card-body'>
                                                         {   dailyBalancesContent &&
                                                             <div className='c-white-space'>
-                                                                {pdfContent.get_daily_balances()}
+                                                                {pdfContent.get_daily_balances(statement, value)}
                                                             </div>
                                                         }
                                                     </div>
