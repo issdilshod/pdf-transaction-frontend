@@ -13,6 +13,7 @@ import Transaction from './steps/Transaction';
 import Pages from './steps/Pages';
 
 import './Statement.scss';
+import Replacements from './steps/Replacements';
 
 const StatementsPage = () => {
     const api = new Api();
@@ -45,6 +46,7 @@ const StatementsPage = () => {
         'account_number': '',
         'item_previous_cycle': '',
         'transactions': [],
+        'replacement': {},
 
         // helper
         'types': [],
@@ -146,6 +148,9 @@ const StatementsPage = () => {
                         }
                         {   step==3 &&
                             <Pages step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} />
+                        }
+                        {   step==4 &&
+                            <Replacements step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} />
                         }
                     </div>
 
