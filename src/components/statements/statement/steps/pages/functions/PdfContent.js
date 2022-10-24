@@ -170,7 +170,7 @@ class PdfContent {
     }
 
     // not started
-    get_daily_balances(statement, period){
+    get_daily_balances(statement, period, current_page){
         let result = this.DailyBalances;
 
 
