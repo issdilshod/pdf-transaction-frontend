@@ -10,6 +10,11 @@ class ReplacementContent{
 
         // get content on array
         let tmpContent = content.match(/(\/F[0-9] [+-]?([0-9]*[.])?[0-9]+ Tf)|(\((.*?)\)Tj)/g);
+        // get indexes of content
+        let tmpRegContentIndexes = content.matchAll(/(\/F[0-9] [+-]?([0-9]*[.])?[0-9]+ Tf)|(\((.*?)\)Tj)/g);
+        let tmpContentIndexes = [];
+        for (let pos of tmpRegContentIndexes) { tmpContentIndexes.push(pos.index);}
+
         let tmpSelector = '', tmpSelectorIndex = -1;
         for (let key in tmpContent){
             if (tmpContent[key].substr(0, 1)!='('){
@@ -37,13 +42,11 @@ class ReplacementContent{
                 'text': tmpContent[key],
                 'hex': '',
                 'ascii': '',
-                'pos_on_content': ''
+                'pos_on_content': tmpContentIndexes[key]
             });
 
         }
-
         return tmpResult;
-
     }
 
     #get_selector_index(all, selector){
