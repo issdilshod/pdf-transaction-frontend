@@ -10,20 +10,21 @@ class ReplacementContent{
 
         // get content on array
         let tmpContent = content.match(/(\/F[0-9] [+-]?([0-9]*[.])?[0-9]+ Tf)|(\((.*?)\)Tj)/g);
-        
         let tmpSelector = '', tmpSelectorIndex = -1;
         for (let key in tmpContent){
             if (tmpContent[key].substr(0, 1)!='('){
                 // get selector
-                tmpSelector = tmpContent[key].substr(tmpContent[key].indexOf('/F')+1, tmpContent[key].indexOf(' ', tmpContent[key].indexOf("/F")+1));
-
+                tmpSelector = (tmpContent[key].substr(tmpContent[key].indexOf('/F')+1, tmpContent[key].indexOf(' ', tmpContent[key].indexOf("/F")+1))).trim();
                 // serach selector in result
                 tmpSelectorIndex = this.#get_selector_index(tmpResult['font'], tmpSelector);
                 if (tmpSelectorIndex==-1){
-                    let selected_index = this.#get_selector_index(replacement, tmpSelector);
+                    let selected_index =-1;
+                    if (replacement!=undefined){
+                        selected_index = this.#get_selector_index(replacement['font'], tmpSelector);
+                    }
                     let font_id = '';
                     if (selected_index!=-1){
-                        font_id = replacement[selected_index]['font_id'];
+                        font_id = replacement['font'][selected_index]['font_id'];
                     }
                     tmpResult['font'].push({ 'selector': tmpSelector, 'font_id': font_id, 'content': [] });
                     tmpSelectorIndex = tmpResult['font'].length-1;

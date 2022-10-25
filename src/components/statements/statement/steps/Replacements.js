@@ -28,23 +28,23 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
             tmpAccountSummary = replacementContent.get_replacement_content(tmpAccountSummary, tmpArray['periods'][key]['replacement'][0]);
 
             let tmpImportantInformation = replacementContent.get_important_information(statement, tmpArray['periods'][key]);
-            tmpImportantInformation = replacementContent.get_replacement_content(tmpImportantInformation, tmpArray['periods'][key]['replacement'][0]);
+            tmpImportantInformation = replacementContent.get_replacement_content(tmpImportantInformation, tmpArray['periods'][key]['replacement'][1]);
 
             let tmpTransactions = [];
             for (let key1 in tmpArray['periods'][key]['pages']){
                 tmpTransactions.push(replacementContent.get_transactions(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'][key1], types));
-                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][key1]);
+                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][key1+2]);
             }
-            let tmpServiceFees = replacementContent.get_service_fees(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+3);
-            tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+3]);
+            let tmpServiceFees = replacementContent.get_service_fees(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+2);
+            tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+2]);
 
-            let tmpDailyBalances = replacementContent.get_daily_balances(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+4);
-            tmpDailyBalances = replacementContent.get_replacement_content(tmpDailyBalances, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+4]);
+            let tmpDailyBalances = replacementContent.get_daily_balances(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+3);
+            tmpDailyBalances = replacementContent.get_replacement_content(tmpDailyBalances, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+3]);
 
             let tmpBlankPage = [];
             if (tmpArray['periods'][key]['pages'].length%2!=0){
-                tmpBlankPage = replacementContent.get_blank_page(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+5);
-                tmpBlankPage = replacementContent.get_replacement_content(tmpBlankPage, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+5]);
+                tmpBlankPage = replacementContent.get_blank_page(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+4);
+                tmpBlankPage = replacementContent.get_replacement_content(tmpBlankPage, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+4]);
             }
 
             // set replacement
@@ -62,8 +62,20 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
 
         }
 
-        setStatement(tmpArray);
+        firstInit(tmpArray);
     }, [])
+
+    const firstInit = (tmpArray) => {
+        // all periods
+        for (let key in tmpArray['periods']){
+            // all pages
+            for (let key1 in tmpArray['periods'][key]['replacement']){
+                tmpArray = char2HexFunction(tmpArray, key, key1);
+            }
+            hex2AsciiPeriodFunction(tmpArray, key);
+        }
+
+    } 
 
     const handleFontSelect = (e, periodIndex, pageIndex, selectorIndex) => {
         let tmpArray = { ...statement };
@@ -85,6 +97,16 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['font'] = res.data.data.font;
+                    setStatement(tmpStatement);
+                }
+            })
+    }
+
+    const hex2AsciiPeriodFunction = (tmpStatement, periodIndex) => {
+        api.request('/api/hex2ascii/period', 'POST', { 'replacement': tmpStatement['periods'][periodIndex]['replacement'] })
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    tmpStatement['periods'][periodIndex]['replacement'] = res.data.data.replacement;
                     setStatement(tmpStatement);
                 }
             })
