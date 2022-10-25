@@ -78,7 +78,6 @@ class ReplacementContent{
                                 break;
                             }
                         }
-                        console.log(replacement['font'][key]['content'][key1]['text'], hex);
                     }
                     replacement['font'][key]['content'][key1]['hex'] = hex;
                 }

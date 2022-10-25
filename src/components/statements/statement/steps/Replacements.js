@@ -4,6 +4,8 @@ import Api from "../../../../services/Api";
 import ReplacementContent from "./replacements/functions/ReplacementContent";
 import DateFunction from "./transaction/functions/DateFunction";
 
+import PagesBlock from "./replacements/PagesBlock";
+
 const Replacements = ({statement, setStatement, types, fonts}) => {
 
     const api = new Api();
@@ -69,8 +71,6 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
         
         tmpArray = char2HexFunction(tmpArray, periodIndex, pageIndex);
 
-        setStatement(tmpArray);
-
         hex2AsciiFunction(tmpArray, periodIndex, pageIndex);
     }
 
@@ -85,8 +85,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['font'] = res.data.data.font;
-                    console.log(tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['font']); 
-                    //setStatement(tmpStatement);
+                    setStatement(tmpStatement);
                 }
             })
     }
@@ -109,82 +108,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
                                     {
                                         value['replacement'].map((value1, index1) => {
                                             return (
-                                                <div key={index1} className='c-card mt-2'>
-                                                    <div className='c-card-head t-cursor-pointer'>Page {index1+1}</div>
-                                                    <div className='c-card-body c-white-space'>
-                                                        <table className='c-table'>
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Font</th>
-                                                                    <th>Select</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {
-                                                                    value1['font'].map((value2, index2) => {
-                                                                        return (
-                                                                            <tr key={index2}>
-                                                                                <td>{value2['selector']}</td>
-                                                                                <td>
-                                                                                    <select 
-                                                                                        className='form-control'
-                                                                                        value={value2['font_id']}
-                                                                                        onChange={ (e) => { handleFontSelect(e, index, index1, index2) } }
-                                                                                    >
-                                                                                        <option value=''>-</option>
-                                                                                        { 
-                                                                                            fonts.map((value3, index3) => {
-                                                                                                return (
-                                                                                                    <option 
-                                                                                                        key={index3} 
-                                                                                                        value={value3['id']}
-                                                                                                    >
-                                                                                                        {value3['name']}
-                                                                                                    </option>
-                                                                                                )
-                                                                                            }) 
-                                                                                        }
-                                                                                    </select>
-                                                                                </td>
-                                                                            </tr>
-                                                                        )
-                                                                    }) 
-                                                                }
-                                                            </tbody>
-                                                        </table>
-
-                                                        <div className='mt-4'>
-                                                            {
-                                                                value1['font'].map((value2, index2) => {
-                                                                    return (
-                                                                        <p key={index2}>
-                                                                            <b>{value2['selector']}<br /></b>
-                                                                            {
-                                                                                value2['content'].map((value3, index3) => {
-                                                                                    return (
-                                                                                        <span key={index3}>
-                                                                                            { (value3['hex']!='') && 
-                                                                                                <>
-                                                                                                    <b>Original: </b> { value3['text'] }<br />
-                                                                                                    <b>Hex: </b> { value3['hex'] }<br />
-                                                                                                    <b>Ascii (base64)*: </b> { value3['ascii'] }<br />
-                                                                                                </>
-                                                                                            }
-                                                                                            { (value3['hex']=='') && 
-                                                                                                value3['text']
-                                                                                            }
-                                                                                            <br />
-                                                                                        </span>
-                                                                                    )
-                                                                                })
-                                                                            }
-                                                                        </p>
-                                                                    )
-                                                                })
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <PagesBlock key={index1} periodIndex={index} blockIndex={index1} handleFontSelect={handleFontSelect} block={value1} fonts={fonts} />
                                             )
                                         })
                                     }
