@@ -14,6 +14,7 @@ import Pages from './steps/Pages';
 
 import './Statement.scss';
 import Replacements from './steps/Replacements';
+import Compression from './steps/Compression';
 
 const StatementsPage = () => {
     const api = new Api();
@@ -55,6 +56,7 @@ const StatementsPage = () => {
             'lines': [],
             'transactions': []
         },
+        'compression': [],
     };
 
     const entityTransaction = {
@@ -158,6 +160,9 @@ const StatementsPage = () => {
                         }
                         {   step==4 &&
                             <Replacements step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} fonts={fonts} />
+                        }
+                        {   step==5 &&
+                            <Compression step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} fonts={fonts} />
                         }
                     </div>
 
