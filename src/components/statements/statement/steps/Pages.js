@@ -5,6 +5,7 @@ import DateFunction from "./transaction/functions/DateFunction";
 import DateFormatFunction from './pages/functions/DateFormatFunction';
 import NumberFunction from "./transaction/functions/NumberFunction";
 import TypeFunction from './pages/functions/TypeFunction';
+import TransactionsBlock from "./pages/TransactionsBlock";
 
 const Pages = ({statement, setStatement, types}) => {
 
@@ -122,14 +123,14 @@ const Pages = ({statement, setStatement, types}) => {
                                     {
                                         value['pages'].map((value1, index1) => {
                                             return (
-                                                <div key={index1} className='c-card mt-2'>
-                                                    <div className='c-card-head'>Page {index1+3} (Transactions)</div>
-                                                    <div className='c-card-body'>
-                                                        <div className='c-white-space'>
-                                                            {pdfContent.get_transactions(statement, value, value1, types)}
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <TransactionsBlock 
+                                                    key={index1}
+                                                    blockIndex={index1}
+                                                    statement={statement}
+                                                    period={value}
+                                                    page={value1}
+                                                    types={types}
+                                                />
                                             )
                                         })
                                     }
