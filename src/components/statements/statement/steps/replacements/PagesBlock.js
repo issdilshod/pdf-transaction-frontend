@@ -28,7 +28,7 @@ const PagesBlock = ({periodIndex, blockIndex, handleFontSelect, block, fonts}) =
                                             <td>
                                                 <select 
                                                     className='form-control'
-                                                    value={value2['font_id']}
+                                                    value={(value2['font_id']==null?'':value2['font_id'])}
                                                     onChange={ (e) => { handleFontSelect(e, periodIndex, blockIndex, index2) } }
                                                 >
                                                     <option value=''>-</option>
