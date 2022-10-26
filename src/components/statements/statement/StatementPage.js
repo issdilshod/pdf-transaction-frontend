@@ -15,6 +15,7 @@ import Pages from './steps/Pages';
 import './Statement.scss';
 import Replacements from './steps/Replacements';
 import Compression from './steps/Compression';
+import Pdf from './steps/Pdf';
 
 const StatementsPage = () => {
     const api = new Api();
@@ -163,6 +164,9 @@ const StatementsPage = () => {
                         }
                         {   step==5 &&
                             <Compression step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} fonts={fonts} />
+                        }
+                        {   step==6 &&
+                            <Pdf step={step} setStep={setStep} statement={statement} setStatement={setStatement} />
                         }
                     </div>
 
