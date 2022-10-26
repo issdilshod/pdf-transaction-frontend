@@ -8,7 +8,7 @@ const PagesBlock = ({periodIndex, blockIndex, handleFontSelect, block, fonts}) =
     return (
         
         <div className='c-card mt-2'>
-            <div className='c-card-head t-cursor-pointer' onClick={ () => { setBlockShow(!blockShow) } }>Page {blockIndex+1}</div>
+            <div className='c-card-head t-cursor-pointer' onClick={ () => { setBlockShow(!blockShow) } }>{block['page_name']}</div>
             <div className='c-card-body c-white-space'>
                 { blockShow &&
                 <>

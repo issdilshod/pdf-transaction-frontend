@@ -12,8 +12,10 @@ const Pdf = ({statement, setStatement}) => {
 
     const [pdfTable, setPdfTable] = useState([]);
     const [downloadFileName, setDownloadFileName] = useState('');
+    const [activePeriod, setActivePeriod] = useState(0);
 
     const handleFileChoose = (e, periodIndex) => {
+        setActivePeriod(activePeriod);
         api.request('/api/upload/template', 'POST', {'template': e.target.files}, true)
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -78,10 +80,10 @@ const Pdf = ({statement, setStatement}) => {
                                                             pdfTable.map((value1, index1) => {
                                                                 return (
                                                                     <tr key={index1}>
-                                                                        <td>{value1['page_name']}</td>
+                                                                        <td>{statement['periods'][activePeriod]['replacement'][index1]['page_name']}</td>
                                                                         <td>{value1['object_name']}</td>
                                                                         <td>{value1['old_length']}</td>
-                                                                        <td>{value1['new_length']}</td>
+                                                                        <td>{window.atob(statement['periods'][activePeriod]['compression'][index1]).length}</td>
                                                                     </tr>
                                                                 )
                                                             })

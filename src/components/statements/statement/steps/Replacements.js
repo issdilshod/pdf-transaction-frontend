@@ -25,26 +25,26 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
 
             // get content
             let tmpAccountSummary = replacementContent.get_account_summary(statement, tmpArray['periods'][key], types);
-            tmpAccountSummary = replacementContent.get_replacement_content(tmpAccountSummary, tmpArray['periods'][key]['replacement'][0]);
+            tmpAccountSummary = replacementContent.get_replacement_content(tmpAccountSummary, tmpArray['periods'][key]['replacement'][0], 'Page 1 (Account Summary)');
 
             let tmpImportantInformation = replacementContent.get_important_information(statement, tmpArray['periods'][key]);
-            tmpImportantInformation = replacementContent.get_replacement_content(tmpImportantInformation, tmpArray['periods'][key]['replacement'][1]);
+            tmpImportantInformation = replacementContent.get_replacement_content(tmpImportantInformation, tmpArray['periods'][key]['replacement'][1], 'Page 2 (IMPORTANT INFORMATION)');
 
             let tmpTransactions = [];
             for (let key1 in tmpArray['periods'][key]['pages']){
                 tmpTransactions.push(replacementContent.get_transactions(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'][key1], types));
-                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][parseInt(key1)+2]);
+                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][parseInt(key1)+2], 'Page '+(parseInt(key1)+3)+' (Transactions)');
             }
             let tmpServiceFees = replacementContent.get_service_fees(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+2);
-            tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+2]);
+            tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+2], 'Page '+(tmpArray['periods'][key]['pages'].length+3)+' (Service fees)');
 
             let tmpDailyBalances = replacementContent.get_daily_balances(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+3);
-            tmpDailyBalances = replacementContent.get_replacement_content(tmpDailyBalances, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+3]);
+            tmpDailyBalances = replacementContent.get_replacement_content(tmpDailyBalances, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+3], 'Page '+(tmpArray['periods'][key]['pages'].length+4)+' (Daily Balances)');
 
             let tmpBlankPage = [];
             if (tmpArray['periods'][key]['pages'].length%2!=0){
                 tmpBlankPage = replacementContent.get_blank_page(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+4);
-                tmpBlankPage = replacementContent.get_replacement_content(tmpBlankPage, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+4]);
+                tmpBlankPage = replacementContent.get_replacement_content(tmpBlankPage, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+4], 'Page '+(tmpArray['periods'][key]['pages'].length+5)+' (Blank page)');
             }
 
             // set replacement

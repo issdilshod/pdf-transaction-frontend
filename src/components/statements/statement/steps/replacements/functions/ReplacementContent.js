@@ -5,8 +5,8 @@ class ReplacementContent{
         this.pdfContent = new PdfContent();
     }
 
-    get_replacement_content(content, replacement){
-        let tmpResult = { 'content': window.btoa(unescape(encodeURIComponent(content))), 'font': [] }; // { 'selector': '', 'font_id': '', 'content': [] }
+    get_replacement_content(content, replacement, name = ''){
+        let tmpResult = { 'content': window.btoa(unescape(encodeURIComponent(content))), 'font': [], 'page_name': name }; // { 'selector': '', 'font_id': '', 'content': [] }
 
         // get content on array
         let tmpContent = content.match(/(\/F[0-9] [+-]?([0-9]*[.])?[0-9]+ Tf)|(\((.*?)\)Tj)/g);
