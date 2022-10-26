@@ -14,7 +14,7 @@ const PagesBlock = ({ blockIndex, block}) => {
                 <>
                     <div>
                         {
-                            block['content']
+                            window.atob(block['content'])
                         }
                     </div>
                 </>

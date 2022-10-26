@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { Tab, Tabs } from "react-bootstrap"
+import Api from "../../../../services/Api";
 import PagesBlock from "./compression/PagesBlock";
 import DateFunction from "./transaction/functions/DateFunction"
 
 const Compression = ({statement, setStatement, types, fonts}) => {
 
     const dateFunction = new DateFunction();
+    const api = new Api();
 
     useEffect(() => {
         firstInit();
@@ -16,23 +18,19 @@ const Compression = ({statement, setStatement, types, fonts}) => {
 
         // all periods
         for (let key in tmpArray['periods']){
-
-            // all pages
-            for (let key1 in tmpArray['periods'][key]['replacement']){
-                
-                // change content
-                for (let key2 in tmpArray['periods'][key]['replacement'][key1]['font']){
-                    for (let key3 in tmpArray['periods'][key]['replacement'][key1]['font'][key2]['content']){
-                        let tmpContent = tmpArray['periods'][key]['replacement'][key1]['content'];
-                        let tmpSearchVal = tmpArray['periods'][key]['replacement'][key1]['font'][key2]['content'][key3]['text'];
-                        let tmpReplaceVal = tmpArray['periods'][key]['replacement'][key1]['font'][key2]['content'][key3]['ascii'];
-                        let tmpPosition = tmpArray['periods'][key]['replacement'][key1]['font'][key2]['content'][key3]['pos_on_content'];
-                        // change
-                        //tmpArray['periods'][key]['replacement'][key1]['content'] = content.replace(tmpSearchVal, tmpReplaceVal,)
-                    }
-                }
-            }
+            gzipPeriod(tmpArray, key);
         }
+    }
+
+    const gzipPeriod = (tmpStatement, periodIndex) => {
+        api.request('/api/gzip/period', 'POST', { 'compression': tmpStatement['periods'][periodIndex]['replacement'] })
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    console.log(res);
+                    //tmpStatement['periods'][periodIndex]['compression'] = res.data.data.replacement;
+                    //setStatement(tmpStatement);
+                }
+            })
     }
 
     return (

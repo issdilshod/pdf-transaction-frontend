@@ -33,7 +33,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
             let tmpTransactions = [];
             for (let key1 in tmpArray['periods'][key]['pages']){
                 tmpTransactions.push(replacementContent.get_transactions(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'][key1], types));
-                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][key1+2]);
+                tmpTransactions[key1] = replacementContent.get_replacement_content(tmpTransactions[key1], tmpArray['periods'][key]['replacement'][parseInt(key1)+2]);
             }
             let tmpServiceFees = replacementContent.get_service_fees(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+2);
             tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+2]);
@@ -96,7 +96,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
         api.request('/api/hex2ascii', 'POST', tmpStatement['periods'][periodIndex]['replacement'][pageIndex])
             .then(res => {
                 if (res.status===200||res.status===201){
-                    tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['font'] = res.data.data.font;
+                    tmpStatement['periods'][periodIndex]['replacement'][pageIndex] = res.data.data;
                     setStatement(tmpStatement);
                 }
             })
