@@ -26,9 +26,8 @@ const Compression = ({statement, setStatement, types, fonts}) => {
         api.request('/api/gzip/period', 'POST', { 'compression': tmpStatement['periods'][periodIndex]['replacement'] })
             .then(res => {
                 if (res.status===200||res.status===201){
-                    console.log(res);
-                    //tmpStatement['periods'][periodIndex]['compression'] = res.data.data.replacement;
-                    //setStatement(tmpStatement);
+                    tmpStatement['periods'][periodIndex]['compression'] = res.data.data;
+                    setStatement(tmpStatement);
                 }
             })
     }

@@ -11,24 +11,28 @@ const Pdf = ({statement, setStatement}) => {
     const api = new Api();
 
     const [pdfTable, setPdfTable] = useState([]);
+    const [downloadFileName, setDownloadFileName] = useState('');
 
     const handleFileChoose = (e, periodIndex) => {
         api.request('/api/upload/template', 'POST', {'template': e.target.files}, true)
             .then(res => {
-                let periodPage = 4;
-                periodPage += parseInt(statement['periods'][periodIndex]['pages'].length);
-                periodPage += (statement['periods'][periodIndex]['pages'].length%2!=0?1:0);
-                if (periodPage==res.data.data.pdfTable.length){
-                    setPdfTable(res.data.data.pdfTable);
+                if (res.status===200||res.status===201){
+                    let periodPage = 4;
+                    periodPage += parseInt(statement['periods'][periodIndex]['pages'].length);
+                    periodPage += (statement['periods'][periodIndex]['pages'].length%2!=0?1:0);
+                    if (periodPage==res.data.data.pdfTable.length){
+                        setPdfTable(res.data.data.pdfTable);
 
-                    api.request('/api/pdf/change', 'POST', {'filename': res.data.data.filename, 'compression': statement['periods'][periodIndex]['compression']})
-                        .then(res => {
-                            console.log(res);
-                        })
-                }else{
-                    alert('Wrong Pdf Template file. Pages is not equal to period pages.');
+                        api.request('/api/pdf/change', 'POST', {'filename': res.data.data.filename, 'pdf': res.data.data.pdfTable, 'compression': statement['periods'][periodIndex]['compression']})
+                            .then(res => {
+                                if (res.status===200||res.status===201){
+                                    setDownloadFileName(res.data);
+                                }
+                            })
+                    }else{
+                        alert('Wrong Pdf Template file. Pages is not equal to period pages.');
+                    }
                 }
-                
             })
     }
 
