@@ -6,7 +6,7 @@ class ReplacementContent{
     }
 
     get_replacement_content(content, replacement, name = ''){
-        let tmpResult = { 'content': window.btoa(unescape(encodeURIComponent(content))), 'font': [], 'page_name': name }; // { 'selector': '', 'font_id': '', 'content': [] }
+        let tmpResult = { 'original_content': window.btoa(unescape(encodeURIComponent(content))), 'content': window.btoa(unescape(encodeURIComponent(content))), 'font': [], 'page_name': name }; // { 'selector': '', 'font_id': '', 'content': [] }
 
         // get content on array
         let tmpContent = content.match(/(\/F[0-9] [+-]?([0-9]*[.])?[0-9]+ Tf)|(\((.*?)\)Tj)/g);

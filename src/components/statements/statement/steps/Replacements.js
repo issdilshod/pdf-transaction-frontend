@@ -93,6 +93,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
     }
 
     const hex2AsciiFunction = (tmpStatement, periodIndex, pageIndex) => {
+        tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['content'] = tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['original_content'];
         api.request('/api/hex2ascii', 'POST', tmpStatement['periods'][periodIndex]['replacement'][pageIndex])
             .then(res => {
                 if (res.status===200||res.status===201){
