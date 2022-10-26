@@ -96,7 +96,8 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
         api.request('/api/hex2ascii', 'POST', tmpStatement['periods'][periodIndex]['replacement'][pageIndex])
             .then(res => {
                 if (res.status===200||res.status===201){
-                    tmpStatement['periods'][periodIndex]['replacement'][pageIndex] = res.data.data;
+                    tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['content'] = res.data.data.content;
+                    tmpStatement['periods'][periodIndex]['replacement'][pageIndex]['font'] = res.data.data.font;
                     setStatement(tmpStatement);
                 }
             })

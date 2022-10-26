@@ -38,6 +38,17 @@ const Pdf = ({statement, setStatement}) => {
             })
     }
 
+    const handleDownload = (e) => {
+        e.preventDefault();
+
+        let el = document.createElement('a');
+        let filename = 'eStmt_' + statement['periods'][activePeriod]['period'] + '.pdf';
+        el.setAttribute('href', process.env.REACT_APP_BACKEND_ENDPOINT + '/' + downloadFileName);
+        el.setAttribute('download', filename);
+        el.setAttribute('target', '_blank');
+        el.click();
+    }
+
     return (
         <>
             {
@@ -93,7 +104,7 @@ const Pdf = ({statement, setStatement}) => {
                                             </div>
 
                                             <div className='form-group mt-4 text-right'>
-                                                <button className='c-btn c-btn-primary'>
+                                                <button className='c-btn c-btn-primary' onClick={ (e) => { handleDownload(e) } }>
                                                     <i className='mr-2'>
                                                         <FaDownload />
                                                     </i>
