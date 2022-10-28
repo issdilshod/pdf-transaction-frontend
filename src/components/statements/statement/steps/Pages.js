@@ -153,7 +153,7 @@ const Pages = ({statement, setStatement, types}) => {
 
                                             <>
 
-                                                <table className='c-table mt-2 mb-2'>
+                                                <table className='c-table mt-2 mb-4'>
                                                     <thead>
                                                         <tr>
                                                             <th>Date</th>
@@ -210,7 +210,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                     <div className='c-card-body'>
                                                         {   dailyBalancesContent &&
                                                             <div className='c-white-space'>
-                                                                {pdfContent.get_daily_balances(statement, value)}
+                                                                {pdfContent.get_daily_balances(statement, value, types, value['pages'].length+4)}
                                                             </div>
                                                         }
                                                     </div>

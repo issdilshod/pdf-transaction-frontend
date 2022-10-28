@@ -21,7 +21,9 @@ class PdfContent {
         this.ServiceFees = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F1 66.667 Tf\n300 -302 Td\n({company_name}   !   Account # {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -336 m\n4626 -336 l\nS\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F3 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n/F2 125 Tf\n-3900 5886 Td\n(Service fees)Tj\n0 0 0 1 k\n/F1 75 Tf\n0 -106 Td\n(The Monthly Fee on your primary Business Advantage Fundamentals Banking account was waived for the statement period ending {last_day_of_last_month}.)Tj\n0 -90 Td\n(A check mark below indicates the requirement(s) you have met to qualify for the Monthly Fee waiver on the account.)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 330 -897 cm\n2 0 0 2 0 0 cm\nq\nq\n51 0 0 51 0 -51 cm\n/Im2 Do\nQ\nQ\nQ\nQ\nQ\nq\n0 0 0 .85098 k\nBT\n/F1 75 Tf\n523 -967 Td\n($250+ in new net purchases on a linked Business debit card has not been met)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 330 -1051 cm\n2 0 0 2 0 0 cm\n0 0 m\n44 0 l\n44 -42 l\n0 -42 l\n0 0 l\nh\nW\nn\nq\nq\n44 0 0 42 0 -42 cm\n/Im3 Do\nQ\nQ\nQ\nQ\nQ\nq\n0 0 0 .85098 k\nBT\n/F1 75 Tf\n522 -1121 Td\n($5,000+ combined average monthly balance in linked business accounts has been met)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 330 -1205 cm\n2 0 0 2 0 0 cm\nq\nq\n51 0 0 51 0 -51 cm\n/Im2 Do\nQ\nQ\nQ\nQ\nQ\nq\n0 0 0 .85098 k\nBT\n/F1 75 Tf\n523 -1275 Td\n(Become a member of Preferred Rewards for Business has not been met)Tj\n0 0 0 rg\nET\n0 0 0 .85098 k\nBT\n/F1 75 Tf\n300 -1429 Td\n(For information on how to open a new product, link an existing service to your account, or about Preferred Rewards for Business please)Tj\n0 -109 Td\n(call 1.888.BUSINESS or visit bankofamerica.com/smallbusiness.)Tj\n0 0 0 rg\nET\nQ\nQ";
         
         // Daily Balance
-        this.DailyBalances = "";
+        this.DailyBalances = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F4 66.667 Tf\n300 -692 Td\n({company_name}   !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -726 m\n4800 -726 l\nS\n0 0 0 0 k\n0 0 0 0 K\nq\n0 0 0 0 k\n3270 -300 m\n4630 -300 l\n4630 -486 l\n3270 -486 l\nh\nf*\n0 0 0 0 k\n0 0 0 0 K\nQ\nQ\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F3 125 Tf\n3326 -451 Td\n(Your checking account)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 300 -390 cm\n2 0 0 2 0 0 cm\n0 0 m\n708 0 l\n708 -105 l\n0 -105 l\n0 0 l\nh\nW\nn\nq\nq\n708 0 0 105 0 -105 cm\n/Im1 Do\nQ\nQ\nQ\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n/F1 125 Tf\n-3900 5466 Td\n(Daily ledger balances)Tj\n0 0 0 1 k\n/F4 66.667 Tf\n0 -98 Td\n(Date)Tj\n1099 0 Td\n(Balance ($))Tj\n446 2 Td\n(Date)Tj\n1117 0 Td\n(Balance($))Tj\n428 0 Td\n(Date)Tj\n1099 0 Td\n(Balance ($))Tj{daily_block}Q\nQ\nQ";
+        this.DailyBalancesDailyBlock = "{if_not_first}\n/F4 79.167 Tf\n{date_x_pos} {date_y_pos} Td\n({date})Tj\n{amount_x_pos} 0 Td\n({amount})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n{lines1_x_pos} {lines1_y_pos} m\n{lines2_x_pos} {lines1_y_pos} l\nS\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n{lines1_x_pos} {lines2_y_pos} m\n{lines2_x_pos} {lines2_y_pos} l\nS\n";
+        this.DailyBalancesDailyBlockIfNotFirst = "Q\nQ\nq\n0 0 0 1 k\nBT\n";
 
         this.BlankPage = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 .50196 k\nBT\n/F2 100 Tf\n1860 -3392 Td\n(This page intentionally left blank)Tj\n0 0 0 1 k\n/F2 66.667 Tf\n-1560 3120 Td\n({company_name}   !   Account # {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -306 m\n4626 -306 l\nS\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F3 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\nET\nQ\nQ";
     
@@ -170,13 +172,87 @@ class PdfContent {
     }
 
     // not started
-    get_daily_balances(statement, period, current_page){
+    get_daily_balances(statement, period, types, current_page){
         let result = this.DailyBalances;
 
+        let start_end_period = this.#start_end_period(period['period']);
+        let max_page = this.#max_page(period);
 
+        let dailyBalances = this.#get_daily_balances_with_order(period, types);
 
+        let dailyBalancesContent = this.#get_daily_balance_content_with_real_data(dailyBalances);
+        
         // replace
+        result = result.replace('{company_name}', statement['company']['name']);
+        result = result.replace('{account_number}', period['account_number']);
+        result = result.replaceAll('{start_period}', start_end_period['start']);
+        result = result.replaceAll('{end_period}', start_end_period['end']);
+        result = result.replace('{current_page}', current_page);
+        result = result.replace('{max_page}', max_page);
 
+        result = result.replace('{daily_block}', dailyBalancesContent);
+
+        return result;
+    }
+
+    #get_daily_balances_with_order(period, types){
+        // table daily balance
+        let tmpTableDailyBalance = this.typeFunction.get_table_daily_balance(period, types);
+                
+        // Artur formula
+        let dailyBalances = [];
+        let step = Math.ceil(tmpTableDailyBalance.length/3);
+        for (let i=0; i < step; i++){
+            for (let j=i; j<tmpTableDailyBalance.length; j+=step){
+                dailyBalances.push(tmpTableDailyBalance[j]);
+            }
+        }
+        return dailyBalances;
+    }
+
+    #get_daily_balance_content_with_real_data(dailyBalances){
+        let startX = -4189, startY = -157;
+        let standartX = 300, standartY = -1309, standartLineX = -1205;
+        let columnBetween = 1545, rowBetween = -130, linesBetween = 1410;
+
+        let result = "", currentColumn = 1;
+        let ifNotFirst = this.DailyBalancesDailyBlockIfNotFirst;
+        for (let key in dailyBalances){
+            let oneContent = this.DailyBalancesDailyBlock;
+            let currentRow = Math.ceil(key/3);
+            if (key==0){ // first one
+                // date pos
+                oneContent = oneContent.replace('{if_not_first}', '');
+                oneContent = oneContent.replace('{date_x_pos}', startX);
+                oneContent = oneContent.replace('{date_y_pos}', startY);
+            } else {
+                oneContent = oneContent.replace('{if_not_first}', ifNotFirst);
+
+                // date pos
+                startX = standartX + ((currentColumn-1)*columnBetween);
+                startY = standartY + ((currentRow-1)*rowBetween);
+                oneContent = oneContent.replace('{date_x_pos}', startX);
+                oneContent = oneContent.replace('{date_y_pos}', startY);
+            }
+
+            // replacement
+            oneContent = oneContent.replace('{date}', dailyBalances[key]['date']);
+            oneContent = oneContent.replace('{amount_x_pos}', 973); // TODO: Get data depends on amount number
+            oneContent = oneContent.replace('{amount}', this.numberFunction.to_currency(dailyBalances[key]['ending_balance']));
+            oneContent = oneContent.replaceAll('{lines1_x_pos}', (300 + ((currentColumn-1)*columnBetween)));
+            oneContent = oneContent.replaceAll('{lines2_x_pos}', ((300+linesBetween) + ((currentColumn-1)*columnBetween)));
+
+            oneContent = oneContent.replaceAll('{lines1_y_pos}', ((standartLineX) + ((currentRow-1)*rowBetween)));
+            oneContent = oneContent.replaceAll('{lines2_y_pos}', ((standartLineX) + ((currentRow)*rowBetween)));
+
+            result += oneContent;
+
+            // change column
+            currentColumn++;
+            if (currentColumn>3){currentColumn=1;}
+        }
+        result = result.replaceAll('\n\n', '\n');
+        result = result.replaceAll('\n\n\n', '\n');
         return result;
     }
 

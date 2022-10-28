@@ -129,8 +129,8 @@ class ReplacementContent{
         return result;
     }
 
-    get_daily_balances(statement, period, current_page){
-        let result = this.pdfContent.get_daily_balances(statement, period);
+    get_daily_balances(statement, period, types, current_page){
+        let result = this.pdfContent.get_daily_balances(statement, period, types, current_page);
 
         return result;
     }

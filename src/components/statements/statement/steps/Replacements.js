@@ -38,7 +38,7 @@ const Replacements = ({statement, setStatement, types, fonts}) => {
             let tmpServiceFees = replacementContent.get_service_fees(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+2);
             tmpServiceFees = replacementContent.get_replacement_content(tmpServiceFees, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+2], 'Page '+(tmpArray['periods'][key]['pages'].length+3)+' (Service fees)');
 
-            let tmpDailyBalances = replacementContent.get_daily_balances(statement, tmpArray['periods'][key], tmpArray['periods'][key]['pages'].length+3);
+            let tmpDailyBalances = replacementContent.get_daily_balances(statement, tmpArray['periods'][key], types, tmpArray['periods'][key]['pages'].length+3);
             tmpDailyBalances = replacementContent.get_replacement_content(tmpDailyBalances, tmpArray['periods'][key]['replacement'][tmpArray['periods'][key]['pages'].length+3], 'Page '+(tmpArray['periods'][key]['pages'].length+4)+' (Daily Balances)');
 
             let tmpBlankPage = [];
