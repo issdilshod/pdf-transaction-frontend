@@ -219,7 +219,7 @@ class PdfContent {
         let ifNotFirst = this.DailyBalancesDailyBlockIfNotFirst;
         for (let key in dailyBalances){
             let oneContent = this.DailyBalancesDailyBlock;
-            let currentRow = Math.ceil(key/3);
+            let currentRow = Math.ceil((parseInt(key)+1)/3);
             if (key==0){ // first one
                 // date pos
                 oneContent = oneContent.replace('{if_not_first}', '');
