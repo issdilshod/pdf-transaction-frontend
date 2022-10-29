@@ -36,7 +36,6 @@ class PdfContent {
         this.typeFunction = new TypeFunction();
     }
 
-    // done
     get_account_summary(statement, period, types){
         let result = this.AccountSummary;
 
@@ -70,7 +69,6 @@ class PdfContent {
         return result;
     }
 
-    // done
     get_importatnt_information(statement, period){
         let result = this.ImportantInformation;
 
@@ -112,6 +110,7 @@ class PdfContent {
 
         return result;
     }
+
     // in func
     #start_end_period(date){
         let end_period = new Date(date);
@@ -125,12 +124,14 @@ class PdfContent {
 
         return result;
     }
+
     // in func
     #max_page(period){
         let pages_count = period['pages'].length;
         let result = (pages_count%2==0?(pages_count+4):(pages_count+5));
         return result;
     }
+    
     // in func
     #header(page){
         let result = '';
@@ -142,7 +143,6 @@ class PdfContent {
         return result;
     }
 
-    // done
     get_service_fees(statement, period, current_page){
         let result = this.ServiceFees;
 
@@ -161,6 +161,7 @@ class PdfContent {
 
         return result;
     }
+
     // in func
     #last_day_of_last_period(date){
         date = new Date(date);
@@ -171,7 +172,6 @@ class PdfContent {
         return result;
     }
 
-    // not started
     get_daily_balances(statement, period, types, current_page){
         let result = this.DailyBalances;
 
@@ -195,6 +195,7 @@ class PdfContent {
         return result;
     }
 
+    // in func
     #get_daily_balances_with_order(period, types){
         // table daily balance
         let tmpTableDailyBalance = this.typeFunction.get_table_daily_balance(period, types);
@@ -210,6 +211,7 @@ class PdfContent {
         return dailyBalances;
     }
 
+    // in func
     #get_daily_balance_content_with_real_data(dailyBalances){
         let startX = -4189, startY = -157;
         let standartX = 300, standartY = -1309, standartLineX = -1205;
@@ -256,7 +258,6 @@ class PdfContent {
         return result;
     }
 
-    // done
     get_blank_page(statement, period, current_page){
         let result = this.BlankPage;
 
