@@ -8,11 +8,11 @@ class PdfContent {
         this.ImportantInformation = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F2 66.667 Tf\n300 -272 Td\n({company_name}   !   Account # {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -306 m\n4626 -306 l\nS\nQ\nQ\nq\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6524 Td\n(Page 2 of {max_page})Tj\n0 1 .74902 .039216 k\n/F3 133.33 Tf\n-3900 6035 Td\n(IMPORTANT INFORMATION:)Tj\n/F2 125 Tf\n0 -153 Td\n(BANK DEPOSIT ACCOUNTS)Tj\n/F2 83.333 Tf\n0 -213 Td\n(How to Contact Us )Tj\n0 0 0 1 k\n691 0 Td\n(-)Tj\n0 1 .74902 .039216 k\n30 0 Td\n( )Tj\n0 0 0 1 k\n23 0 Td\n(You may call us at the telephone number listed on the front of this statement.)Tj\n0 1 .74902 .039216 k\n-744 -202 Td\n(Updating your contact information)Tj\n0 0 0 1 k\n1217 0 Td\n( - We encourage you to keep your contact information up-to-date. This includes address,)Tj\n-1217 -101 Td\n(email and phone number. If your information has changed, the easiest way to update it is by visiting the Help & Support tab of)Tj\n0 -101 Td\n(Online Banking.)Tj\n0 1 .74902 .039216 k\n0 -205 Td\n(Deposit agreement)Tj\n0 0 0 1 k\n672 0 Td\n( - When you opened your account, you received a deposit agreement and fee schedule and agreed that your)Tj\n-672 -101 Td\n(account would be governed by the terms of these documents, as we may amend them from time to time. These documents are)Tj\n0 -101 Td\n(part of the contract for your deposit account and govern all transactions relating to your account, including all deposits and)Tj\n0 -101 Td\n(withdrawals. Copies of both the deposit agreement and fee schedule which contain the current version of the terms and)Tj\n0 -101 Td\n(conditions of your account relationship may be obtained at our financial centers.)Tj\n0 1 .74902 .039216 k\n0 -205 Td\n(Electronic transfers: In case of errors or questions about your electronic transfers)Tj\n0 0 0 1 k\n2864 0 Td\n( - If you think your statement or receipt is)Tj\n-2864 -101 Td\n(wrong or you need more information about an electronic transfer (e.g., ATM transactions, direct deposits or withdrawals,)Tj\n0 -101 Td\n(point-of-sale transactions) on the statement or receipt, telephone or write us at the address and number listed on the front of)Tj\n0 -101 Td\n(this statement as soon as you can. We must hear from you no later than 60 days after we sent you the FIRST statement on)Tj\n0 -101 Td\n(which the error or problem appeared.)Tj\n150 -205 Td\n(—)Tj\n150 0 Td\n(Tell us your name and account number.)Tj\n-150 -101 Td\n(—)Tj\n150 0 Td\n(Describe the error or transfer you are unsure about, and explain as clearly as you can why you believe there is an error)Tj\n0 -101 Td\n(or why you need more information.)Tj\n-150 -101 Td\n(—)Tj\n150 0 Td\n(Tell us the dollar amount of the suspected error.)Tj\n-300 -205 Td\n(For consumer accounts used primarily for personal, family or household purposes, we will investigate your complaint and will)Tj\n0 -101 Td\n(correct any error promptly. If we take more than 10 business days (10 calendar days if you are a Massachusetts customer) (20)Tj\n0 -101 Td\n(business days if you are a new customer, for electronic transfers occurring during the first 30 days after the first deposit is)Tj\n0 -101 Td\n(made to your account) to do this, we will provisionally credit your account for the amount you think is in error, so that you will)Tj\n0 -101 Td\n(have use of the money during the time it will take to complete our investigation.)Tj\n0 -205 Td\n(For other accounts, we investigate, and if we find we have made an error, we credit your account at the conclusion of our)Tj\n0 -101 Td\n(investigation.)Tj\n0 1 .74902 .039216 k\n0 -205 Td\n(Reporting other problems)Tj\n0 0 0 1 k\n899 0 Td\n( - You must examine your statement carefully and promptly. You are in the best position to discover)Tj\n-899 -101 Td\n(errors and unauthorized transactions on your account. If you fail to notify us in writing of suspected problems or an)Tj\n0 -101 Td\n(unauthorized transaction within the time period specified in the deposit agreement (which periods are no more than 60 days)Tj\n0 -101 Td\n(after we make the statement available to you and in some cases are 30 days or less), we are not liable to you and you agree to)Tj\n0 -101 Td\n(not make a claim against us, for the problems or unauthorized transactions.)Tj\n0 1 .74902 .039216 k\n0 -205 Td\n(Direct deposits)Tj\n0 0 0 1 k\n532 0 Td\n( - If you have arranged to have direct deposits made to your account at least once every 60 days from the same)Tj\n-532 -101 Td\n(person or company, you may call us to find out if the deposit was made as scheduled. You may also review your activity online)Tj\n0 -101 Td\n(or visit a financial center for information.)Tj\n0 -303 Td\n( ©)Tj\n115 0 Td\n(2022)Tj\n184 0 Td\n( Bank of America Corporation)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 1200 -5460 cm\n2 0 0 2 0 0 cm\n0 0 m\n1212 0 l\n1212 -87 l\n0 -87 l\n0 0 l\nh\nW\nn\nq\nq\n1216 0 0 87 0 -87 cm\n/Im1 Do\nQ\nQ\nQ\nQ\nQ\nQ";
         
         // Transactions 
-        this.Transactions = "{page_header}\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n{type_first}\n{type_second}\n{page_footer}";
+        this.Transactions = "{page_header}\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n{type_first}{page_footer}";
         this.TransactionsNotMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F4 66.667 Tf\n300 -692 Td\n({company_name}   !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -726 m\n4800 -726 l\nS\n0 0 0 0 k\n0 0 0 0 K\nq\n0 0 0 0 k\n3270 -300 m\n4630 -300 l\n4630 -486 l\n3270 -486 l\nh\nf*\n0 0 0 0 k\n0 0 0 0 K\nQ\nQ\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F2 125 Tf\n3326 -451 Td\n(Your checking account)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 300 -390 cm\n2 0 0 2 0 0 cm\n0 0 m\n708 0 l\n708 -105 l\n0 -105 l\n0 0 l\nh\nW\nn\nq\nq\n708 0 0 105 0 -105 cm\n/Im1 Do\nQ\nQ\nQ\nQ\nQ\nq";
         this.TransactionsMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F3 66.667 Tf\n300 -302 Td\n({company_name}  !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -336 m\n4626 -336 l\nS\nQ\nQ\nq";
         this.TransactionsTypeFirst = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
-        this.TransactionsTypeSecond = "Q\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F1 125 Tf\n300 {y_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
+        this.TransactionsTypeSecond = "Q\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F1 125 Tf\n300 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsSummaryContinue = "/F5 54.167 Tf\n{x_position} -308 Td\n(continued on the next page)Tj";
         this.TransactionsSummaryTotal = "1 .6 0 .05098 k\n/F4 83.333 Tf\n-4222 -161 Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
         this.TransactionsFooterPicture = "Q\nQ\nq\nq\nq\n1 0 0 1 450 -5175 cm\n2 0 0 2 0 0 cm\n0 0 m\n2100 0 l\n2100 -555 l\n0 -555 l\n0 0 l\nh\nW\nn\nq\nq\n2100 0 0 555 0 -555 cm\n/Im2 Do\nQ\nQ\nQ\nQ\nQ\nQ";
@@ -92,6 +92,8 @@ class PdfContent {
         let start_end_period = this.#start_end_period(period['period']);
         let max_page = this.#max_page(period);
 
+        let pageContent = this.#get_transaction_content_with_real_data(period, page, types);
+
         // Header
         let header = this.#header(page);
         header = header.replace('{company_name}', statement['company']['name']);
@@ -100,13 +102,14 @@ class PdfContent {
         header = header.replace('{end_period}', start_end_period['end']);
         
         // Footer
-        let footer = this.TransactionsFooterNotPicture;
+        let footer = this.TransactionsFooterNotPicture; // TODO: Get from daatabase if has photo
         
         // Replace
         result = result.replace('{page_header}', header);
         result = result.replace('{max_page}', max_page);
         result = result.replace('{current_page}', page['page']);
         result = result.replace('{page_footer}', footer);
+        result = result.replace('{type_first}', pageContent);
 
         return result;
     }
@@ -131,7 +134,7 @@ class PdfContent {
         let result = (pages_count%2==0?(pages_count+4):(pages_count+5));
         return result;
     }
-    
+
     // in func
     #header(page){
         let result = '';
@@ -141,6 +144,81 @@ class PdfContent {
             result = this.TransactionsNotMod2Header;
         }
         return result;
+    }
+
+    // in func
+    #get_transaction_content_with_real_data(period, page, types){
+        
+        let typesOfPage = this.#get_types_of_page(period['pdf_content'], page);
+
+        let resultContent1 = this.TransactionsTypeFirst;
+        let resultContent2 = this.TransactionsTypeSecond;
+
+        let result = resultContent1;
+        // all types in page
+        for (let key in typesOfPage['lines']){
+            // get type data
+            let type = this.#determineType(typesOfPage['lines'][key]['type_id'], types);
+            if (type['name']==this.Deposits.name){
+                type= this.Deposits;
+            }else if(type['name']==this.Withdrawals.name){
+                type = this.Withdrawals;
+            }
+            
+            // replacement
+            if (key==0){ // first type
+                result = result.replace('{x_position}', 5418); // depends of mod page if mod then "5418" else "5868" TODO: Mod page and set
+            }else {
+                result += resultContent2;
+                result = result.replace('{x_position}', -3078); // -3078 depends on type first
+            }
+
+            result = result.replace('{type_title}', type['title']); 
+            result = result.replace('{if_continued}', ' - continued');// TODO: determine if has continue
+
+            result = result.replace('{type_transactions}', typesOfPage['transactions'][key]['content']);
+            result = result.replace('{type_lines}', typesOfPage['lines'][key]['content']);
+
+            // totals TODO: Determine if continue or total this.TransactionsSummaryContinue;
+            let summary = this.TransactionsSummaryTotal; // continue {x_position} = // depends on last transaction amount digit number
+ 
+            result = result.replace('{type_summary}', summary);
+            result = result.replace('{total_title}', type['total_title']);
+            result = result.replace('{x_position}', 4014); // {x_position} depends on total digit number TODO: Real data
+            result = result.replace('{total_sum}', '$0.00'); // TODO: Real data
+
+        }
+
+        result = result.replaceAll('\n\n', '\n');
+        
+        return result;
+    }
+
+    // in func
+    #get_types_of_page(pdf_content_lines, page){
+        let result = {};
+        for (let key in pdf_content_lines['lines']){
+            if (pdf_content_lines['lines'][key]['id']==page['id']){
+                result['lines'] = pdf_content_lines['lines'][key]['types'];
+                break;
+            }
+        }
+        for (let key in pdf_content_lines['transactions']){
+            if (pdf_content_lines['transactions'][key]['id']==page['id']){
+                result['transactions'] = pdf_content_lines['transactions'][key]['types'];
+                break;
+            }
+        }
+        return result;
+    }
+
+    // in func
+    #determineType(id, types){
+        for (let key in types){
+            if (id==types[key]['id']){
+                return types[key];
+            }
+        }
     }
 
     get_service_fees(statement, period, current_page){
