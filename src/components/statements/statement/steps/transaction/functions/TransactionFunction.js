@@ -149,7 +149,7 @@ class TransactionFunction {
 
     get_pdf_content_transactions(statement, period, pages){
         period['pdf_content']['transactions'] = [];
-        let page_id = '', last_page_id = '', last_amount = '', count_last_description = '';
+        let page_id = '', last_page_id = '', last_amount = '', type_id = '', last_type_id = '', firstIn = true, count_last_description = '';
         let result = '';
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){
@@ -190,6 +190,8 @@ class TransactionFunction {
                 //#region calculate
 
                 page_id = period['transactions'][key]['offset']['id'];
+                type_id = period['transactions'][key]['type_id'];
+                if (firstIn){ last_type_id = type_id; firstIn = false; }
                 let tmpX = 0, tmpY = 0, tmpAmountX, tmpAmountY;
                 if (page_id!=last_page_id){ // start of page
                     // reset
@@ -211,6 +213,11 @@ class TransactionFunction {
 
                     last_page_id = page_id;
                 }else{
+                    if (last_type_id != type_id){
+                        result = '';
+                        last_type_id = type_id;
+                    }
+
                     tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
 
                     let negative = 0;
@@ -255,7 +262,7 @@ class TransactionFunction {
                 result += '('+amount+')Tj\n';
 
                 //#endregion
-  
+
                 // set to array
                 let exists = false, exists_index, type_exists = false, type_exists_index;
                 for (let key1 in period['pdf_content']['transactions']){
