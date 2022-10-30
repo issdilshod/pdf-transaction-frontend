@@ -206,7 +206,7 @@ class TransactionFunction {
                     let negative = 0;
                     if (this.#determine_is_negative(period['transactions'][key]['amount'])){ negative = this.negative.x; }
 
-                    let digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);debugger;
+                    let digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
 
                     tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) - negative;
                     tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
