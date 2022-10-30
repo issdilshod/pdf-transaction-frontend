@@ -9,9 +9,11 @@ class PdfContent {
         
         // Transactions 
         this.Transactions = "{page_header}\n0 0 0 .90196 k\nBT\n/F2 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n{type_first}{page_footer}";
+        this.TransactionsNotMod2 = "{page_header}\n0 0 0 .90196 k\nBT\n/F3 79.167 Tf\n4200 -6522 Td\n(Page {current_page} of {max_page})Tj\n0 0 0 rg\n0 1 .74902 .039216 k\n{type_first}{page_footer}";
         this.TransactionsNotMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F4 66.667 Tf\n300 -692 Td\n({company_name}   !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -726 m\n4800 -726 l\nS\n0 0 0 0 k\n0 0 0 0 K\nq\n0 0 0 0 k\n3270 -300 m\n4630 -300 l\n4630 -486 l\n3270 -486 l\nh\nf*\n0 0 0 0 k\n0 0 0 0 K\nQ\nQ\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F2 125 Tf\n3326 -451 Td\n(Your checking account)Tj\n0 0 0 rg\nET\nQ\nq\nq\nq\n1 0 0 1 300 -390 cm\n2 0 0 2 0 0 cm\n0 0 m\n708 0 l\n708 -105 l\n0 -105 l\n0 0 l\nh\nW\nn\nq\nq\n708 0 0 105 0 -105 cm\n/Im1 Do\nQ\nQ\nQ\nQ\nQ\nq";
         this.TransactionsMod2Header = "1 0 0 1 0 792 cm\nq\n.12 0 0 .12 0 0 cm\nq\n0 0 0 1 k\nBT\n/F3 66.667 Tf\n300 -302 Td\n({company_name}  !   Account #  {account_number}   !   {start_period} to {end_period})Tj\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 -336 m\n4626 -336 l\nS\nQ\nQ\nq";
-        this.TransactionsTypeFirst = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
+        this.TransactionsTypeFirstMod2 = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
+        this.TransactionsTypeFirstNotMod2 = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F4 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F4 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsTypeSecond = "Q\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F1 125 Tf\n300 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsSummaryContinue = "/F5 54.167 Tf\n{x_position} -308 Td\n(continued on the next page)Tj";
         this.TransactionsSummaryTotal = "1 .6 0 .05098 k\n/F4 83.333 Tf\n-4222 -161 Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
@@ -89,6 +91,7 @@ class PdfContent {
     get_transactions(statement, period, page, types){
 
         let result = this.Transactions;
+        if (page['page']%2!=0){ result = this.TransactionsNotMod2; }
         let start_end_period = this.#start_end_period(period['period']);
         let max_page = this.#max_page(period);
 
@@ -151,8 +154,12 @@ class PdfContent {
         
         let typesOfPage = this.#get_types_of_page(period['pdf_content'], page);
 
-        let resultContent1 = this.TransactionsTypeFirst;
+        let resultContent1 = this.TransactionsTypeFirstNotMod2;
         let resultContent2 = this.TransactionsTypeSecond;
+
+        if (page['page']%2==0){
+            resultContent1 = this.TransactionsTypeFirstMod2;
+        }
 
         let result = resultContent1;
         // all types in page
@@ -167,7 +174,11 @@ class PdfContent {
             
             // replacement
             if (key==0){ // first type
-                result = result.replace('{x_position}', 5418); // depends of mod page if mod then "5418" else "5868" TODO: Mod page and set
+                if (page['page']%2==0){
+                    result = result.replace('{x_position}', 5868);
+                }else{
+                    result = result.replace('{x_position}', 5418);
+                }
             }else {
                 result += resultContent2;
                 result = result.replace('{x_position}', -3078); // -3078 depends on type first

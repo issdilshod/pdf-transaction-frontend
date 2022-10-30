@@ -216,7 +216,7 @@ class TransactionFunction {
                 }else{
                     if (last_type_id != type_id){
                         result = '';
-                        last_type_id = type_id;debugger;
+                        last_type_id = type_id;
                     }
 
                     tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
