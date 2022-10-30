@@ -212,6 +212,7 @@ class TransactionFunction {
                     tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
 
                     last_page_id = page_id;
+                    last_type_id = type_id;
                 }else{
                     if (last_type_id != type_id){
                         result = '';
@@ -298,6 +299,7 @@ class TransactionFunction {
                         });
                     }else{
                         period['pdf_content']['transactions'][exists_index]['types'][type_exists_index] = {
+                            'type_id': period['transactions'][key]['type_id'],
                             'content': result,
                             'continue_x_pos': continue_x_pos,
                             'total_x_pos': total_x_pos
