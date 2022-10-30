@@ -200,7 +200,7 @@ class TransactionFunction {
                     let digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
 
                     tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) + negative;
-                    tmpAmountY = (tmpContent.length==1?0:(90*tmpContent.length-1));
+                    tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
 
                     last_page_id = page_id;
                 }else{
