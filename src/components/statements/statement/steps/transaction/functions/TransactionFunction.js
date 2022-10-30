@@ -216,7 +216,7 @@ class TransactionFunction {
                 }else{
                     if (last_type_id != type_id){
                         result = '';
-                        last_type_id = type_id;
+                        last_type_id = type_id;debugger;
                     }
 
                     tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
@@ -227,8 +227,10 @@ class TransactionFunction {
                     let digit = this.#determine_digit_of_amount(last_amount);
                     tmpX = parseInt(this.offset.amount_digits[digit].date) + negative;
 
+                    negative = 0;
+                    if (this.#determine_is_negative(period['transactions'][key]['amount'])){ negative = this.negative.x; }
                     digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
-                    tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) + negative;
+                    tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) - negative;
                     tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
                 }
 
@@ -313,7 +315,7 @@ class TransactionFunction {
     }
 
     #determine_digit_of_amount(number){
-        let digit = parseInt(number).toString().length;
+        let digit = Math.abs(parseInt(number)).toString().length;
         if (digit>7){ digit = 7; } // tmp
         if (digit<3){ digit = 3; }
         return digit;
