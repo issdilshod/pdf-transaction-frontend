@@ -89,16 +89,22 @@ class TransactionFunction {
     get_pdf_content_lines(period, pages){
         period['pdf_content']['lines'] = [];
         const standart = "0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 {offset} m\n4800 {offset} l\nS";
-        let result = '', page_id = '', last_page_id = '';
+        let result = '', page_id = '', last_page_id = '', type_id = '', last_type_id = '', firstIn= true;
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){
                 page_id = period['transactions'][key]['offset']['id'];
+                type_id = period['transactions'][key]['type_id'];
+                if (firstIn){ last_type_id = type_id; firstIn = false; }
                 let tmpPage = this.#get_page(pages, page_id);
                 if (page_id!=last_page_id){ // new page
                     last_page_id = page_id;
                     result = standart.replaceAll("{offset}", tmpPage['start_offset']) + "\n";
                     result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
                 }else{
+                    if (last_type_id!=type_id){
+                        result = '';
+                        last_type_id = type_id;
+                    }
                     result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
                 }
 
@@ -148,6 +154,7 @@ class TransactionFunction {
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){
                 let date = '', tmpContent = [], amount = '';
+                let continue_x_pos = '', total_x_pos = '';
 
                 //#region get all description/date/amount one by one and set to tmp pdf content
 
@@ -220,6 +227,11 @@ class TransactionFunction {
                 last_amount = period['transactions'][key]['amount'];
                 count_last_description = tmpContent.length;
 
+                // continue pos
+                continue_x_pos = -372; // TODO: get data depends on last amount digit and negative data
+                
+                total_x_pos = 3692; // TODO: depends on total number of digits and negative
+
                 //#endregion
 
                 //#region set pdf content
@@ -264,17 +276,25 @@ class TransactionFunction {
                 if (!exists){
                     period['pdf_content']['transactions'].push({ 'id': page_id, 'page': tmpPage['page'], 'types': [{
                             'type_id': period['transactions'][key]['type_id'],
-                            'content': result
+                            'content': result,
+                            'continue_x_pos': continue_x_pos,
+                            'total_x_pos': total_x_pos
                         }]  
                     });
                 }else{
                     if (!type_exists){
                         period['pdf_content']['transactions'][exists_index]['types'].push({
                             'type_id': period['transactions'][key]['type_id'],
-                            'content': result
+                            'content': result,
+                            'continue_x_pos': continue_x_pos,
+                            'total_x_pos': total_x_pos
                         });
                     }else{
-                        period['pdf_content']['transactions'][exists_index]['types'][type_exists_index]['content'] = result;
+                        period['pdf_content']['transactions'][exists_index]['types'][type_exists_index] = {
+                            'content': result,
+                            'continue_x_pos': continue_x_pos,
+                            'total_x_pos': total_x_pos
+                        };
                     }
                 }
             }
@@ -323,10 +343,13 @@ class TransactionFunction {
         }
 
         // recalculat offsets
+        let last_page_id = '', type_id = '', last_type_id = '', firstIn = true;
         for (let key in period['transactions']){
             if (period['transactions'][key]['category_id']==''){ continue; }
 
             let offset = this.#get_offset_of_category(period['transactions'][key]['category_id'], categories);
+            type_id = period['transactions'][key]['type_id'];
+            if (firstIn){ last_type_id = type_id; firstIn = false; }
             
             // Check in what page is transactions
             let last_offset_index = '', exists = false;
@@ -348,8 +371,19 @@ class TransactionFunction {
                 start_offset = period['transactions'][last_offset_index]['offset']['value'];
             }
 
+            let betweenTypes = 0;
+            if (last_page_id!=tmpPage['id']){
+                last_type_id = type_id;
+                last_page_id = tmpPage['id'];
+            }else {
+                if (last_type_id!=type_id){
+                    betweenTypes = -603;
+                    last_type_id = type_id;
+                }
+            }
+
             // Offset calculate
-            let tmpResOffset = parseInt(start_offset) + parseInt(offset);
+            let tmpResOffset = parseInt(start_offset) + parseInt(offset) + parseInt(betweenTypes);
             if (tmpResOffset>=parseInt(tmpPage['end_offset'])){ // set offset
                 period['transactions'][key]['offset'] = {'id': tmpPage['id'], 'value': tmpResOffset};
             } else { // next page
