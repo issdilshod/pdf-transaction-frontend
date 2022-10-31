@@ -19,7 +19,7 @@ const Organization = ({statement, setStatement, step, setStep}) => {
                         break;
                 }
             });
-    });
+    }, []);
 
     const handleChange = (e) => {
         const {value, name} = e.target;

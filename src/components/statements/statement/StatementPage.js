@@ -16,6 +16,7 @@ import './Statement.scss';
 import Replacements from './steps/Replacements';
 import Compression from './steps/Compression';
 import Pdf from './steps/Pdf';
+import DateFunction from './steps/transaction/functions/DateFunction';
 
 const StatementsPage = () => {
     const api = new Api();
@@ -25,8 +26,6 @@ const StatementsPage = () => {
     const [alertMsg, setAlertMsg] = useState('');
     const [alertType, setAlertType] = useState('');
     const [alertShow, setAlertShow] = useState(false);
-
-    //#region Statement const 
 
     const [breadcrumbs, setBreadcrumbs] = useState([
         'Company', 'Organization', 'Transactions', 'Pages', 'Replacements', 'Compression', 'PDF'
@@ -87,6 +86,10 @@ const StatementsPage = () => {
     const [fonts, setFonts] = useState([]);
 
     useEffect(() => {
+        firstInit();
+    }, [])
+
+    const firstInit = () => {
         api.request('/api/transaction-type', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -99,27 +102,60 @@ const StatementsPage = () => {
                     setFonts(res.data.data);
                 }
             });
-        if (step==3){ // transaction created
-            if (!editMode){
-                /*api.request('/api/statement', 'POST', statement)
-                    .then(res => {
+    }
 
-                    });*/
+    useEffect(() => {
+        
+        if (step>=3){ // transaction created
+            let doubleStatement = statementToSave();
+            if (!editMode){
+                api.request('/api/statement', 'POST', doubleStatement)
+                    .then(res => {
+                        if (res.status==200||res.status==201){
+                            setStatement({...statement, 'id': res.data.data.id});
+                            setEditMode(true);
+                        }
+                    });
+            }else{
+                api.request('/api/statement/'+doubleStatement['id'], 'PUT', doubleStatement)
+                    .then(res => {
+                        console.log(res);
+                    });
             }
         }
     }, [step]);
 
-    //#endregion
+    const statementToSave = () => {
+        let tmpArray = {...statement};
+        let dateFunction = new DateFunction();
 
-    //#region Triggers
+        // periods
+        for (let key in tmpArray['periods']){
+
+            // transactions
+            for (let key1 in tmpArray['periods'][key]['transactions']){
+                tmpArray['periods'][key]['transactions'][key1]['date'] = dateFunction.formatDate(new Date(tmpArray['periods'][key]['transactions'][key1]['date']));
+            }
+
+            // replacement
+            for (let key1 in tmpArray['periods'][key]['replacement']){
+                delete tmpArray['periods'][key]['replacement'][key1]['content'];
+                delete tmpArray['periods'][key]['replacement'][key1]['original_content'];
+
+                // font
+                for (let key2 in tmpArray['periods'][key]['replacement'][key1]['font']){
+                    tmpArray['periods'][key]['replacement'][key1]['font'][key2]['content'] = [];
+                }
+            }
+        }
+        return tmpArray;
+    }
 
     const triggerAlertShow = (typ, msg) => {
         setAlertType(typ);
         setAlertMsg(msg);
         setAlertShow(true);
     }
-
-    //#endregion
 
     return (
         <>

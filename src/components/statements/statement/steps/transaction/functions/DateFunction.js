@@ -83,6 +83,26 @@ class DateFunction{
         return this.get_fullyear_month_day(tmpDate);
     }
 
+    #padTo2Digits(num) {
+        return num.toString().padStart(2, '0');
+    }
+    
+    formatDate(date) {
+        return (
+            [
+            date.getFullYear(),
+            this.#padTo2Digits(date.getMonth() + 1),
+            this.#padTo2Digits(date.getDate()),
+            ].join('-') +
+            ' ' +
+            [
+                this.#padTo2Digits(date.getHours()),
+                this.#padTo2Digits(date.getMinutes()),
+                this.#padTo2Digits(date.getSeconds()),
+            ].join(':')
+        );
+    }
+
 }
 
 export default DateFunction;

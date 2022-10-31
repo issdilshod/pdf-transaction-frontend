@@ -83,10 +83,10 @@ const Pages = ({statement, setStatement, types}) => {
                                                 <div className='w-25'>
                                                     <input 
                                                         className='form-control'
-                                                        name='items_previous_cycle'
+                                                        name='item_previous_cycle'
                                                         type='text'
                                                         placeholder='# of items-previous cycle¹'
-                                                        value={value['items_previous_cycle']}
+                                                        value={value['item_previous_cycle']}
                                                         onChange={ (e) => { handleChange(e, index) } }
                                                     />
                                                 </div>
