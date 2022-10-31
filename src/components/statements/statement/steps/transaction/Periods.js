@@ -905,7 +905,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                             className='t-cursor-pointer'
                                             onClick={ () => { handleDateClick(index) } }
                                         >
-                                            {dateFunction.beautifulDateTime(value['date'])}
+                                            {dateFunction.beautifulDateTime(new Date(value['date']))}
                                         </td>
                                         <td>{typeFunction.getTypeName(value['type_id'], types)}</td>
                                         <td>

@@ -79,7 +79,7 @@ class DescriptionFunction {
         let result = '';
         let typeOfValue = description['description_rule']['value'];
         if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
-            if (transaction['customer_id']!=''){
+            if (transaction['customer_id']!='' && transaction['customer_id']!=null){
                 typeOfValue = transaction['customer']['name'];
             }
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
@@ -87,11 +87,11 @@ class DescriptionFunction {
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
             typeOfValue = statement['organization']['name'];
         } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
-            if (transaction['sender_id']!=''){
+            if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['name'];
             }
         } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID) {
-            if (transaction['sender_id']!=''){
+            if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['it_id'];
             }
         }

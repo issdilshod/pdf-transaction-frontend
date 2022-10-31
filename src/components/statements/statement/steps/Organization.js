@@ -43,6 +43,7 @@ const Organization = ({statement, setStatement, step, setStep}) => {
                 className='form-control'
                 name='organization_id'
                 onChange={ (e) => { handleChange(e) } }
+                value={statement['organization_id']}
             >
                 <option value=''>-</option>
                 {

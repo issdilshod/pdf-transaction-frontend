@@ -17,11 +17,13 @@ import Replacements from './steps/Replacements';
 import Compression from './steps/Compression';
 import Pdf from './steps/Pdf';
 import DateFunction from './steps/transaction/functions/DateFunction';
+import TransactionFunction from './steps/transaction/functions/TransactionFunction';
 
 const StatementsPage = () => {
     const api = new Api();
+    const transactionFunction = new TransactionFunction();
 
-    const { loading, id } = useContext(ContextData);
+    const { setLoading, id } = useContext(ContextData);
 
     const [alertMsg, setAlertMsg] = useState('');
     const [alertType, setAlertType] = useState('');
@@ -84,23 +86,96 @@ const StatementsPage = () => {
     const [statement, setStatement] = useState(entityStatement);
     const [types, setTypes] = useState([]);
     const [fonts, setFonts] = useState([]);
+    const [pages, setPages] = useState([]);
+    const [holidays, setHolidays] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [senders, setSenders] = useState([]);
+    const [customers, setCustomers] = useState([]);
 
     useEffect(() => {
-        firstInit();
+        setLoading(true);
+        firstInit()
     }, [])
 
     const firstInit = () => {
+        
         api.request('/api/transaction-type', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setTypes(res.data.data);
+
+                    api.request('/api/transaction-category', 'GET')
+                        .then(res => {
+                            if (res.status===200||res.status===201){
+                                setCategories(res.data.data);
+
+                                api.request('/api/transaction-page', 'GET')
+                                    .then(res => {
+                                        if (res.status===200||res.status===201){
+                                            setPages(res.data.data);
+
+                                            if (id){
+                                                initStatement(res.data.data);
+                                            }
+                                        }
+                                    });
+                            }
+                        });
                 }
             });
+
+        api.request('/api/holiday', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setHolidays(res.data.data);
+                }
+            });
+
         api.request('/api/font-group', 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     setFonts(res.data.data);
                 }
+            });
+        
+        api.request('/api/sender', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setSenders(res.data.data);
+                }
+            })
+
+        api.request('/api/customer', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setCustomers(res.data.data);
+                }
+            })
+        
+    }
+
+    const initStatement = (pagess) => {
+        api.request('/api/statement/'+id, 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    
+                    let tmpArray = {...res.data.data};
+                    for (let periodIndex in tmpArray['periods']){
+                        // get types of period with values
+                        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+
+                        // get pages of transaction
+                        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pagess);
+
+                        // get pdf contents (lines/transactions)
+                        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pagess);
+                        tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pagess);
+                    }
+
+                    setStatement(tmpArray);
+                    setEditMode(true);
+                }
+                setLoading(false);
             });
     }
 
@@ -119,7 +194,7 @@ const StatementsPage = () => {
             }else{
                 api.request('/api/statement/'+doubleStatement['id'], 'PUT', doubleStatement)
                     .then(res => {
-                        console.log(res);
+                        // show alert saved
                     });
             }
         }
@@ -139,8 +214,8 @@ const StatementsPage = () => {
 
             // replacement
             for (let key1 in tmpArray['periods'][key]['replacement']){
-                delete tmpArray['periods'][key]['replacement'][key1]['content'];
-                delete tmpArray['periods'][key]['replacement'][key1]['original_content'];
+                tmpArray['periods'][key]['replacement'][key1]['content'] = '';
+                tmpArray['periods'][key]['replacement'][key1]['original_content'] = '';
 
                 // font
                 for (let key2 in tmpArray['periods'][key]['replacement'][key1]['font']){
@@ -184,25 +259,52 @@ const StatementsPage = () => {
 
                     <div className='steps-page'>
                         {   step==0 &&
-                            <Company statement={statement} setStatement={setStatement} step={step} setStep={setStep} />
+                            <Company 
+                                statement={statement} setStatement={setStatement} 
+                                step={step} setStep={setStep} 
+                            />
                         }
                         {   step==1 &&
-                            <Organization statement={statement} setStatement={setStatement} step={step} setStep={setStep} />
+                            <Organization 
+                                statement={statement} setStatement={setStatement} 
+                                step={step} setStep={setStep} 
+                            />
                         }
                         {   step==2 &&
-                            <Transaction step={step} setStep={setStep} statement={statement} setStatement={setStatement} entityPeriod={entityPeriod} entityTransaction={entityTransaction} />
+                            <Transaction 
+                                step={step} setStep={setStep} 
+                                statement={statement} setStatement={setStatement} 
+                                entityPeriod={entityPeriod} entityTransaction={entityTransaction} 
+                                types={types} pages={pages} holidays={holidays} categories={categories} 
+                                senders={senders} setSenders={setSenders} customers={customers} setCustomers={setCustomers}
+                            />
                         }
                         {   step==3 &&
-                            <Pages step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} />
+                            <Pages 
+                                step={step} setStep={setStep} 
+                                statement={statement} setStatement={setStatement} 
+                                types={types} 
+                            />
                         }
                         {   step==4 &&
-                            <Replacements step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} fonts={fonts} />
+                            <Replacements 
+                                step={step} setStep={setStep} 
+                                statement={statement} setStatement={setStatement} 
+                                types={types} fonts={fonts} 
+                            />
                         }
                         {   step==5 &&
-                            <Compression step={step} setStep={setStep} statement={statement} setStatement={setStatement} types={types} fonts={fonts} />
+                            <Compression 
+                                step={step} setStep={setStep} 
+                                statement={statement} setStatement={setStatement} 
+                                types={types} fonts={fonts} 
+                            />
                         }
                         {   step==6 &&
-                            <Pdf step={step} setStep={setStep} statement={statement} setStatement={setStatement} />
+                            <Pdf 
+                                step={step} setStep={setStep} 
+                                statement={statement} setStatement={setStatement} 
+                            />
                         }
                     </div>
 

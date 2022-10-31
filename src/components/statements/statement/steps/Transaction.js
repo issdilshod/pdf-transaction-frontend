@@ -7,17 +7,10 @@ import Api from '../../../../services/Api';
 import DateFunction from './transaction/functions/DateFunction';
 
 
-const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, entityTransaction }) => {
+const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, entityTransaction, types, pages, holidays, categories, senders, customers }) => {
 
     const api = new Api();
     const dateFunction = new DateFunction();
-
-    const [types, setTypes] = useState([]);
-    const [holidays, setHolidays] = useState([]);
-    const [pages, setPages] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [senders, setSenders] = useState([]);
-    const [customers, setCustomers] = useState([]);
 
     const [manualPeriod, setManualPeriod] = useState({
         'period': '',
@@ -25,49 +18,6 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
         'total': ''
     });
 
-    useEffect(() => {
-        api.request('/api/transaction-type', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setTypes(res.data.data);
-                }
-            });
-        
-        api.request('/api/holiday', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setHolidays(res.data.data);
-                }
-            });
-
-        api.request('/api/transaction-page', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setPages(res.data.data);
-                }
-            })
-
-        api.request('/api/transaction-category', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setCategories(res.data.data);
-                }
-            })
-        api.request('/api/sender', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setSenders(res.data.data);
-                }
-            })
-
-        api.request('/api/customer', 'GET')
-            .then(res => {
-                if (res.status===200||res.status===201){
-                    setCustomers(res.data.data);
-                }
-            })
-
-    }, []);
 
     const handleAddTransaction = () => {
         if (manualPeriod['period']!='' && manualPeriod['type_id']!='' && manualPeriod['total']!=''){
@@ -112,8 +62,6 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
         const { value, name } = e.target;
         setManualPeriod({ ...manualPeriod, [name]: value });
     }
-
-    
 
     return (
         <>
@@ -161,7 +109,11 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
             </div>
 
             <div className='transaction-info'>
-                <Transactions statement={statement} setStatement={setStatement} types={types} pages={pages} categories={categories} holidays={holidays} senders={senders} customers={customers} />
+                <Transactions 
+                    statement={statement} setStatement={setStatement} 
+                    types={types} pages={pages} categories={categories} holidays={holidays} 
+                    senders={senders} customers={customers} 
+                />
             </div>
         </>
         

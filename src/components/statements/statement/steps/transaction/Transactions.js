@@ -23,7 +23,12 @@ const Transactions = ({statement, setStatement, types, pages, categories, holida
                                         eventKey={index}
                                         title={ dateFunction.beautifulDate(value['period']) }
                                     >
-                                        <Periods statement={statement} setStatement={setStatement} transactions={statement['periods'][index]['transactions']} types={types} pages={pages} categories={categories} holidays={holidays} senders={senders} customers={customers} periodIndex={index} />
+                                        <Periods 
+                                            periodIndex={index}
+                                            statement={statement} setStatement={setStatement} 
+                                            transactions={statement['periods'][index]['transactions']} 
+                                            types={types} pages={pages} categories={categories} holidays={holidays} 
+                                            senders={senders} customers={customers} />
                                     </Tab>
                             )
                         })

@@ -50,7 +50,7 @@ class DateFunction{
     beautifulDateTime(datetime){
         let result = '';
         if (datetime instanceof Date && !isNaN(datetime)){
-        result = 
+            result = 
                 ((datetime.getMonth()+1)<10?'0'+(datetime.getMonth()+1):(datetime.getMonth()+1)) + '/' + 
                 (datetime.getDate()<10?'0'+datetime.getDate():datetime.getDate()) + '/' +
                 datetime.getFullYear().toString().substr(2, 2) + ' ' + 

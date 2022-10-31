@@ -179,7 +179,7 @@ class TransactionFunction {
                 //#region determine page mod
 
                 let page_mod = false;
-                let tmpPage = {}
+                let tmpPage = {};
                 if (period['transactions'][key]['offset']['id']!=''){
                     tmpPage = this.#get_page(pages, period['transactions'][key]['offset']['id']);
                 }
