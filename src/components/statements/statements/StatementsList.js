@@ -3,8 +3,12 @@ import { FaPencilAlt, FaPlus, FaTrash } from "react-icons/fa";
 
 import { ContextData } from "../../../contexts/ContextData";
 import { ContextCrud } from "../../../contexts/ContextCrud";
+import DateFunction from "../statement/steps/transaction/functions/DateFunction";
 
 const StatementsList = () => {
+
+    const dateFunction = new DateFunction();
+
     const { statementsList } = useContext(ContextData);
     const { handleAddClick, handleEditClick, handleDeleteClick } = useContext(ContextCrud);
 
@@ -39,7 +43,7 @@ const StatementsList = () => {
                                 return (
                                     <tr key={index}>
                                         <td>{index+1}</td>
-                                        <td>{value['created_at']}</td>
+                                        <td>{ dateFunction.formatDate(new Date(value['created_at']))}</td>
                                         <td>
                                             {
                                                 value['periods'].map((value1, index1) => {
