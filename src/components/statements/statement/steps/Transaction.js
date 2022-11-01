@@ -49,7 +49,7 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
 
                     // sort array
                     tmpArray['periods'][key]['transactions'].sort(function(a, b) {
-                        return a.type_id.localeCompare(b.type_id) || new Date(a.date) - new Date(b.date);
+                        return a.type_id.toString().localeCompare(b.type_id.toString()) || new Date(a.date) - new Date(b.date);
                     });
                 }
             }
