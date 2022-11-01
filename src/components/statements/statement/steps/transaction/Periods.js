@@ -257,10 +257,18 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
     const handleRandomGen = (e) => {
         e.preventDefault();
 
+        let tmpArray = {...statement};
+
         let tmpRandom = parseInt(numberFunction.random(randomForm['min'], randomForm['max']));
 
+        // set zeros
+        let tmpVals = JSON.parse(tmpArray['periods'][periodIndex]['transactions'][randomForm.transactionIndex]['descriptions'][randomForm.descriptionIndex]['description']['rules'][randomForm.index]['value']);
+        for (let i = tmpRandom.toString().length; i < tmpVals['max'].toString().length; i++ ){
+            tmpRandom = '0' + tmpRandom;
+        }
+
         // set data
-        let tmpArray = {...statement};
+        
         let description = tmpArray['periods'][periodIndex]['transactions'][randomForm.transactionIndex]['descriptions'][randomForm.descriptionIndex];
         let values = JSON.parse(description['value']);
         let value = JSON.parse(values[randomForm.index]);
