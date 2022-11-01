@@ -3,3 +3,9 @@ export const COMPANY = 'COMPANY';
 export const SENDERNAME = 'SENDER NAME';
 export const SENDERID = 'SENDER ID';
 export const ORGANIZATION = 'ORGANIZATION';
+
+export const CUSTOMERCUT = 'CUSTOMER CUT';
+export const COMPANYCUT = 'COMPANY CUT';
+export const SENDERNAMECUT = 'SENDER NAME CUT';
+export const SENDERIDCUT = 'SENDER ID CUT';
+export const ORGANIZATIONCUT = 'ORGANIZATION CUT';

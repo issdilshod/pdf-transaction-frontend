@@ -75,32 +75,50 @@ class DescriptionFunction {
         return result;
     }
 
-    get_value(statement, period, transaction, description){
+    get_value(statement, period, transaction, description, cut = false){
         let result = '';
         let typeOfValue = description['description_rule']['value'];
-        if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER) {
+        if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT) {
             if (transaction['customer_id']!='' && transaction['customer_id']!=null){
                 typeOfValue = transaction['customer']['name'].toUpperCase();
             }
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY) {
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANYCUT) {
             typeOfValue = statement['company']['name'].toUpperCase();
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION) {
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATIONCUT) {
             typeOfValue = statement['organization']['name'].toUpperCase();
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME) {
+        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT) {
             if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['name'].toUpperCase();
             }
-        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID) {
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT) {
             if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['it_id'];
             }
         }
-        result = typeOfValue;
+
+        // cut
+        let tmpRes = typeOfValue;
+        if (cut){
+            let values = JSON.parse(description['value']);
+            let value = parseInt(values['value']);
+        
+            tmpRes = '';
+            for (let i=0; i< value; i++){
+                if (i>=typeOfValue.length){
+                    tmpRes += ' ';
+                }else{
+                    tmpRes += typeOfValue.substr(i, 1);
+                }
+            }
+        }
+
+        result = tmpRes;
         return result;
     }
 
     get_string_description(statement, period, transaction, description){
         //let values = JSON.parse(description['value']);
+
         let result = '';
         for (let key in description['description']['rules']){
             let type = description['description']['rules'][key]['description_rule']['type'];
@@ -124,6 +142,9 @@ class DescriptionFunction {
                 result += this.get_year_month_day(transaction);
             }else if (type==DESCRIPTIONRULES_CONSTS.VALUE){
                 result += this.get_value(statement, period, transaction, description['description']['rules'][key]);
+            }
+            else if (type==DESCRIPTIONRULES_CONSTS.VALUE_CUT){
+                result += this.get_value(statement, period, transaction, description['description']['rules'][key], true);
             }
         }
         return result;
