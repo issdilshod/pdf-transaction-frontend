@@ -103,19 +103,22 @@ const StatementsPage = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setTypes(res.data.data);
+                    let tmpTyp = res.data.data;
 
                     api.request('/api/transaction-category', 'GET')
                         .then(res => {
                             if (res.status===200||res.status===201){
                                 setCategories(res.data.data);
+                                let tmpCateg = res.data.data;
 
                                 api.request('/api/transaction-page', 'GET')
                                     .then(res => {
                                         if (res.status===200||res.status===201){
                                             setPages(res.data.data);
+                                            let tmpPag = res.data.data;
 
                                             if (id){
-                                                initStatement(res.data.data);
+                                                initStatement(tmpTyp, tmpCateg, tmpPag);
                                             }
                                         }
                                     });
@@ -154,7 +157,7 @@ const StatementsPage = () => {
         
     }
 
-    const initStatement = (pagess) => {
+    const initStatement = (typess, categoriess, pagess) => {
         api.request('/api/statement/'+id, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
@@ -162,16 +165,15 @@ const StatementsPage = () => {
                     let tmpArray = {...res.data.data};
                     for (let periodIndex in tmpArray['periods']){
                         // get types of period with values
-                        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], types);
+                        tmpArray['periods'][periodIndex]['types'] = transactionFunction.get_period_types(tmpArray['periods'][periodIndex], typess);
 
                         // get pages of transaction
-                        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categories, pagess);
+                        tmpArray['periods'][periodIndex] = transactionFunction.get_period_pages(tmpArray['periods'][periodIndex], categoriess, pagess);
 
                         // get pdf contents (lines/transactions)
                         tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_lines(tmpArray['periods'][periodIndex], pagess);
                         tmpArray['periods'][periodIndex] = transactionFunction.get_pdf_content_transactions(tmpArray, tmpArray['periods'][periodIndex], pagess);
                     }
-
                     setStatement(tmpArray);
                     setEditMode(true);
                 }
@@ -201,7 +203,7 @@ const StatementsPage = () => {
     }, [step]);
 
     const statementToSave = () => {
-        let tmpArray = {...statement};
+        let tmpArray = JSON.parse(JSON.stringify(statement));
         let dateFunction = new DateFunction();
 
         // periods
