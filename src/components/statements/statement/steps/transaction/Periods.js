@@ -208,7 +208,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
 
         // sort array
         tmpArray['periods'][dateForm['periodIndex']]['transactions'].sort(function(a, b) {
-            return a.type_id.localeCompare(b.type_id) || new Date(a.date) - new Date(b.date);
+            return a.type_id.toString().localeCompare(b.type_id.toString()) || new Date(a.date) - new Date(b.date);
         });
 
         // get types of period with values
@@ -976,7 +976,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                         <td className='text-center'>
                                             <span>
                                                 <CurrencyFormat 
-                                                    value={value['amount']}
+                                                    value={value['amount']||''}
                                                     displayType='text'
                                                     thousandSeparator={true}
                                                     decimalScale={2}
@@ -991,7 +991,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         decimalsLimit={2}
                                                         name='min'
                                                         placeholder="Min"
-                                                        value={value['amount_min']}
+                                                        value={value['amount_min']||''}
                                                         onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
@@ -1002,7 +1002,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                         decimalsLimit={2}
                                                         name='max'
                                                         placeholder="Max"
-                                                        value={value['amount_max']}
+                                                        value={value['amount_max']||''}
                                                         onChange={ (e) => { handleAmountChange({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}, index) } }
                                                     />
                                                 </div>
@@ -1048,7 +1048,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                     decimalsLimit={2}
                                     name='begining_balance'
                                     placeholder="Begining balance"
-                                    defaultValue={statement['periods'][periodIndex]['begining_balance']}
+                                    value={statement['periods'][periodIndex]['begining_balance']||''}
                                     onChange={ (e) => { handleOnChangeBeginingBalance({'target': { 'name': e.target.name, 'value': e.target.value.replaceAll(',', '') }}) } }
                                 />
                             </td>
@@ -1057,7 +1057,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                     return(
                                         <td key={index}>
                                             <CurrencyFormat 
-                                                value={value['value']}
+                                                value={value['value']||''}
                                                 displayType='text'
                                                 thousandSeparator={true}
                                                 decimalScale={2}
@@ -1068,7 +1068,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                             }
                             <td>
                                 <CurrencyFormat
-                                    value={statement['periods'][periodIndex]['ending_balance']}
+                                    value={statement['periods'][periodIndex]['ending_balance']||''}
                                     displayType='text'
                                     thousandSeparator={true}
                                 />

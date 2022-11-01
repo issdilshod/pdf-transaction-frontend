@@ -184,8 +184,13 @@ const StatementsPage = () => {
     }
 
     useEffect(() => {
-        
-        if (step>=3){ // transaction created
+        if (step>=3){
+            statementSave();
+        }
+    }, [step]);
+
+    const statementSave = () => {
+        if (step>=2){ // transaction created
             let doubleStatement = statementToSave();
             if (!editMode){
                 api.request('/api/statement', 'POST', doubleStatement)
@@ -202,7 +207,7 @@ const StatementsPage = () => {
                     });
             }
         }
-    }, [step]);
+    }
 
     const statementToSave = () => {
         let tmpArray = JSON.parse(JSON.stringify(statement));
@@ -319,9 +324,11 @@ const StatementsPage = () => {
                         >
                             Previous
                         </div>
-                        <div>Save</div>
+                        <div
+                            onClick={ () => { if (step>=2) {  statementSave(); } } }
+                        >Save</div>
                         <div 
-                            className={`${step>=7?'c-disabled':''}`}
+                            className={`${step>=6?'c-disabled':''}`}
                             onClick={ () => { if (step<7){ setStep(step+1) } } }
                         >
                             Next
