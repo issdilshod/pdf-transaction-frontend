@@ -15,9 +15,9 @@ class PdfContent {
         this.TransactionsTypeFirstMod2 = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsTypeFirstNotMod2 = "/F1 125 Tf\n-3900 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F4 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F4 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
         this.TransactionsTypeSecond = "Q\nQ\nq\n0 1 .74902 .039216 k\nBT\n/F1 125 Tf\n300 {x_position} Td\n({type_title}{if_continued})Tj\n0 0 0 1 k\n/F3 66.667 Tf\n0 -96 Td\n(Date)Tj\n457 0 Td\n(Description)Tj\n3825 0 Td\n(Amount)Tj\n/F3 75 Tf\n{type_transactions}\n{type_summary}\n0 0 0 rg\nET\nQ\nq\nq\n0 0 m\n5100 0 l\n5100 -6600 l\n0 -6600 l\n0 0 l\nh\nW\nn\n0 0 m\nS\n6 w\n{type_lines}";
-        this.TransactionsSummaryContinue = "/F5 54.167 Tf\n{x_position} -308 Td\n(continued on the next page)Tj";
-        this.TransactionsSummaryTotal = "1 .6 0 .05098 k\n/F4 83.333 Tf\n-4222 -161 Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
-        this.TransactionsSummaryTotalNotMod2 = "1 .6 0 .05098 k\n/F2 83.333 Tf\n-4222 -161 Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
+        this.TransactionsSummaryContinue = "/F5 54.167 Tf\n{x_position} {y_position} Td\n(continued on the next page)Tj";
+        this.TransactionsSummaryTotal = "1 .6 0 .05098 k\n/F4 83.333 Tf\n{x_pos_block} {y_pos_block} Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
+        this.TransactionsSummaryTotalNotMod2 = "1 .6 0 .05098 k\n/F2 83.333 Tf\n{x_pos_block} {y_pos_block} Td\n({total_title})Tj\n{x_position} 0 Td\n({total_sum})Tj";
         this.TransactionsFooterPicture = "Q\nQ\nq\nq\nq\n1 0 0 1 450 -5175 cm\n2 0 0 2 0 0 cm\n0 0 m\n2100 0 l\n2100 -555 l\n0 -555 l\n0 0 l\nh\nW\nn\nq\nq\n2100 0 0 555 0 -555 cm\n/Im2 Do\nQ\nQ\nQ\nQ\nQ\nQ";
         this.TransactionsFooterNotPicture = "Q\nQ\nQ";
 
@@ -182,25 +182,46 @@ class PdfContent {
                 }
             }else {
                 result += resultContent2;
-                result = result.replace('{x_position}', -3078); // -3078 depends on type first
+                result = result.replace('{x_position}', typesOfPage['transactions'][key-1]['second_type']-1275);
             }
 
+            // if total
+            let isTotal = false;
+            if ('x' in typesOfPage['transactions'][key]['total_position']){
+                isTotal = true;
+            }
+
+            // has continue on title
             result = result.replace('{type_title}', type['title']); 
-            result = result.replace('{if_continued}', ' - continued');// TODO: determine if has continue
+            if (isTotal){
+                result = result.replace('{if_continued}', ' - continued');
+            }else{
+                result = result.replace('{if_continued}', '');
+            }
 
             result = result.replace('{type_transactions}', typesOfPage['transactions'][key]['content']);
             result = result.replace('{type_lines}', typesOfPage['lines'][key]['content']);
 
-            // totals TODO: Determine if continue or total this.TransactionsSummaryContinue;
-            let summary = this.TransactionsSummaryTotal; // continue {x_position} = // depends on last transaction amount digit number
-            if (page['page']%2!=0){
-                summary = this.TransactionsSummaryTotalNotMod2;
+            
+            // totals
+            if (isTotal){
+                let summary = this.TransactionsSummaryTotal; // continue {x_position} = // depends on last transaction amount digit number
+                if (page['page']%2!=0){
+                    summary = this.TransactionsSummaryTotalNotMod2;
+                }
+
+                result = result.replace('{type_summary}', summary);
+                result = result.replace('{total_title}', type['total_title']);
+                result = result.replace('{x_pos_block}', typesOfPage['transactions'][key]['total_position']['x']);
+                result = result.replace('{y_pos_block}', typesOfPage['transactions'][key]['total_position']['y']);
+                result = result.replace('{x_position}', 4014); // {x_position} depends on total digit number TODO: Real data
+                result = result.replace('{total_sum}', '$0.00'); // TODO: Real data
+            }else{ // continued
+                let summary = this.TransactionsSummaryContinue;
+                result = result.replace('{type_summary}', summary);
+                result = result.replace('{x_position}', typesOfPage['transactions'][key]['continue_position']['x']); 
+                result = result.replace('{y_position}', typesOfPage['transactions'][key]['continue_position']['y']); 
             }
- 
-            result = result.replace('{type_summary}', summary);
-            result = result.replace('{total_title}', type['total_title']);
-            result = result.replace('{x_position}', 4014); // {x_position} depends on total digit number TODO: Real data
-            result = result.replace('{total_sum}', '$0.00'); // TODO: Real data
 
         }
 
