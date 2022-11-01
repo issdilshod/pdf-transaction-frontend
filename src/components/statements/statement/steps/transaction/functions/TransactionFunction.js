@@ -249,7 +249,8 @@ class TransactionFunction {
                 continue_position['y'] = (period['transactions'][key]['descriptions'].length==1?-150:((-150)+(-90*(period['transactions'][key]['descriptions'].length-1))));
 
                 // total if it is last transaction
-                if (this.#determine_if_last_transaction(period, key)){
+                let isTotal = this.#determine_if_last_transaction(period, key); 
+                if (isTotal['status']){
                     // set total x pos
                     let negative = 0;
                     if (this.#determine_is_negative(period['transactions'][key]['amount'])){ negative = this.negative.x; }
@@ -257,7 +258,12 @@ class TransactionFunction {
 
                     total_position['x'] = this.offset.amount_digits[digit]['date'] + negative;
                     total_position['y'] = (period['transactions'][key]['descriptions'].length==1?-150:((-150)+(-90*(period['transactions'][key]['descriptions'].length-1))));
-                    //total_x_pos['x_position'] = this.offset TODO: Get type summ and detect x position
+
+                    negative = 0;
+                    if (this.#determine_is_negative(isTotal['summ'])){ negative = this.negative.x; }
+                    digit = this.#determine_digit_of_amount(isTotal['summ']);
+                    total_position['x_summ'] = this.offset.total[digit] - negative + (452); // 452 is padding
+                    total_position['summ'] = isTotal['summ'];
                 }
 
                 //#endregion
@@ -476,9 +482,18 @@ class TransactionFunction {
 
     #determine_if_last_transaction(period, key){
         key= parseInt(key);
+        
+        // summ
+        let summ = 0;
+        for (let i in period['types']){
+            if (period['types'][i]['id']==period['transactions'][key]['type_id']){
+                summ = period['types'][i]['value'];
+            }
+        }
+
         // last transaction
         if ((key+1) == period['transactions'].length ){ 
-            return true;
+            return {'status': true, 'summ': summ};
         } 
 
         // check last type
@@ -487,7 +502,7 @@ class TransactionFunction {
         for (let i = key+1; i< period['transactions'].length; i++){
             if (period['transactions'][i]['type_id']!=null && period['transactions'][i]['type_id']!=''){
                 if (period['transactions'][i]['type_id']!=current_type_id){
-                    return true;
+                    return {'status': true, 'summ': summ};
                 }
                 next_exists=true;
                 break;
@@ -496,10 +511,10 @@ class TransactionFunction {
 
         // last type choosed
         if (!next_exists){
-            return true;
+            return {'status': true, 'summ': summ};
         }
 
-        return false;
+        return {'status': false, 'summ': summ};
     }
 
 

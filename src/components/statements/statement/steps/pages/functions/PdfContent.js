@@ -214,8 +214,15 @@ class PdfContent {
                 result = result.replace('{total_title}', type['total_title']);
                 result = result.replace('{x_pos_block}', typesOfPage['transactions'][key]['total_position']['x']);
                 result = result.replace('{y_pos_block}', typesOfPage['transactions'][key]['total_position']['y']);
-                result = result.replace('{x_position}', 4014); // {x_position} depends on total digit number TODO: Real data
-                result = result.replace('{total_sum}', '$0.00'); // TODO: Real data
+                result = result.replace('{x_position}', typesOfPage['transactions'][key]['total_position']['x_summ']);
+                let minus = '';
+                let summ = typesOfPage['transactions'][key]['total_position']['summ'];
+                if (parseFloat(typesOfPage['transactions'][key]['total_position']['summ'])<0){ 
+                    minus = '-';
+                    summ *= -1;
+                }
+                summ = this.numberFunction.to_currency(summ);
+                result = result.replace('{total_sum}', minus + '$'+ summ);
             }else{ // continued
                 let summary = this.TransactionsSummaryContinue;
                 result = result.replace('{type_summary}', summary);
