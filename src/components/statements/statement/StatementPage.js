@@ -119,6 +119,8 @@ const StatementsPage = () => {
 
                                             if (id){
                                                 initStatement(tmpTyp, tmpCateg, tmpPag);
+                                            }else{
+                                                setLoading(false);
                                             }
                                         }
                                     });
