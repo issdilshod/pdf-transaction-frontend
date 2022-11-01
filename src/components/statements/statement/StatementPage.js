@@ -199,11 +199,14 @@ const StatementsPage = () => {
                             setStatement({...statement, 'id': res.data.data.id});
                             setEditMode(true);
                         }
+                        triggerAlertShow('success', 'Successfully saved');
+                        setLoading(false);
                     });
             }else{
                 api.request('/api/statement/'+doubleStatement['id'], 'PUT', doubleStatement)
                     .then(res => {
-                        // show alert saved
+                        triggerAlertShow('success', 'Successfully saved');
+                        setLoading(false);
                     });
             }
         }
@@ -325,7 +328,7 @@ const StatementsPage = () => {
                             Previous
                         </div>
                         <div
-                            onClick={ () => { if (step>=2) {  statementSave(); } } }
+                            onClick={ () => { if (step>=2) { setLoading(true); statementSave(); } } }
                         >Save</div>
                         <div 
                             className={`${step>=6?'c-disabled':''}`}
