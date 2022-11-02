@@ -24,7 +24,7 @@ class DateFunction{
                                     date.getFullYear() + '-' + // Year
                                     ((date.getMonth()+1)<10?'0'+(date.getMonth()+1):(date.getMonth()+1)) + "-" + // Month
                                     (date.getDate()<10?'0'+date.getDate():date.getDate()); // Day
-                    if (Holidays[key]['date']==cur_date){h_ex=true; return false;}
+                    if (Holidays[key]['date']==cur_date){h_ex=true; break;}
                 }
                 if (!h_ex){break;}
             }
