@@ -30,6 +30,8 @@ const Holiday = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Holidays';
+
         getHolidayList();
     }, [])
 

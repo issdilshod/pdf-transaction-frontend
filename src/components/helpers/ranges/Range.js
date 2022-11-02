@@ -31,6 +31,8 @@ const Range = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Ranges';
+
         getRangeList();
     }, [])
 

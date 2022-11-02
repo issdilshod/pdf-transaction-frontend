@@ -36,6 +36,8 @@ const Customer = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Customers';
+
         let tmpPage = '';
         if (page){
             tmpPage = '?page=' + page;

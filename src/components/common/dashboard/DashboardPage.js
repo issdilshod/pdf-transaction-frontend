@@ -17,6 +17,8 @@ const DashboardPage = () => {
     const [indicatorStatement, setIndicatorStatement] = useState(0);
 
     useEffect(() => {
+        document.title = 'Dashboard';
+
         // company
         api.request('/api/company-count', 'GET')
             .then(res => {

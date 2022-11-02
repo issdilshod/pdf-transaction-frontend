@@ -14,6 +14,10 @@ const Statement = () => {
 
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        document.title = 'Statement';
+    }, [])
+
     return (
         <>
             <ContextData.Provider value={

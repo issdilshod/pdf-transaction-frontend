@@ -12,6 +12,8 @@ const TransactionType = () => {
 
     // Init
     useEffect(() => {
+        document.title = 'Transaction Types';
+
         getTransactionTypeList();
     }, [])
 

@@ -31,6 +31,8 @@ const Sender = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Senders';
+
         getSenderList();
     }, [])
 

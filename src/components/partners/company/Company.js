@@ -39,6 +39,8 @@ const Company = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Companies';
+
         getCompanyList();
         getStates();
     }, [])

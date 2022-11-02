@@ -17,6 +17,8 @@ const Login = () => {
     const [errorShow, setErrorShow] = useState(false);
 
     useEffect(() => { // check auth
+        document.title = 'Login Page';
+
         api.request('/api/is_auth', 'GET')
             .then(res => {
                 if (res.status==200){

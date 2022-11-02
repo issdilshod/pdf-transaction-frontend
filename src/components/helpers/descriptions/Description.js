@@ -37,6 +37,8 @@ const Description = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Descriptions';
+
         getDescriptionList();
         getDescriptionRuleList();
     }, [])

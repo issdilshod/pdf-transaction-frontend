@@ -33,6 +33,8 @@ const User = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Users';
+
         getUserList();
     }, [])
 

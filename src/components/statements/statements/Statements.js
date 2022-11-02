@@ -24,6 +24,8 @@ const Statements = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Statements';
+
         getStatementsList();
     }, [])
 

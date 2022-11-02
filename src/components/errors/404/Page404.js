@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Page404 = () => {
+
+    useEffect(() => {
+        document.title = 'Page Not Found! 404 Error';
+    }, [])
 
     return (
         <div className="container-fluid">

@@ -32,6 +32,8 @@ const PdfOffset = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'PDF Offsets';
+
         getPdfOffsetList();
     }, [])
 

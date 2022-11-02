@@ -31,6 +31,8 @@ const FontGroup = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Fonts';
+
         getFontGroupList();
     }, [])
 

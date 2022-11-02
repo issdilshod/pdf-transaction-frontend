@@ -37,6 +37,8 @@ const TransactionCategory = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Transaction Categories';
+
         getTransactionCategoryList();
         getTransactionTypeList();
         getDescriptionList();

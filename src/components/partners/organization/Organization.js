@@ -30,6 +30,8 @@ const Organization = () => {
     //#region Init
 
     useEffect(() => {
+        document.title = 'Organizations';
+
         getOrganizationList();
     }, [])
 
