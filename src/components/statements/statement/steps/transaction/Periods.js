@@ -856,7 +856,28 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
                                                             onClick={ () => { handleCustomerChoose(value['id']) } }
                                                             onChange={ () => {  } }
                                                         />
-                                                        <label className='t-cursor-pointer' htmlFor={`customer${index}`}>{value['name']}</label>
+                                                        <label className='t-cursor-pointer' htmlFor={`customer${index}`}>
+                                                            {value['name']} 
+                                                            {
+                                                                value['use'].map((value1, index1) => {
+                                                                    return (
+                                                                        <span 
+                                                                            key={index1} 
+                                                                            className='ml-2 c-badge c-badge-sm c-badge-primary'
+                                                                            title={
+                                                                                value1['types'].map((value2, index2) => {
+                                                                                    return (
+                                                                                        'Period: ' + value2['period'] + ' Type: ' + value2['type_name'] + '\n'
+                                                                                    )
+                                                                                }) 
+                                                                            }
+                                                                        >
+                                                                            {value1['company_name']}
+                                                                        </span>
+                                                                    )
+                                                                }) 
+                                                            }
+                                                        </label>
                                                     </div>
                                                 </div>
                                             )
