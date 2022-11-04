@@ -7,7 +7,7 @@ import NumberFunction from "./transaction/functions/NumberFunction";
 import TypeFunction from './pages/functions/TypeFunction';
 import TransactionsBlock from "./pages/TransactionsBlock";
 
-const Pages = ({statement, setStatement, types}) => {
+const Pages = ({statement, setStatement, types, pdfImage}) => {
 
     const dateFunction = new DateFunction();
     const pdfContent = new PdfContent();
@@ -99,7 +99,7 @@ const Pages = ({statement, setStatement, types}) => {
                                                 <div className='c-card-body'>
                                                     {   accountSummaryContent &&
                                                         <div className='c-white-space'>
-                                                            {pdfContent.get_account_summary(statement, value, types)}
+                                                            {pdfContent.get_account_summary(statement, value, types, pdfImage)}
                                                         </div>
                                                     }
                                                 </div>

@@ -91,6 +91,7 @@ const StatementsPage = () => {
     const [categories, setCategories] = useState([]);
     const [senders, setSenders] = useState([]);
     const [customers, setCustomers] = useState([]);
+    const [pdfImage, setPdfImage] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -154,6 +155,13 @@ const StatementsPage = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setCustomers(res.data.data);
+                }
+            })
+
+        api.request('/api/pdf-image', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setPdfImage(res.data.data);
                 }
             })
         
@@ -296,6 +304,7 @@ const StatementsPage = () => {
                                 step={step} setStep={setStep} 
                                 statement={statement} setStatement={setStatement} 
                                 types={types} 
+                                pdfImage={pdfImage}
                             />
                         }
                         {   step==4 &&
