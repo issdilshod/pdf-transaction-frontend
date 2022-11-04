@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import Transactions from "./transaction/Transactions";
 
@@ -6,8 +6,12 @@ import Transactions from "./transaction/Transactions";
 import Api from '../../../../services/Api';
 import DateFunction from './transaction/functions/DateFunction';
 
+import { ContextData } from '../../../../contexts/ContextData';
+
 
 const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, entityTransaction, types, pages, holidays, categories, senders, customers }) => {
+
+    const { setLoading } = useContext(ContextData);
 
     const api = new Api();
     const dateFunction = new DateFunction();
@@ -21,16 +25,19 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
 
     const handleAddTransaction = () => {
         if (manualPeriod['period']!='' && manualPeriod['type_id']!='' && manualPeriod['total']!=''){
+            setLoading(true);
+
             let tmpArray = { ...statement };
 
             // set period
-            let exsist = false;
+            let exists = false, exists_index = -1;
             for (let key in tmpArray['periods']){
                 if (tmpArray['periods'][key]['period']==manualPeriod['period']){
-                    exsist = true;
+                    exists = true;
+                    exists_index = key;
                 }
             }
-            if (!exsist){
+            if (!exists){
                 let tmpPeriod = {...entityPeriod};
                 tmpPeriod['period'] = manualPeriod['period'];
                 tmpArray['periods'].push(tmpPeriod);
@@ -54,7 +61,30 @@ const Transaction = ({ step, setStep, statement, setStatement, entityPeriod, ent
                 }
             }
 
-            setStatement(tmpArray);
+            //setStatement(tmpArray);
+
+            // get begining balance from database
+            let lastPeriod = manualPeriod['period'];
+            lastPeriod = new Date(lastPeriod);
+            lastPeriod = new Date(lastPeriod.getFullYear(), lastPeriod.getMonth(), 0);
+            lastPeriod = lastPeriod.getFullYear() +
+                        (lastPeriod.getMonth() + 1).toString().padStart(2, '0') +
+                        (lastPeriod.getDate()).toString().padStart(2, '0');
+
+            if (exists_index==-1){
+                exists_index = tmpArray['periods'].length-1;
+            }
+
+            api.request('/api/statement-last/' + tmpArray['company_id'] + '/' + lastPeriod, 'GET')
+                .then(res => {
+                    if (res.status===200||res.status===201){
+                        if (tmpArray['periods'][exists_index]['begining_balance']==null || tmpArray['periods'][exists_index]['begining_balance']==''){
+                            tmpArray['periods'][exists_index]['begining_balance'] = res.data.ending_balance;
+                        }
+                    }
+                    setStatement(tmpArray);
+                    setLoading(false);
+                });
         }   
     }
 
