@@ -21,6 +21,8 @@ import Description from './helpers/descriptions/Description';
 import Statements from './statements/statements/Statements';
 import Statement from './statements/statement/Statement';
 
+import PdfImage from './helpers/pdfimages/PdfImage';
+
 const Main = () => {
     return (
         <Router>
@@ -37,6 +39,8 @@ const Main = () => {
                     <Route path="/transaction-type" element={<TransactionType />} />
                     <Route path="/pdf-offsets" element={<PdfOffset />} />
                     <Route path="/companies" element={<Company />} />
+
+                    <Route path="/pdf-images" element={<PdfImage />} />
 
                     <Route path="/customers" element={<Customer />} />
                     <Route path="/customers/page/:page" element={<Customer />} />
