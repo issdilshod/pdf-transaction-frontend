@@ -43,7 +43,7 @@ const StatementsList = () => {
                                 return (
                                     <tr key={index}>
                                         <td>{index+1}</td>
-                                        <td>{ dateFunction.formatDate(new Date(value['created_at']))}</td>
+                                        <td>{ dateFunction.readibleDateTime(new Date(value['created_at']))}</td>
                                         <td>
                                             {
                                                 value['periods'].map((value1, index1) => {

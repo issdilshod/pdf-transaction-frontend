@@ -103,6 +103,12 @@ class DateFunction{
         );
     }
 
+    readibleDateTime(date){
+        let month = ['jan.', 'feb.', 'mar.', 'apr.', 'may', 'jun.', 'jul.', 'aug.', 'sep.', 'oct.', 'nov.', 'dec.'];
+        return date.getDate().toString().padStart(2, '0') + ' ' + month[date.getMonth()] + ' ' + date.getFullYear() + ' ' + 
+                date.getHours().toString().padStart(2, '0') + ':' + date.getSeconds().toString().padStart(2, '0');
+    }
+
 }
 
 export default DateFunction;
