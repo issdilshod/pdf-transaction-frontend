@@ -71,7 +71,7 @@ const Statements = () => {
     //#region Handles
 
     const handleAddClick = () => {
-        nav('/statement/');
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/statement/');
     }
 
     const handleEditClick = (id) => {
