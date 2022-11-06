@@ -22,6 +22,7 @@ import Statements from './statements/statements/Statements';
 import Statement from './statements/statement/Statement';
 
 import PdfImage from './helpers/pdfimages/PdfImage';
+import PdfTemplate from './helpers/pdftemplates/PdfTemplate';
 
 const Main = () => {
     return (
@@ -41,6 +42,7 @@ const Main = () => {
                     <Route path="/companies" element={<Company />} />
 
                     <Route path="/pdf-images" element={<PdfImage />} />
+                    <Route path="/pdf-templates" element={<PdfTemplate />} />
 
                     <Route path="/customers" element={<Customer />} />
                     <Route path="/customers/page/:page" element={<Customer />} />
