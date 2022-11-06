@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "homepage": "http://68.66.237.99/pdfTransaction/frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

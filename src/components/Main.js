@@ -28,32 +28,32 @@ const Main = () => {
     return (
         <Router>
             <Routes>
-                <Route exact path="/" element={<Login />}></Route>
-                <Route path="/login" element={<Login />}></Route>
+                <Route exact path={`${process.env.REACT_APP_FRONTEND_PREFIX}`} element={<Login />}></Route>
+                <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/login`} element={<Login />}></Route>
                 <Route element={<RouteProtected />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/users" element={<User />} />
-                    <Route path="/senders" element={<Sender />} />
-                    <Route path="/holidays" element={<Holiday />} />
-                    <Route path="/ranges" element={<Range />} />
-                    <Route path="/font-group" element={<FontGroup />} />
-                    <Route path="/transaction-type" element={<TransactionType />} />
-                    <Route path="/pdf-offsets" element={<PdfOffset />} />
-                    <Route path="/companies" element={<Company />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard`} element={<Dashboard />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/users`} element={<User />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/senders`} element={<Sender />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/holidays`} element={<Holiday />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/ranges`} element={<Range />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/font-group`} element={<FontGroup />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/transaction-type`} element={<TransactionType />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/pdf-offsets`} element={<PdfOffset />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/companies`} element={<Company />} />
 
-                    <Route path="/pdf-images" element={<PdfImage />} />
-                    <Route path="/pdf-templates" element={<PdfTemplate />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/pdf-images`} element={<PdfImage />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/pdf-templates`} element={<PdfTemplate />} />
 
-                    <Route path="/customers" element={<Customer />} />
-                    <Route path="/customers/page/:page" element={<Customer />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/customers`} element={<Customer />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/customers/page/:page`} element={<Customer />} />
 
-                    <Route path="/organizations" element={<Organization />} />
-                    <Route path="/transaction-categories" element={<TransactionCategory />} />
-                    <Route path="/descriptions" element={<Description />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/organizations`} element={<Organization />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/transaction-categories`} element={<TransactionCategory />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/descriptions`} element={<Description />} />
 
-                    <Route path="/statements" element={<Statements />} />
-                    <Route path="/statement" element={<Statement />} />
-                    <Route path="/statement/:id" element={<Statement />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/statements`} element={<Statements />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/statement`} element={<Statement />} />
+                    <Route path={`${process.env.REACT_APP_FRONTEND_PREFIX}/statement/:id`} element={<Statement />} />
                 </Route>
                 <Route path="*" element={<Page404 />}></Route>
             </Routes>  

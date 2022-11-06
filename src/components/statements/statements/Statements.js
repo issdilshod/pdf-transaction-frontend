@@ -75,7 +75,7 @@ const Statements = () => {
     }
 
     const handleEditClick = (id) => {
-        nav('/statement/'+id);
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/statement/'+id);
     }
 
     const handleDeleteClick = (id) => {

@@ -18,27 +18,27 @@ const LeftMenu = () => {
                 <span>PDF-T</span>
             </div>
             <div className='left-menu-items'>
-                <Link className='left-menu-item d-flex' to={'/dashboard/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard/`}>
                     <i><FaTachometerAlt /></i>
                     <span>Dashboard</span>
                 </Link>
-                <Link className='left-menu-item d-flex' to={'/tasks/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/tasks/`}>
                     <i><FaList /></i>
                     <span>Tasks</span>
                 </Link>
-                <Link className='left-menu-item d-flex' to={'/companies/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/companies/`}>
                     <i><FaBuilding /></i>
                     <span>Companies</span>
                 </Link>
-                <Link className='left-menu-item d-flex' to={'/customers/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/customers/`}>
                     <i><FaUsers /></i>
                     <span>Customers</span>
                 </Link>
-                <Link className='left-menu-item d-flex' to={'/organizations/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/organizations/`}>
                     <i><FaCalendar /></i>
                     <span>Organizaations</span>
                 </Link>
-                <Link className='left-menu-item d-flex' to={'/statements/'}>
+                <Link className='left-menu-item d-flex' to={`${process.env.REACT_APP_FRONTEND_PREFIX}/statements/`}>
                     <i><FaListAlt /></i>
                     <span>Statements</span>
                 </Link>

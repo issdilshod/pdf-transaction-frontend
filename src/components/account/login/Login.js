@@ -22,7 +22,7 @@ const Login = () => {
         api.request('/api/is_auth', 'GET')
             .then(res => {
                 if (res.status==200){
-                    nav('/dashboard/');
+                    nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
                 }
             });
     }, []);
@@ -42,7 +42,7 @@ const Login = () => {
                     case 200:
                     case 201:
                         lStorage.setItem('auth_token', res.data);
-                        nav('/dashboard');
+                        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/dashboard');
                         break;
                     case 404:
                         setErrorMsg(res.data['error']);
