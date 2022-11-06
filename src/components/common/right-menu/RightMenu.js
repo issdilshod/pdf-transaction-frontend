@@ -1,13 +1,25 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaFilePdf, FaThLarge, FaFileImage, FaRegArrowAltCircleRight, FaRegCommentDots, FaFont, FaBirthdayCake, FaListOl, FaKey, FaExchangeAlt, FaObjectGroup } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaFilePdf, FaThLarge, FaFileImage, FaRegArrowAltCircleRight, FaRegCommentDots, FaFont, FaBirthdayCake, FaListOl, FaKey, FaExchangeAlt, FaObjectGroup, FaSignOutAlt } from 'react-icons/fa';
 
 import './RightMenu.scss';
 import { Context } from '../../../contexts/Context';
 
+import Api from '../../../services/Api';
+
 const RightMenu = () => {
+
+    const api = new Api();
+    const nav = useNavigate();
     
     const { rightMenuShow } = useContext(Context);
+
+    const logout = () => {
+        api.request('/api/logout', 'POST', {'token': JSON.parse(localStorage.getItem('auth_token'))['token'] })
+            .then(res => {
+                nav('/login');
+            })
+    }
 
     return (
         <div className={`right-menu ${ rightMenuShow?'right-menu-show':'' }`}>
@@ -60,6 +72,11 @@ const RightMenu = () => {
                     <i><FaKey /></i>
                     <span>Keywords</span>
                 </Link>
+
+                <div className='right-menu-item d-flex t-cursor-pointer' onClick={ () => { logout() } }>
+                    <i><FaSignOutAlt /></i>
+                    <span>Logout</span>
+                </div>
             </div>
         </div>
     )
