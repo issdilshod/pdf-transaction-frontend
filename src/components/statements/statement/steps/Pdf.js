@@ -5,7 +5,7 @@ import Api from "../../../../services/Api";
 import DateFunction from "./transaction/functions/DateFunction";
 
 
-const Pdf = ({statement, setStatement}) => {
+const Pdf = ({statement, setStatement, pdfTemplate}) => {
 
     const dateFunction = new DateFunction();
     const api = new Api();
@@ -17,6 +17,30 @@ const Pdf = ({statement, setStatement}) => {
     const handleFileChoose = (e, periodIndex) => {
         setActivePeriod(activePeriod);
         api.request('/api/upload/template', 'POST', {'template': e.target.files}, true)
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    let periodPage = 4;
+                    periodPage += parseInt(statement['periods'][periodIndex]['pages'].length);
+                    periodPage += (statement['periods'][periodIndex]['pages'].length%2!=0?1:0);
+                    if (periodPage==res.data.data.pdfTable.length){
+                        setPdfTable(res.data.data.pdfTable);
+
+                        api.request('/api/pdf/change', 'POST', {'filename': res.data.data.filename, 'pdf': res.data.data.pdfTable, 'compression': statement['periods'][periodIndex]['compression']})
+                            .then(res => {
+                                if (res.status===200||res.status===201){
+                                    setDownloadFileName(res.data);
+                                }
+                            })
+                    }else{
+                        alert('Wrong Pdf Template file. Pages is not equal to period pages.');
+                    }
+                }
+            })
+    }
+
+    const handleTemplateClick = (id, periodIndex) => {
+        setActivePeriod(activePeriod);
+        api.request('/api/use/template/' + id, 'GET')
             .then(res => {
                 if (res.status===200||res.status===201){
                     let periodPage = 4;
@@ -71,6 +95,27 @@ const Pdf = ({statement, setStatement}) => {
                                             type='file'
                                             onChange={ (e) => { handleFileChoose(e, index) } }
                                         />
+                                    </div>
+
+                                    <div className='form-group mt-2 mb-2'>
+                                        {
+                                            pdfTemplate.map((value1, index1) => {
+                                                return (
+                                                    <>
+                                                        { value1['period']==value['period'] && 
+                                                            <button 
+                                                                key={index1} 
+                                                                className='c-btn c-btn-primary mr-2'
+                                                                title='Use this tepmlate'
+                                                                onClick={ () => { handleTemplateClick(value1['id'], index) } }
+                                                            >
+                                                                {value1['file_name']} ({value1['name']})
+                                                            </button>
+                                                        }
+                                                    </>
+                                                )
+                                            })
+                                        }
                                     </div>
 
                                     { (pdfTable.length>0) && 

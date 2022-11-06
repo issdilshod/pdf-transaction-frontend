@@ -92,6 +92,7 @@ const StatementsPage = () => {
     const [senders, setSenders] = useState([]);
     const [customers, setCustomers] = useState([]);
     const [pdfImage, setPdfImage] = useState([]);
+    const [pdfTemplate, setPdfTemplate] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -162,6 +163,13 @@ const StatementsPage = () => {
             .then(res => {
                 if (res.status===200||res.status===201){
                     setPdfImage(res.data.data);
+                }
+            })
+
+        api.request('/api/pdf-template', 'GET')
+            .then(res => {
+                if (res.status===200||res.status===201){
+                    setPdfTemplate(res.data.data);
                 }
             })
         
@@ -325,6 +333,7 @@ const StatementsPage = () => {
                             <Pdf 
                                 step={step} setStep={setStep} 
                                 statement={statement} setStatement={setStatement} 
+                                pdfTemplate={pdfTemplate}
                             />
                         }
                     </div>
