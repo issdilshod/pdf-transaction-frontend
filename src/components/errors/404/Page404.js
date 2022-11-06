@@ -12,7 +12,7 @@ const Page404 = () => {
             <div className="c-error-block">
                 <div className="c-error">404</div>
                 <div className="c-error-msg">Oops! This Page Could Not Be Found</div>
-                <Link to={'/dashboard/'}>Go Back</Link>
+                <Link to={`${process.env.REACT_APP_FRONTEND_PREFIX}/dashboard/`}>Go Back</Link>
             </div>
         </div>
     )
