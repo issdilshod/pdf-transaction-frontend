@@ -57,10 +57,10 @@ const DescriptionList = () => {
                                             }
                                         </td>
                                         <td>
-                                            { Boolean(value['split']) &&
+                                            { Boolean(parseInt(value['split'])) &&
                                                 <span className="c-badge c-badge-success">ON {value['split']}</span>
                                             }
-                                            { !Boolean(value['split']) &&
+                                            { !Boolean(parseInt(value['split'])) &&
                                                 <span className="c-badge c-badge-danger">NO SPLIT</span>
                                             }
                                         </td>
