@@ -89,7 +89,7 @@ const TransactionCategoryForm = () => {
                         <label>Customer</label>
                         <OnOff 
                             Name='customer'
-                            State={transactionCategoryForm['customer']} 
+                            State={parseInt(transactionCategoryForm['customer'])} 
                             onChange={handleLocalChange} 
                         />
                     </div>
@@ -97,7 +97,7 @@ const TransactionCategoryForm = () => {
                         <label>Sender</label>
                         <OnOff 
                             Name='sender'
-                            State={transactionCategoryForm['sender']} 
+                            State={parseInt(transactionCategoryForm['sender'])} 
                             onChange={handleLocalChange} 
                         />
                     </div>
