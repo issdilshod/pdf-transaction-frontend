@@ -7,7 +7,7 @@ class RulesFunction{
     getRule(id, rules){
         let rule = {};
         for (let key in rules){
-            if (rules[key]['id']===id){
+            if (rules[key]['id']==id){
                 rule = rules[key];
             }
         }

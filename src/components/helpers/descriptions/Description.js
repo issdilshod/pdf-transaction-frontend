@@ -174,13 +174,13 @@ const Description = () => {
         let tmpArray = {...descriptionForm};
         let rule = rulesFunction.getRule(id, descriptionRuleList);
         let tmpValue = null;
-        if (DESCRIPTIONRULE_CONST.TEXT===rule['type']){
+        if (DESCRIPTIONRULE_CONST.TEXT==rule['type']){
             tmpValue = { 'value': '' };
-        } else if (DESCRIPTIONRULE_CONST.SELECT===rule['type']){
+        } else if (DESCRIPTIONRULE_CONST.SELECT==rule['type']){
             tmpValue = { 'value': [] };
-        } else if (DESCRIPTIONRULE_CONST.RANDOM===rule['type']){
+        } else if (DESCRIPTIONRULE_CONST.RANDOM==rule['type']){
             tmpValue = { 'min': 0.00, 'max': 0.00 };
-        } else if (DESCRIPTIONRULE_CONST.VALUE_CUT===rule['type']){
+        } else if (DESCRIPTIONRULE_CONST.VALUE_CUT==rule['type']){
             tmpValue = { 'value': 0 };
         }
         tmpArray['rules'].push({ 'rule_id': id, 'description_rule': rule, 'value': JSON.stringify(tmpValue) });

@@ -124,7 +124,7 @@ const DescriptionForm = () => {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    { DESCRIPTIONRULE_CONST.SELECT===value['description_rule']['type'] && // SELECT
+                                                    { DESCRIPTIONRULE_CONST.SELECT==value['description_rule']['type'] && // SELECT
                                                         <SelectType 
                                                             index={index}
                                                             ovalue={JSON.parse(value['value'])}
@@ -132,11 +132,11 @@ const DescriptionForm = () => {
                                                         />
                                                     }
 
-                                                    { DESCRIPTIONRULE_CONST.TYPE===value['description_rule']['type'] && // TYPING...
+                                                    { DESCRIPTIONRULE_CONST.TYPE==value['description_rule']['type'] && // TYPING...
                                                         <TypeType />
                                                     }
 
-                                                    { DESCRIPTIONRULE_CONST.TEXT===value['description_rule']['type'] && // TEXT...
+                                                    { DESCRIPTIONRULE_CONST.TEXT==value['description_rule']['type'] && // TEXT...
                                                         <TextType 
                                                             index={index}
                                                             value={JSON.parse(value['value'])}
@@ -144,7 +144,7 @@ const DescriptionForm = () => {
                                                         />
                                                     }
 
-                                                    { DESCRIPTIONRULE_CONST.RANDOM===value['description_rule']['type'] && // MIN&MAX
+                                                    { DESCRIPTIONRULE_CONST.RANDOM==value['description_rule']['type'] && // MIN&MAX
                                                         <MinMaxType 
                                                             index={index}
                                                             value={JSON.parse(value['value'])}
@@ -152,7 +152,7 @@ const DescriptionForm = () => {
                                                         />
                                                     }
 
-                                                    { DESCRIPTIONRULE_CONST.VALUE_CUT===value['description_rule']['type'] && // VALUE&CUT
+                                                    { DESCRIPTIONRULE_CONST.VALUE_CUT==value['description_rule']['type'] && // VALUE&CUT
                                                         <ValueCutType 
                                                             index={index}
                                                             value={JSON.parse(value['value'])}
@@ -176,7 +176,7 @@ const DescriptionForm = () => {
                                 return (
                                     <button 
                                         key={index}
-                                        className={`c-btn c-btn-${ DESCRIPTIONRULE_CONST.CONST===value['type']?'info':'primary' } mr-2 mb-2`}
+                                        className={`c-btn c-btn-${ DESCRIPTIONRULE_CONST.CONST==value['type']?'info':'primary' } mr-2 mb-2`}
                                         onClick={ (e) => { handleRuleChooseLocal(e, value['id']) } }
                                     >
                                         {value['value']}
