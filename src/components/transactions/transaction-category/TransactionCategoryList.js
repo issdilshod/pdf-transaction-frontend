@@ -47,18 +47,18 @@ const TransactionCategoryList = () => {
                                         <td>{value['name']}</td>
                                         <td>{value['offset']}</td>
                                         <td>
-                                            { Boolean(value['customer']) &&
+                                            { Boolean(parseInt(value['customer'])) &&
                                                 <span className="c-badge c-badge-success">ON</span>
                                             }
-                                            { !Boolean(value['customer']) &&
+                                            { !Boolean(parseInt(value['customer'])) &&
                                                 <span className="c-badge c-badge-danger">OFF</span>
                                             }
                                         </td>
                                         <td>
-                                            { Boolean(value['sender']) &&
+                                            { Boolean(parseInt(value['sender'])) &&
                                                 <span className="c-badge c-badge-success">ON</span>
                                             }
-                                            { !Boolean(value['sender']) &&
+                                            { !Boolean(parseInt(value['sender'])) &&
                                                 <span className="c-badge c-badge-danger">OFF</span>
                                             }
                                         </td>
