@@ -308,7 +308,7 @@ const Customer = () => {
     const handlePaginationClick = (index) => {
         setCurentPage(index);
         getCustomerList('?page='+index);
-        nav('/customers/page/'+index);
+        nav(process.env.REACT_APP_FRONTEND_PREFIX + '/customers/page/'+index);
     }
 
     //#endregion
