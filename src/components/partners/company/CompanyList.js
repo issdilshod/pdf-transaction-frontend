@@ -42,7 +42,14 @@ const CompanyList = () => {
                                             <div className="c-list">
                                                 <p><span>Address Line 1:</span> {value['address']['address_line1']}</p>
                                                 <p><span>Address Line 2:</span> {value['address']['address_line2']}</p>
-                                                <p><span>State:</span> {value['address']['state']['full_name']} ({value['address']['state']['short_name']})</p>
+                                                <p>
+                                                    <span>State:</span> 
+                                                    { (value['address']['state']!=null) && 
+                                                        <>
+                                                            { value['address']['state']['full_name'] + '(' + value['address']['state']['short_name'] + ')' }
+                                                        </>
+                                                    }
+                                                </p>
                                                 <p><span>City:</span> {value['address']['city']}</p>
                                                 <p><span>Zip Code:</span> {value['address']['postal']}</p>
                                             </div>
