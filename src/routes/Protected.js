@@ -15,13 +15,13 @@ const Protected = () => {
             .then(res => {
                 if (res.status===401){
                     lStorage.removeItem('auth_token');
-                    nav('/login/');
+                    nav(process.env.REACT_APP_FRONTEND_PREFIX +'/login/');
                 }
             });
     }, []);
 
     return (
-        _token ? <Outlet /> : <Navigate to={'/login/'} />
+        _token ? <Outlet /> : <Navigate to={process.env.REACT_APP_FRONTEND_PREFIX+'/login/'} />
     )
 }
 
