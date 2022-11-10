@@ -16,6 +16,9 @@ const Customer = () => {
     const api = new Api();
     const nav = useNavigate();
     const [customerList, setCustomerList] = useState([]);
+    const [customerListOrg, setCustomerListOrg] = useState([]);
+    const [filter, setFilter] = useState({'company_id': '', 'search': ''});
+    const [firstIn, setFirstIn] = useState(false);
 
     const { page } = useParams()
 
@@ -33,8 +36,6 @@ const Customer = () => {
 
     const [loading, setLoading] = useState(true);
 
-    //#region Init
-
     useEffect(() => {
         document.title = 'Customers';
 
@@ -46,21 +47,26 @@ const Customer = () => {
         getCustomerList(tmpPage);
     }, [])
 
-    //#endregion
-
-    //#region Functions
-
-    const getCustomerList = (page = '') => {
+    const getCustomerList = (page = '', search = '') => {
         setLoading(true);
-        api.request('/api/customer' + page, 'GET')
+
+        if (search!=''){ search = '-search/' + search; }
+        if (filter['search']!=''){ search = '-search/' + filter['search']; }
+
+        api.request('/api/customer' + search + page, 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setCustomerList(res.data.data);
-                        setTotalPage(res.data.meta['last_page']);
-                        setFromItem(res.data.meta['from']);
-                        break;
+                if (res.status===200||res.status===201){
+                    setCustomerList(res.data.data);
+                    
+                    if (!firstIn){
+                        setCustomerListOrg(res.data.data);
+                        setFromItenOrg(res.data.meta['from']);
+                        setTotalPageOrg(res.data.meta['last_page']);
+                        setFirstIn(true);
+                    }
+                    
+                    setTotalPage(res.data.meta['last_page']);
+                    setFromItem(res.data.meta['from']);
                 }
                 setLoading(false);
             });
@@ -142,9 +148,18 @@ const Customer = () => {
         return tmp_res;
     }
 
-    //#endregion
-
-    //#region Handles
+    const handleSearch = (search) => {
+        const {value} = search.target;
+        setFilter({ ...filter, 'search': value });
+        if (value.length>2){
+            getCustomerList('', value);
+        }else{
+            setCustomerList(customerListOrg); 
+            setTotalPage(totalPageOrg);
+            setFromItem(fromItemOrg);
+            setCurentPage(1);
+        }
+    }
 
     const handleAddClick = () => {
         setCustomerForm(entity);
@@ -216,7 +231,6 @@ const Customer = () => {
         
     }
 
-
     const [importModalShow, setImportModalShow] = useState(false);
     const [importedCustomers, setImportedCustomers] = useState([]);
     const [importedHeaders, setImportedHeaders] = useState([]);
@@ -274,10 +288,6 @@ const Customer = () => {
         });
     }
 
-    //#endregion
-
-    //#region Triggers
-
     const triggerModalShow = () => {
         setModalShow(true);
     }
@@ -297,21 +307,17 @@ const Customer = () => {
         setAlertShow(true);
     }
 
-    //#endregion 
-
-    //#region Pagination
-
     const [currentPage, setCurentPage] = useState(1);
     const [totalPage, setTotalPage] = useState(1);
+    const [totalPageOrg, setTotalPageOrg] = useState(1);
     const [fromItem, setFromItem] = useState(0);
+    const [fromItemOrg, setFromItenOrg] = useState(0);
 
     const handlePaginationClick = (index) => {
         setCurentPage(index);
         getCustomerList('?page='+index);
         nav(process.env.REACT_APP_FRONTEND_PREFIX + '/customers/page/'+index);
     }
-
-    //#endregion
 
     return (
         <>
@@ -322,7 +328,7 @@ const Customer = () => {
                 }
             }>
                 <ContextCrud.Provider value={
-                    {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange }
+                    {modalShow, importModalShow, customerForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleImportClick, handleImportChange, handleImportSubmit, alertMsg, alertType, alertShow, setAlertShow, importedHeaders, importedCustomers, handleImportedChange, importMap, handleImportMapChange, handleSearch }
                 }>
                     <Collect MainContent={CustomerPage} />
                 </ContextCrud.Provider>
