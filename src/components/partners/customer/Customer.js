@@ -114,14 +114,10 @@ const Customer = () => {
         setLoading(true);
         let tmp_res = api.request('/api/customer/'+id, 'DELETE')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        tmp_res = {'status': 'ok', 'data': true};
-                        break;
-                    default:
-                        tmp_res = {'status': 'error', 'data': 'Error'};
-                        break;
+                if (res.status===200||res.status===201){
+                    tmp_res = {'status': 'ok', 'data': true};
+                }else{
+                    tmp_res = {'status': 'error', 'data': 'Error'};
                 }
                 setLoading(false);
                 return tmp_res;
@@ -189,7 +185,7 @@ const Customer = () => {
                 setCustomerList(tmpArray);
                 triggerAlertShow('success', 'Successfuly deleted');
             }else{
-                triggerAlertShow('success', 'Error');
+                triggerAlertShow('danger', 'Error');
             }
         });
     }
