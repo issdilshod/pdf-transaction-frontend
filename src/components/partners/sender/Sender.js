@@ -12,6 +12,9 @@ import Loading from '../../common/loading/Loading';
 const Sender = () => {
     const api = new Api();
     const [senderList, setSenderList] = useState([]);
+    const [senderListOrg, setSenderListOrg] = useState([]);
+    const [filter, setFilter] = useState({'search': ''});
+    const [firstIn, setFirstIn] = useState(false);
 
     // CRUD
     const entity = {
@@ -28,27 +31,30 @@ const Sender = () => {
 
     const [loading, setLoading] = useState(true);
 
-    //#region Init
-
     useEffect(() => {
         document.title = 'Senders';
 
         getSenderList();
     }, [])
 
-    //#endregion
-
-    //#region Functions
-
-    const getSenderList = () => {
+    const getSenderList = (page = '', search = '') => {
         setLoading(true);
-        api.request('/api/sender', 'GET')
+
+        if (search!=''){ 
+            search = '-search/' + search;
+        }else if (filter['search']!=''){
+            search = '-search/' + filter['search'];
+        }
+
+        api.request('/api/sender' + search + page, 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setSenderList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setSenderList(res.data.data);
+
+                    if (!firstIn){
+                        setSenderListOrg(res.data.data);
+                        setFirstIn(true);
+                    }
                 }
                 setLoading(false);
             });
@@ -111,9 +117,15 @@ const Sender = () => {
         return tmp_res;
     }
 
-    //#endregion
-
-    //#region Handles
+    const handleSearch = (search) => {
+        const {value} = search.target;
+        setFilter({ ...filter, 'search': value });
+        if (value.length>2){
+            getSenderList('', value);
+        }else{
+            setSenderList(senderListOrg);
+        }
+    }
 
     const handleAddClick = () => {
         setSenderForm(entity);
@@ -185,10 +197,6 @@ const Sender = () => {
         
     }
 
-    //#endregion
-
-    //#region Triggers
-
     const triggerModalShow = () => {
         setModalShow(true);
     }
@@ -203,16 +211,13 @@ const Sender = () => {
         setAlertShow(true);
     }
 
-    //#endregion 
-
-
     return (
         <>
             <ContextData.Provider value={
                 {senderList, setSenderList}
             }>
                 <ContextCrud.Provider value={
-                    {modalShow, senderForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                    {modalShow, senderForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleSearch, alertMsg, alertType, alertShow, setAlertShow}
                 }>
                     <Collect MainContent={SenderPage} />
                 </ContextCrud.Provider>
