@@ -527,7 +527,7 @@ const Periods = ({statement, setStatement, transactions, types, pages, categorie
         }
 
         if (search.length>=3){
-            api.request('/api/customer/search/'+search, 'GET')
+            api.request('/api/customer-search/'+search, 'GET')
                 .then(res => {
                     if (customerChoosed){
                         tmpCustomers = res.data.data;
