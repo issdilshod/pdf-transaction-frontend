@@ -27,7 +27,7 @@ const DescriptionForm = () => {
         setSplitInputShow(Boolean(descriptionForm['split']));
     }, [modalShow])
 
-    const [splitInputShow, setSplitInputShow] = useState(Boolean(descriptionForm['split']));
+    const [splitInputShow, setSplitInputShow] = useState(Boolean(parseInt(descriptionForm['split'])));
 
     const handleRuleRemoveLocal = (e, index) => {
         e.preventDefault();

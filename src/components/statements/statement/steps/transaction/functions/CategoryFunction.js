@@ -26,7 +26,7 @@ class CategoryFunction {
             if (tmp!==null){
                 tmp['val'] = '';
             }
-            if (rules[key]['description_rule']['type']===DESCRIPTIONRULE_CONST.RANDOM){
+            if (rules[key]['description_rule']['type']==DESCRIPTIONRULE_CONST.RANDOM){
                 tmp['val'] = this.getRandom(tmp);
             }
             result.push(JSON.stringify(tmp));

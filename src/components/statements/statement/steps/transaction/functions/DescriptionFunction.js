@@ -78,19 +78,19 @@ class DescriptionFunction {
     get_value(statement, period, transaction, description, cut = false){
         let result = '';
         let typeOfValue = description['description_rule']['value'];
-        if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT) {
+        if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER || typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT) {
             if (transaction['customer_id']!='' && transaction['customer_id']!=null){
                 typeOfValue = transaction['customer']['name'].toUpperCase();
             }
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANY || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.COMPANYCUT) {
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.COMPANY || typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.COMPANYCUT) {
             typeOfValue = statement['company']['name'].toUpperCase();
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATIONCUT) {
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION || typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATIONCUT) {
             typeOfValue = statement['organization']['name'].toUpperCase();
-        } else if (typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT) {
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME || typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT) {
             if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['name'].toUpperCase();
             }
-        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID || typeOfValue===DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT) {
+        } else if (typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERID || typeOfValue==DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT) {
             if (transaction['sender_id']!='' && transaction['sender_id']!=null){
                 typeOfValue = transaction['sender']['it_id'];
             }

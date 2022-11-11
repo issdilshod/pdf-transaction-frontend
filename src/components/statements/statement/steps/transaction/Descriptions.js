@@ -38,37 +38,37 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                 description['description']['rules'].map((value, index) => {
                     return (
                         <span key={index}>
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.CONST) && // consts
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.CONST) && // consts
                                 <span>
                                     { descriptionFunction.get_consts(value) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.FULL_YEAR_MONTH_DAY) && // full year month day
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.FULL_YEAR_MONTH_DAY) && // full year month day
                                 <span>
                                     { descriptionFunction.get_fully_year_month_day(transaction) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.HOURS_MINUTES) && // hours minutes
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.HOURS_MINUTES) && // hours minutes
                                 <span>
                                     { descriptionFunction.get_hours_minutes(transaction) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.MONTH_DAY) && // month day
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.MONTH_DAY) && // month day
                                 <span>
                                     { descriptionFunction.get_month_day(transaction) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.RANDOM) && // random
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.RANDOM) && // random
                                 <b onClick={ () => { onRandomClickLocal(index) } }>
                                     { descriptionFunction.get_random(description, index) }
                                 </b>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.SELECT) && // select
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.SELECT) && // select
                                 <b 
                                     className={`${descriptionFunction.get_select(description, index)=='SELECT'?'c-text-danger':''}`}
                                     onClick={ () => { onSelectClickLocal(index) } }
@@ -77,13 +77,13 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                 </b>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.TEXT) && // text
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.TEXT) && // text
                                 <span>
                                     { descriptionFunction.get_text(value) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.TYPE) && // type
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.TYPE) && // type
                                 <b 
                                     className={`${descriptionFunction.get_type(description, index)=='TYPE'?'c-text-danger':''}`}
                                     onClick={ () => { onTypeClickLocal(index) } }
@@ -92,21 +92,21 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                 </b>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.YEAR_MONTH_DAY) && // year month day
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.YEAR_MONTH_DAY) && // year month day
                                 <span>
                                     { descriptionFunction.get_year_month_day(transaction) }
                                 </span>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.VALUE) && // value
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.VALUE) && // value
                                 <>
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.COMPANY &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.COMPANY &&
                                         <b>
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.CUSTOMER &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value)=='CUSTOMER'?'c-text-danger':''}`}
                                             onClick={ () => { onCustomerClickLocal(index) } }
@@ -115,7 +115,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERNAME &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value)=='SENDER NAME'?'c-text-danger':''}`}
                                             onClick={ () => { onSenderClickLocal(index) } }
@@ -124,7 +124,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERID &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERID &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value)=='SENDER ID'?'c-text-danger':''}`}
                                         >
@@ -132,7 +132,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATION &&
                                         <b>
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value) }
                                         </b>
@@ -141,15 +141,15 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                 </>
                             }
 
-                            { (value['description_rule']['type']===DESCRIPTIONRULES_CONSTS.VALUE_CUT) && // value cut
+                            { (value['description_rule']['type']==DESCRIPTIONRULES_CONSTS.VALUE_CUT) && // value cut
                                 <>
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.COMPANYCUT &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.COMPANYCUT &&
                                         <b>
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true) }
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='CUSTOMER'?'c-text-danger':''}`}
                                             onClick={ () => { onCustomerClickLocal(index) } }
@@ -158,7 +158,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER NAME'?'c-text-danger':''}`}
                                             onClick={ () => { onSenderClickLocal(index) } }
@@ -167,7 +167,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT &&
                                         <b
                                             className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER ID'?'c-text-danger':''}`}
                                         >
@@ -175,7 +175,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
                                         </b>
                                     }
 
-                                    { value['description_rule']['value']===DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATIONCUT &&
+                                    { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.ORGANIZATIONCUT &&
                                         <b>
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true) }
                                         </b>
