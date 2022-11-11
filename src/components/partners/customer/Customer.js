@@ -50,8 +50,11 @@ const Customer = () => {
     const getCustomerList = (page = '', search = '') => {
         setLoading(true);
 
-        if (search!=''){ search = '-search/' + search; }
-        if (filter['search']!=''){ search = '-search/' + filter['search']; }
+        if (search!=''){ 
+            search = '-search/' + search;
+        }else if(filter['search']!=''){
+            search = '-search/' + filter['search']; 
+        }
 
         api.request('/api/customer' + search + page, 'GET')
             .then(res => {

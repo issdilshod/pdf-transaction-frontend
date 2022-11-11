@@ -6,12 +6,20 @@ import { ContextCrud } from "../../../contexts/ContextCrud";
 
 const CompanyList = () => {
     const { companyList } = useContext(ContextData);
-    const { handleAddClick, handleEditClick, handleDeleteClick } = useContext(ContextCrud);
+    const { handleAddClick, handleEditClick, handleDeleteClick, handleSearch } = useContext(ContextCrud);
 
     return (
         <>
             <div className="page-head d-flex">
                 <div className="page-title mr-auto">Companies</div>
+                <div className='mr-2 w-25'>
+                    <input 
+                        type='text'
+                        className='form-control'
+                        placeholder='Search...'
+                        onChange={ (e) => { handleSearch(e) } }
+                    />
+                </div>
                 <div>
                     <button 
                         className="c-btn c-btn-primary"

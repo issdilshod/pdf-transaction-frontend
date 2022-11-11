@@ -12,6 +12,9 @@ import Loading from '../../common/loading/Loading';
 const Company = () => {
     const api = new Api();
     const [companyList, setCompanyList] = useState([]);
+    const [companyListOrg, setCompanyListOrg] = useState([]);
+    const [filter, setFilter] = useState({'search': ''});
+    const [firstIn, setFirstIn] = useState(false);
 
     // CRUD
     const entity = {
@@ -36,18 +39,12 @@ const Company = () => {
 
     const [loading, setLoading] = useState(true);
 
-    //#region Init
-
     useEffect(() => {
         document.title = 'Companies';
 
         getCompanyList();
         getStates();
     }, [])
-
-    //#endregion
-
-    //#region Functions
 
     const getStates = () => {
         api.request('/api/state', 'GET')
@@ -61,15 +58,24 @@ const Company = () => {
             });
     }
 
-    const getCompanyList = () => {
+    const getCompanyList = (page = '', search = '') => {
         setLoading(true);
-        api.request('/api/company', 'GET')
+
+        if (search!=''){ 
+            search = '-search/' + search;
+        }else if (filter['search']!=''){
+            search = '-search/' + filter['search'];
+        }
+
+        api.request('/api/company' + search + page, 'GET')
             .then(res => {
-                switch (res.status){
-                    case 200:
-                    case 201:
-                        setCompanyList(res.data.data);
-                        break;
+                if (res.status===200||res.status===201){
+                    setCompanyList(res.data.data);
+
+                    if (!firstIn){
+                        setCompanyListOrg(res.data.data);
+                        setFirstIn(true);
+                    }
                 }
                 setLoading(false);
             });
@@ -132,9 +138,15 @@ const Company = () => {
         return tmp_res;
     }
 
-    //#endregion
-
-    //#region Handles
+    const handleSearch = (search) => {
+        const {value} = search.target;
+        setFilter({ ...filter, 'search': value });
+        if (value.length>2){
+            getCompanyList('', value);
+        }else{
+            setCompanyList(companyListOrg);
+        }
+    }
 
     const handleAddClick = () => {
         setCompanyForm(entity);
@@ -212,10 +224,6 @@ const Company = () => {
         
     }
 
-    //#endregion
-
-    //#region Triggers
-
     const triggerModalShow = () => {
         setModalShow(true);
     }
@@ -230,16 +238,13 @@ const Company = () => {
         setAlertShow(true);
     }
 
-    //#endregion 
-
-
     return (
         <>
             <ContextData.Provider value={
                 {companyList, setCompanyList, states}
             }>
                 <ContextCrud.Provider value={
-                    {modalShow, companyForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, alertMsg, alertType, alertShow, setAlertShow}
+                    {modalShow, companyForm, triggerModalHide, handleAddClick, handleEditClick, handleDeleteClick, handleFormChange, handleFormSubmit, handleSearch, alertMsg, alertType, alertShow, setAlertShow}
                 }>
                     <Collect MainContent={CompanyPage} />
                 </ContextCrud.Provider>
