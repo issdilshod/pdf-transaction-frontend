@@ -151,7 +151,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
 
                                     { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.CUSTOMERCUT &&
                                         <b
-                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='CUSTOMER'?'c-text-danger':''}`}
+                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='CUSTOMER CUT'?'c-text-danger':''}`}
                                             onClick={ () => { onCustomerClickLocal(index) } }
                                         >
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true) }
@@ -160,7 +160,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
 
                                     { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERNAMECUT &&
                                         <b
-                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER NAME'?'c-text-danger':''}`}
+                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER NAME CUT'?'c-text-danger':''}`}
                                             onClick={ () => { onSenderClickLocal(index) } }
                                         >
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true) }
@@ -169,7 +169,7 @@ const Descriptions = ({statement, periodIndex, transactionIndex, descriptionInde
 
                                     { value['description_rule']['value']==DESCRIPTIONRULEVALUE_CONSTS.SENDERIDCUT &&
                                         <b
-                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER ID'?'c-text-danger':''}`}
+                                            className={`${descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true)=='SENDER ID CUT'?'c-text-danger':''}`}
                                         >
                                             { descriptionFunction.get_value(statement, statement['periods'][periodIndex], transaction, value, true) }
                                         </b>
