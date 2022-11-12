@@ -262,7 +262,7 @@ class PdfContent {
                 }
             }else {
                 result += resultContent2;
-                result = result.replace('{x_position}', typesOfPage['transactions'][key-1]['second_type']-1275);
+                result = result.replace('{x_position}', typesOfPage['transactions'][key-1]['second_type']-1460);
             }
 
             // if total

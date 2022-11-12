@@ -215,23 +215,27 @@ class TransactionFunction {
                     last_page_id = page_id;
                     last_type_id = type_id;
                 }else{
+                    let negative = 0, mod = 0, digit = 0;
                     if (last_type_id != type_id){
                         result = '';
                         second_type = 0;
                         last_type_id = type_id;
+                        tmpX = this.offset.start.x;
+                        mod = 0;
+                        if (page_mod){ mod = this.negative.y; }
+                        tmpY += this.offset.start.y + mod;
+                    }else{
+                        tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
+                        negative = 0;
+                        if (this.#determine_is_negative(last_amount)){ negative = this.negative.x; }
+                        digit = this.#determine_digit_of_amount(last_amount);
+                        tmpX = parseInt(this.offset.amount_digits[digit].date) + negative;
                     }
-
-                    tmpY = (count_last_description==1?-150:((-150)+(-90*(count_last_description-1))));
-
-                    let negative = 0;
-                    if (this.#determine_is_negative(last_amount)){ negative = this.negative.x; }
-
-                    let digit = this.#determine_digit_of_amount(last_amount);
-                    tmpX = parseInt(this.offset.amount_digits[digit].date) + negative;
 
                     negative = 0;
                     if (this.#determine_is_negative(period['transactions'][key]['amount'])){ negative = this.negative.x; }
                     digit = this.#determine_digit_of_amount(period['transactions'][key]['amount']);
+                    
                     tmpAmountX = parseInt(this.offset.amount_digits[digit].amount) - negative;
                     tmpAmountY = (tmpContent.length==1?0:(90*(tmpContent.length-1)));
                 }
