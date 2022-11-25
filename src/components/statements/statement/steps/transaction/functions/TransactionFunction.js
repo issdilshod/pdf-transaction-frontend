@@ -132,7 +132,7 @@ class TransactionFunction {
                     period['pdf_content']['lines'].push({ 'id': page_id, 'page': tmpPage['page'], 'types': [{
                             'type_id': period['transactions'][key]['type_id'],
                             'content': result,
-                            'secont_type': second_type
+                            'second_type': second_type
                         }]  
                     });
                 }else{
@@ -140,7 +140,7 @@ class TransactionFunction {
                         period['pdf_content']['lines'][exists_index]['types'].push({
                             'type_id': period['transactions'][key]['type_id'],
                             'content': result,
-                            'secont_type': second_type
+                            'second_type': second_type
                         });
                     }else{
                         period['pdf_content']['lines'][exists_index]['types'][type_exists_index]['content'] = result;

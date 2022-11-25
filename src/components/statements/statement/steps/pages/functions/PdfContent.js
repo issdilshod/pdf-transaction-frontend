@@ -262,7 +262,7 @@ class PdfContent {
                 }
             }else {
                 result += resultContent2;
-                result = result.replace('{x_position}', typesOfPage['lines'][key]['second_type'] + 149);
+                result = result.replace('{x_position}', parseInt(typesOfPage['lines'][key]['second_type']) + 149);
             }
 
             // if total
