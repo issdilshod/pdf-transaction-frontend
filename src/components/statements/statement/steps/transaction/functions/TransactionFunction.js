@@ -89,7 +89,7 @@ class TransactionFunction {
     get_pdf_content_lines(period, pages){
         period['pdf_content']['lines'] = [];
         const standart = "0 0 0 1 k\n0 0 0 1 K\n1.9922 w\n300 {offset} m\n4800 {offset} l\nS";
-        let result = '', page_id = '', last_page_id = '', type_id = '', last_type_id = '', firstIn= true;
+        let result = '', page_id = '', last_page_id = '', type_id = '', last_type_id = '', firstIn= true, second_type = 0;
         for (let key in period['transactions']){
             if (period['transactions'][key]['offset']['id']!=''){
                 page_id = period['transactions'][key]['offset']['id'];
@@ -102,8 +102,11 @@ class TransactionFunction {
                     result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
                 }else{
                     if (last_type_id!=type_id){
-                        result = standart.replaceAll("{offset}", period['transactions'][key]['offset']['value'] + (period['transactions'][key]['descriptions'].length==1?150:150+((period['transactions'][key]['descriptions'].length-1)*90))) + "\n";
+                        let tmpXPos = period['transactions'][key]['offset']['value'] + (period['transactions'][key]['descriptions'].length==1?150:150+((period['transactions'][key]['descriptions'].length-1)*90));
+                        result = standart.replaceAll("{offset}", tmpXPos) + "\n";
                         last_type_id = type_id;
+
+                        second_type = tmpXPos;
                     }
                     result += standart.replaceAll("{offset}", period['transactions'][key]['offset']['value']) + "\n";
                 }
@@ -128,14 +131,16 @@ class TransactionFunction {
                 if (!exists){
                     period['pdf_content']['lines'].push({ 'id': page_id, 'page': tmpPage['page'], 'types': [{
                             'type_id': period['transactions'][key]['type_id'],
-                            'content': result
+                            'content': result,
+                            'secont_type': second_type
                         }]  
                     });
                 }else{
                     if (!type_exists){
                         period['pdf_content']['lines'][exists_index]['types'].push({
                             'type_id': period['transactions'][key]['type_id'],
-                            'content': result
+                            'content': result,
+                            'secont_type': second_type
                         });
                     }else{
                         period['pdf_content']['lines'][exists_index]['types'][type_exists_index]['content'] = result;
